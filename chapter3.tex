@@ -183,7 +183,22 @@ The motors are switched on by a 12V relay switch controlled by the Raspberry Pi.
 \subsection{Relay Switch}
 \label{sec:relay-switch}
 
+A relay is a type of electronic switch, which means that it acts like a normal switch, but
+requires a voltage across it to open or close it. With this it is possible to control when the
+DC motors turn (after a successful transaction) and when they are standing still. 
+
+However, the relays used here are 12V. The Raspberry Pi can deliver a maximum of 5V. Therefore
+it was decided that the relay will be permanently connected to a 12V DC supply, but will be
+switched by a 2N2222 transistor, which is controlled directly from the Pi's  GPIO pins (see
+section \ref{sec:detail-switch} for a detailed discussion).
+
+This allows the Pi to directly control the motors and due to the circuits construction, the Pi
+is protected from the relatively high voltages and currents involved in the working of the
+motor nd relay.
+
 \section{Vending Machine Unit}
 
 The vending machine unit houses all the components (i.e. the Raspberry Pi, the NFC Shield,
-webcam, switches, motors and the product coils).
+webcam, switches, motors and the product coils). Its made of 1.6mm mild steel plate and was
+made by Fabrinox, Paarl. See Appendix \ref{app:vm-tekeninge} for detailed manufacturing
+drawings.
