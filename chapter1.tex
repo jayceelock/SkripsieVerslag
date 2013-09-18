@@ -1,11 +1,120 @@
 \chapter{Introduction}
 
+
+
+Two mobile technologies that immediately come to mind are QR (Quick Response) Codes and NFC
+(Near Field Communication). Although these technologies have been available for some time
+[\cite{website:denso-qrcode}, \cite{patent:nfc-patent}], recent advances in cellphone
+technology have made them viable features of today's generation of smart phones.
+
+In this project, a vending machine system will be made that makes use of at least QR Codes to
+facilitate cellular transactions. Furthermore, a demonstration vending machine will also be
+constructed to demonstrate the success or failure of cellular payment for this application.
+
+The aim of this document is to inform the reader of the progress of this project in terms of
+what has been completed and the work that remains to be done. 
+
 \section{Problem Statement}
+
+The vending machines currently used at the Stellenbosch University (SU) make exclusive use of
+cash transactions. These vending machine systems are the de facto standard throughout the
+world and have been for the largest part of the last two centuries, but they do have one
+drawback: they require a hard cash transaction to take place and in a world moving away from
+cash transactions and toward online payments, e-transactions and mobile payments, this may
+become a problem to potential customers.
+
+With that in mind, a need that has been identified is for a vending machine that accepts
+cashless transactions.
 
 \section{Existing Solutions}
 
+Currently there are plenty of cashless payment options being used by the general public. These
+include debit and credit cards, Radio Field Identification (RFID) cards, Unstructured
+Supplementary Service Data (USSD) based systems and, more recently, Near Field Communication.
+
+\subsection{Credit and Debit Cards}
+
+An well-known and convenient alternative to cashless solutions are the plastic cards most
+modern adults carry around. This is especially true in first world countries with mature
+banking systems. 
+
+The great advantage these cards holds over the alternatives are that they are
+relatively easy to get from a bank and that they have become very reliable. 
+
+A possible disadvantage is that such systems may become costly and complicated to implement
+because of each banks different security and transfer protocols.
+
+\subsection{Radio Field Identification}
+
+Radio Field Identification (RFID) is a technology which was first patented in 1983
+[\cite{patent:nfc-patent}]. Since then the technology has grown and matured into a very
+reliable identification and payment platform. 
+
+Examples of where this is used for making payments is the payments made to new parking meters
+with a contactless card. 
+
+The advantage of this technology is its great convenience: a customer only needs to swipe and
+it it not required that a password be entered.
+
+However, this leads to some security concerns because if the card gets stolen, the thief can
+use the money on the card for his/her own gain. Thankfully though, these cards most commonly
+work with pre-loaded money, so provided that there wasn't too much money loaded onto the card,
+the theft victim will not be too badly off. 
+
+\subsection{Unstructured Supplementary Service Data}
+
+Unstructured Supplementary Service Data (USSD) is a communication standard used by cellphones
+to exchange data with a service provider's servers. If the service provider allows it, USSD may
+be used by a customer to transfer money from one account to another. 
+
+An example of this is the M-Pesa mobile money service in Kenya, which is based on the use of
+USSD. It allows for a customer to pay for goods ranging from milk, bread, even the monthly
+rent. Its currently regarded as the most advanced mobile payment platform in the world
+[\cite{website:m-pesa}]. 
+
+An advantage of implementing such a system is that it is proven to work and is usable by almost
+any cellphone.
+
+The disadvantage is that it requires third party vendors to provide systems and services, which
+will add unnecessary costs to the system.
+
+\subsection{Near Field Communication}
+
+Near Field Communication (NFC) payments have recently come to the fore as a likely candidate to
+become the standard method of mobile payment. Especially in Europe and North America, there
+have been significant advances in making this payment method a more attractive solution, with
+Google making the largest contribution with the addition of NFC protocols to its Android
+platform.
+
+Some examples of NFC based payments are the London public transport system, which makes
+provision for NFC payments [\cite{website:nfc-underground}], as well as some retail vendors
+which accept payments made via Google's Wallet application.
+
 \section{Goal of Final System}
+
+Although hard cash still remains the largest contributor to global financial transactions,
+standing at 59\% of the 37 billion transactions that took place in 2012 [\cite{website:money-transactions}], however,
+mobile and card transactions are expected to surpass cash as the leading payment method by 2015
+[\cite{website:money-transactions}]. 
+
+The main goal of this project is to develop a vending machine that will make use of this
+increase in cashless payment by adding the option to pay for a product with a customer's
+cellphone. 
 
 \section{System Objectives}
 
+The system objectives are:
+
+\begin{itemize}
+  \item Must have at least two methods of mobile payment.
+  \item The solution must be built while keeping commercialisation in mind.
+  \item 
+\end{itemize}
+
 \section{Report Structure}
+
+In this report, some background information on all the technology, concepts and programs used
+in this project is given. Then the overall system design is discussed, which is followed by
+a discussion on the detailed design of the whole system. Then the system tests are discussed
+and analysed, which is then followed by a discussion on the complete system and a
+project conclusion.
