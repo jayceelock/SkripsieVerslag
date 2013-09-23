@@ -52,7 +52,7 @@ The Arduino Uno is popular open-source microcontroller (see Figure \ref{fig:ardu
 \centering
 \includegraphics[scale=1.5]{arduino.eps}
 \caption[Picture of an Arduino Uno microcontroller]{Picture of an Arduino Uno microcontroller
-[\cite{website:arduino-specs}]}
+[\cite{manual:arduino-specs}]}
 \label{fig:arduino}
 \end{figure}
 
@@ -61,10 +61,10 @@ based on the 8-bit Atmel ATmega328 ARM microprocessor. Its official specificatio
 
 \begin{tabbing}
 
-Operating Voltage: \= 5V \\ 
-Processor: \> Atmel ATmega328 (clocked at 16MHz) \\
+Operating Voltage: \= 5 V \\ 
+Processor: \> Atmel ATmega328 (clocked at 16 MHz) \\
 GPIO Pins: \> 14 (6 of which are PWM enabled) \\
-Memory: \> 32kB Flash, 2kB SRAM, 1kB EEPROM \\
+Memory: \> 32 kB Flash, 2kB SRAM, 1kB EEPROM \\
 Communication: \> $i^2c$, UART, SPI. \\
 Price: \> R310.00 \\
 
@@ -79,9 +79,10 @@ specifications, makes the Arduino Uno an attractive option for this project.
 \subsection{Raspberry Pi}
 
 The Raspberry Pi is a Debian Linux-based microcomputer
-designed and manufactured by an UK based charity, called the Raspberry Pi Foundation, for the
+designed and manufactured by a UK-based charity called the Raspberry Pi Foundation, for the
 purpose of educating and familiarising young children with programming. However, its low price
-and respectable specifications makes it a strong choice for basing this project on.
+and respectable specifications makes it a strong choice for for a control unit for the vending
+machine.
 
 The Pi is made with the focus on Python as its main programming language, which makes running
 scripts and controlling the board relatively simple. It also runs on a modified version of
@@ -92,30 +93,29 @@ Its main specifications are [\cite{website:raspi-specs}]:
 \begin{tabbing}
 
 Communication: \= SPI, UART, USB, $i^2c$, Ethernet \\ 
-Memory: \> 512MB RAM \\
-Processor: \> ARM6 clocked at 700MHz \\
-Video: \> HDMI Video output \\
+Memory: \> 512 MB RAM \\
+Processor: \> ARM 6 clocked at 700 MHz \\
+Video: \> HDMI video output \\
 GPIO: \> 28 pins \\
 Price: \> R400.00 \\
 
 \end{tabbing} 
 
 The Raspberry Pi was chosen to be used as the central controller of this project and
-controls the hardware connected to it via an Universal Serial Bus (USB) connection, or one of
+controls the hardware connected to it via a Universal Serial Bus (USB) connection, or one of
 its General Purpose Input Output (GPIO) pins.
 
-The Pi was chosen ahead of the Arduino Uno for the following reasons:
+The Pi was chosen instead of the Arduino Uno for the following reasons:
 
 \begin{itemize}
   
   \item The Pi has more processing power (700MHz vs 16MHz).
-  \item The Pi's existing libraries and drivers that are freely available to be used.
-  \item The Pi's ability to easily interface with traditional computer peripheral hardware,
+  \item The Pi's ability to easily interface with desktop computer peripheral hardware,
   such as a keyboard, mouse and webcam.
   \item The excellent support structure in place and the information on existing and ongoing
   projects that are available on the internet.
-  \item The Pi's capability to output its video feed to a computer screen, adding the
-  possibility of adding a simple user interface (GUI) to buy the products with. 
+  \item The Pi can output its video feed to a computer screen, which makes it possible to
+  add a simple user interface (GUI) for uder interaction. 
 
 \end{itemize}
 
@@ -126,14 +126,18 @@ controller for the vending machine.
 \section{NFC Controller}
 
 The NFC controller that was selected is the PN532 NFC shield from Adafruit Industries
-[\cite{website:adafruit-nfc}]. It is based on the Phillips PN532 chip, which is a widely used
-NFC chip with a large support base in the open source community and is fully compatible with
-the libnfc open-source NFC library [\cite{website:libnfc-hardware}].
+[\cite{website:adafruit-nfc}]. It is based on
+the Phillips PN532 chip, which is a widely used NFC chip. The main reason it was selected ahead
+of other NFC controllers was that it has a large support base in the open source
+community and is fully compatible with the libnfc open-source NFC library
+[\cite{website:libnfc-hardware}]. The manufacturer (Adafruit, inc.) also provides comprehensive
+documentation and guides on how to set up and configure the controller.
  
 The main purpose of this component is to add the option of sending or receiving data through a NFC connection.
 This component is also capable of reading RFID cards, such as student or staff cards, as NFC
 and RFID transmit similar types of data. This adds the option of paying for the products with 
-any smart phone running Google's Android  operating system, or with a SU staff or student card.
+any NFC-capable smart phone running Google's Android operating system, or with a SU staff or
+student card.
 
 \section{QR Code Camera}
 
@@ -174,7 +178,7 @@ section \ref{sec:dc-motor} for a more detailed description).
 \label{sec:dc-motor}
 
 The motors attached to the base of the coils are two 12V DC mootors from Faulhaber
-[\cite{website:dc-motors}]. Although these motors are rated for 12V, it is possible to run them
+[\cite{manual:dc-motors}]. Although these motors are rated for 12V, it is possible to run them
 from a lower voltage. This will cause the motor to turn slower, and therefore be easier to
 control. 
 
