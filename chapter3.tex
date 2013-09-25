@@ -1,5 +1,25 @@
 \chapter{System Design}
 
+In this chapter, the system design is discussed. The chapter is divided up into 
+xix sections with each section focusing on a different aspect of the complete
+system. The sex sections are:
+
+\begin{enumerate}
+  \item The vending machine central controller.
+  \item The Near Field Communication controller.
+  \item The Quick Response Code camera.
+  \item The product dispensing mechanism.
+  \item The vending machine unit.
+  \item The encryption scheme used.
+\end{enumerate}
+
+Each section explains what technology or service was used in the final
+component.
+
+Where two or more available services or technologies were available,
+a brief discussion and explanation is given why the particular technology or
+service was used in the final design of the vending machine.
+
 \section{System Overview}
 
 The vending machine system consists of three main parts, namely the QR Code component, the NFC
@@ -103,6 +123,8 @@ Price: \> R400.00 \\
 
 \end{tabbing} 
 
+\subsection{Design Choice}
+
 The Raspberry Pi was chosen to be used as the central controller of this project and
 controls the hardware connected to it via a Universal Serial Bus (USB) connection, or one of
 its General Purpose Input Output (GPIO) pins.
@@ -117,7 +139,7 @@ The Pi was chosen instead of the Arduino Uno for the following reasons:
   \item The excellent support structure in place and the information on existing and ongoing
   projects that are available on the internet.
   \item The Pi can output its video feed to a computer screen, which makes it possible to
-  add a simple user interface (GUI) for uder interaction. 
+  add a simple user interface (GUI) for user interaction. 
 
 \end{itemize}
 
@@ -126,6 +148,7 @@ easy to work with, and its low price makes it an excellent choice for use as the
 controller for the vending machine.
 
 \section{NFC Controller}
+\label{sec:nfc-controller}
 
 The NFC controller that was selected is the PN532 NFC shield from Adafruit Industries
 [\cite{website:adafruit-nfc}]. It is based on
@@ -142,6 +165,7 @@ any NFC-capable smart phone running Google's Android operating system, or with a
 student card.
 
 \section{QR Code Camera}
+\label{sec:webcam}
 
 To decode QR Codes, the vending machine needs to take pictures of a code so that it can be
 decoded using the ZBar library. A PlayStation 2 EyeToy was chosen and added to the system to
@@ -150,7 +174,7 @@ facilitate this. It was chosen for the following reasons:
 \begin{itemize}
   \item Its drivers are freely available for Linux systems [\cite{website:webcam-drivers}].
   \item Interfaces easily with the USB ports on the Pi.
-  \item There was one lying in the supply cupboard.
+  \item There was one lying in the laboratory supply cupboard.
 \end{itemize}
 
 There is currently a camera add-on available for the Raspberry Pi, but this is relatively
@@ -179,7 +203,7 @@ section \ref{sec:dc-motor} for a more detailed description).
 \subsection{DC Motors}
 \label{sec:dc-motor}
 
-The motors attached to the base of the coils are two 12V DC mootors from Faulhaber
+The motors attached to the base of the coils are two 12V DC motors from Faulhaber
 [\cite{manual:dc-motors}]. Although these motors are rated for 12V, it is possible to run them
 from a lower voltage. This will cause the motor to turn slower, and therefore be easier to
 control. 
@@ -209,3 +233,37 @@ The vending machine unit houses all the components (i.e. the Raspberry Pi, the N
 webcam, switches, motors and the product coils). Its made of 1.6mm mild steel plate and was
 made by Fabrinox, Paarl. See Appendix \ref{app:vm-tekeninge} for detailed manufacturing
 drawings.
+
+\section{Encryption Scheme Design}
+
+To prevent the system from being hacked, an asymmetric encryption scheme was
+implemented (see Section \ref{sec:assymetric-encryption} for more detail). This
+is a secure method to exchange data between two sources and in the event that
+one of the vending machine's keys are cracked, the system will still remain
+secure for the other vending machines.
+
+Two different schemes were implemented for the Android NFC app and the QR Code
+payment option. These two schemes are discussed in this section.
+
+\subsection{Android NFC App}
+
+For the Android NFC app it was decided to use a 1024-bit key based on the Ron
+Rivest, Adi Shamir and Leonard Adleman (RSA) encryption algorithm. It was
+decided to base the app on RSA because its already included in the Android
+Development Kit (ADK) and therefore the simplest to implement and distribute
+with the app. 
+
+\subsection{QR Code}
+
+For the QR Code payment option, a 384-bit key based on the ElGamal algorithm was
+chosen. 
+
+The reason for choosing such a relatively small key is to improve
+performance. The time it takes a computer to encrypt a message is directly
+proportional to the processor's clock speed. Therefore, the smaller the
+encryption key is, the less time it will take a computer to encrypt it. Thus, to
+have the Raspberry Pi encrypt data within an acceptable time frame requires a
+relatively small key. 
+
+It was also found that the ElGamal algorithm allows for key sizes of any bit
+length. Therefore the encryption used is based on the ElGamal algorithm.

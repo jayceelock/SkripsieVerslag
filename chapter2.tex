@@ -2,7 +2,8 @@
 
 This chapter contains background information on the software, services and algorithms used
 in this project. They are divided up into Quick Response Codes (QR Codes), Near Field
-Communication (NFC), web server and encryption algorithms. 
+Communication (NFC), the web server and encryption algorithms used. Background
+information on these components are discussed in this chapter. 
 
 \section{Quick Response Codes}
 
@@ -67,6 +68,7 @@ breakout board that can be used by a Raspberry Pi.
 It is currently in version 1.7 and is classified as a `mature' library. 
 
 \subsubsection{nfcpy}
+\label{sec:nfcpy}
 
 Nfcpy is a Python interface for the libnfc library and it allows for peer-to-peer communication
 between a cellphone and desktop-based NFC controller using the NFC Data Exchange Format
@@ -194,10 +196,11 @@ data on the receiver's side.
 This private and public key pair are mathematically related to one another according to the
 algorithm in use (e.g. Elgamal or RSA. See sections \ref{sec:elgamal} and \ref{sec:rsa}). The
 public key half of the pair is used to encrypt data and may be publicly distributed to anyone
-who wants one (in practise this is done differently to increase security). The great advantage of asymmetric
-encryption is that even if the public half of the key is available, it is still very difficult,
-and sometimes impossible, to get the private half of the key. The private key allows one to
-decrypt the data encrypted with the public half of the key.
+who wants one (in practise this is done differently to increase security). The
+great advantage of asymmetric encryption is that even if the public half of the
+key is available, it is still very difficult, and sometimes impossible, to get
+the private half of the key. The private key allows one to decrypt the data
+encrypted with the public half of the key.
 
 The encryption is most easily explained with a postal analogy:
 
