@@ -75,6 +75,47 @@ which draws a current of
 
 which is still within the acceptable range.
 
+\section{Security Scheme}
+\label{sec:security-code-scheme}
+
+In addition to the assymetric encryption used on all data transfer to and from
+the server to its clients, two more layers of security were added to prevent
+repeated use of the same code and to make it harder for hackers to crack the
+encryption key.
+
+\subsection{Random Character String}
+
+The product code transmitted to the server is embedded inside a
+random 16-character string of hex values, i.e. numbers from 1 to 9 or characters
+from A to F. The product code is a 4 character hex string, but this is saved on
+the database and can therefore not be random. 
+
+This is done to prevent any would-be
+hackers from realising that they have cracked the system's encryption. In other
+words, if the hackers have cracked the encryption, they will still see 16
+random hex characters and think that the encryption is still intact.
+
+\subsection{Challenge and Response Code}
+
+The second layer of security added is a challenge/response system. Such a system
+works by having party A generate a challenge (this can be a string or a number).
+Party B then takes this challenge and puts it through a previosuly agreed-upon
+process, e.g. makes the letters capital or adds the numbers together. This
+is the response. Party B then sends the back the response to party A, which then
+checks to see if its a valid response to party A's original challenge.
+
+In the case of the vending machine, a 16 character hex string is being
+generated. It was decided to use 4 characters of this random string as the
+vending machine's challenge. After receiving this challenge, the server then
+takes out the agreed-upon 4 characters and adds it to the server's response
+code. When the vending machine scans the customer's response QR Code, the
+vending machine checks to see if the 4 character response was part of its
+original code the vending machine generated.
+
+This system is used to prevent customers from only buying one product and using
+the same code again to get another product for free. Thus, the
+challenge/response code system makes each code only valid for one transaction.
+
 \section{Web Server Program Design}
 
 The web server that was made for this project is based on the Django web framework for Python
@@ -97,14 +138,29 @@ responsible for either displaying a single web page or to handle data requests f
 Near Field Communication (NFC) Android app (see Section \ref{sec:nfc-android-app} for more
 details).
 
-The website apps are discussed in this section.
+The website apps and their interactions with the real world and one another
+are given in Figure \ref{fig:website-apps}. 
+
+\begin{figure}[h]
+ \centering 
+ \includegraphics[clip=true, trim = 0 130 130 30,
+ scale=0.7]{website_structure}
+ \caption{The web server app structure}
+ \label{fig:website-apps}
+\end{figure}
 
 \subsubsection{display\_qrcode}
 
 This app forms the core of the Quick Response Code (QR Code) payment handling part of the
-server. See Figure \ref{fig:disp-qrcode} for the process flow of the app.
+server. See Figure \ref{fig:disp-qrcode} for the process flow of this app.
 
-%INSERT FIGURE
+\begin{figure}[h]
+ \centering 
+ \includegraphics[clip=true, trim = 0 250 0 50,
+ scale=0.7]{qrcode_processflow_server_bak}
+ \caption{The display\_qrcode app processflow}
+ \label{fig:disp-qrcode}
+\end{figure}
 
 As seen from Figure \ref{fig:disp-qrcode}, the app first extracts the code containing the
 product code and vending machine's signature from the Uniform Resource Locator (URL) that the
@@ -136,10 +192,28 @@ This app allows the customer to load money onto his/her account. At the moment i
 faux money, meaning that the money loaded has no real-world value. The customer can load a
 maximum of R1000.00 onto his/her account.
 
+See Figure \ref{fig:load-money} for the process flow of this app.
+
+\begin{figure}[h]
+ \centering 
+ \includegraphics[clip=true, trim = 0 580 100 60,
+ scale=0.7]{load_money}
+ \caption{The load\_money app process flow}
+ \label{fig:load-money}
+\end{figure}
+
 \subsubsection{nfc}
 
 This app forms the core of the NFC payment handling part of the server. See Figure
 \ref{fig:nfc-process} for a detailed process flow diagram.
+
+\begin{figure}[h]
+ \centering 
+ \includegraphics[clip=true, trim = 0 200 100 80,
+ scale=0.7]{nfc_processflow_bak}
+ \caption{The nfc app process flow}
+ \label{fig:nfc-process}
+\end{figure}
 
 As seen from Figure \ref{fig:nfc-process}, the server first extracts the encoded and encrypted
 customer login details and product code from the URL the NFC app sends to the server. These
@@ -232,14 +306,64 @@ The following line was also needed to be added to Apache's apache2.conf file:
 Include httpd.conf
 \end{verbatim}
 
-\subsection{nfc}
-\subsection{qr code}
+\section{Vending Program}
 
-\section{Security Scheme}
-\label{sec:security-code-scheme}
+The vending machine's program runs the vending machine. Its responsible for
+allowing the cuustomer to select a product, to create a QR Code for that points
+takes the customer to the web server, to scan the customer's response QR Code,
+to scan the customer's NFC request and to dispense the product after a
+successful transaction. The whole program is based on Python scripts and
+designed to be used by a Raspberry Pi microcomputer (see Section
+\ref{sec:raspi} for more details).
 
-\section{vending program}
-\subsection{nfc}
+To simplify the program, its split up into separate sub-programs. These
+sub-programs, called scripts, are discussed in this section.
+
+\subsection{User Interface}
+
+To allow the customer to select a product, a Graphical User Interface (GUI) was
+created. The GUI was made using the WX Python GUI toolkit
+[\cite{website:wx-python}].
+See Figure \ref{fig:gui-screenshot} for a screenshot of the GUI and Figure
+\ref{fig:gui-processflow} for the GUI process flow.
+
+\begin{figure}[h]
+ \centering 
+ \includegraphics[scale=0.4]{gui_screenshot}
+ \caption{A screenshot of the user interface}
+ \label{fig:gui-screenshot}
+\end{figure}
+
+As can be seen from Figure \ref{fig:gui-processflow}, the GUI script is
+responsible for calling the encryption script and the QR Code generation script.
+It is also responsible for displaying the QR Code, to handle transactions from
+the Android NFC app and to activate the correct motor inside the vending
+machine. 
+
+\subsection{Generate Product Code}
+
+After the customer selects which product to buy from the GUI, the
+encrypt\_elgamal script is called. This script is responsible for generating the
+random hex character string, in accordance with the security scheme described in
+Section \ref{sec:security-code-scheme}, encrypting, signing and encoding the
+string in base 64 and embedding the random string inside a Uniform
+Resource Locator (URL) that points to the web server. This URL is then sent to
+the generate\_qrcode script described in Section \ref{sec:generate-qrcode}.
+
+See Figure \ref{fig:gen-prod-code-processflow} for a detailed process flow
+diagram.
+
+\subsection{Generate QR Code}
+\label{sec:gen-qrcode}
+
+After the encrypt\_elgamal script has been run, the generate\_qrcode script is
+called. This script is responsible for embedding the URL received from the
+encrypt\_elgamal script into a QR Code. This is done by using a qrcode module
+for Python called qrcode [\cite{website:qrcode-generator}].
+
+\subsection{Read QR Code}
+
+\subsection{NFC}
 
 Because the Arduino version of this shield is locally available, and the cost issues related
 to importing a NFC chip that is made for the Raspberry Pi, the Arduino version was bought for 
