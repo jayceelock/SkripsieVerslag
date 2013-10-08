@@ -1,8 +1,8 @@
 \chapter{System Design}
 
-In this chapter, the system design is discussed. The chapter is divided up into 
-xix sections with each section focusing on a different aspect of the complete
-system. The sex sections are:
+In this chapter, the overall system design is discussed. The chapter is divided up into 
+six sections with each section focusing on a different aspect of the complete
+system. These six sections are:
 
 \begin{enumerate}
   \item The vending machine central controller.
@@ -13,46 +13,24 @@ system. The sex sections are:
   \item The encryption scheme used.
 \end{enumerate}
 
-Each section explains what technology or service was used in the final
+Each section explains which technology or service was used in the final
 component.
 
 Where two or more available services or technologies were available,
-a brief discussion and explanation is given why the particular technology or
+a brief discussion and explanation is given as to why the particular technology or
 service was used in the final design of the vending machine.
 
 \section{System Overview}
 
-The vending machine system consists of three main parts, namely the QR Code component, the NFC
-component and the actual vending machine. 
-
-Figure \ref{fig:system-overview-pi} and \ref{fig:system-overview-machine} gives a
-diagrammatical layout of the complete system.
+Figure \ref{fig:system-overview-pi} gives a diagrammatical layout of the complete system.
 It shows the interactions between the different sub-components of the complete system.
 
-\begin{figure}[h]
+\begin{figure}
 \centering
-\includegraphics[scale=0.7]{pi_system_overview.eps}
+\includegraphics[clip=true, trim = 100 80 0 150, scale=0.7]{pi_system_overview}
 \caption{System overview from the control unit's perspective}
 \label{fig:system-overview-pi}
 \end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[trim=5cm 0 0 6cm, clip=true,
-scale=0.7]{vending_machine_system_overview.eps}
-\caption{System overview from the vending unit's perspective}
-\label{fig:system-overview-machine}
-\end{figure}
-
-It can be seen that the complete system is divided up into five main parts, namely 
-
-\begin{enumerate}
-  \item Control unit.
-  \item NFC controller.
-  \item QR Code camera.
-  \item Vending machine unit.
-  \item Vending machine coils.
-\end{enumerate}
 
 The components used in these subsystems are discussed in the subsequent sections of this
 chapter.
@@ -61,14 +39,16 @@ chapter.
 
 To be able to handle the image processing that QR Code decoding and NFC handling requires, a
 relatively powerful central controller is required. Although there are many controllers capable
-of this, only two main alternatives were considered in this project. They are the Raspberry Pi microcomputer and
-the Arduino Uno microcontroller.
+of this, only two main alternatives were considered in this project. They are the
+Raspberry Pi microcomputer and the Arduino Uno microcontroller.
+
+These controllers are discussed in this section.
 
 \subsection{Arduino Uno}
 
 The Arduino Uno is popular open-source microcontroller (see Figure \ref{fig:arduino}). 
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 \includegraphics[scale=1.5]{arduino.eps}
 \caption[Picture of an Arduino Uno microcontroller]{Picture of an Arduino Uno microcontroller
@@ -76,25 +56,23 @@ The Arduino Uno is popular open-source microcontroller (see Figure \ref{fig:ardu
 \label{fig:arduino}
 \end{figure}
 
-It is
-based on the 8-bit Atmel ATmega328 ARM microprocessor. Its official specifications are [\cite{website:arduino-specs}]:
+It is based on an 8-bit Atmel ATmega328 ARM microprocessor. Its
+official specifications are [\cite{manual:arduino-specs}]:
 
 \begin{tabbing}
-
-Operating Voltage: \= 5 V \\ 
-Processor: \> Atmel ATmega328 (clocked at 16 MHz) \\
-GPIO Pins: \> 14 (6 of which are PWM enabled) \\
-Memory: \> 32 kB Flash, 2kB SRAM, 1kB EEPROM \\
-Communication: \> $i^2c$, UART, SPI. \\
-Price: \> R310.00 \\
-
+  Operating Voltage: \= 5 V \\ 
+  Processor: \> Atmel ATmega328 (clocked at 16 MHz) \\
+  GPIO Pins: \> 14 (6 of which are PWM enabled) \\
+  Memory: \> 32 kB Flash, 2kB SRAM, 1kB EEPROM \\
+  Communication: \> $i^2c$, UART, SPI. \\
+  Price: \> R310.00 \\
 \end{tabbing}
 
 Because of its open-source design, there are a multitude of peripheral devices and expansion
-boards (known as `shields'), along with all their libraries and drivers, available locally. The
-Arduino's programming language of choice is a modified, but remarkably simple, version of C
-and comes with its own Integrated Development Environment (IDE). This, along
-with its relatively low cost and adequate specifications, makes the Arduino Uno
+boards (known as `shields'), along with all their libraries and drivers,
+available locally. The Arduino's programming language of choice is a modified version of
+C and comes with its own Integrated Development Environment (IDE). This, along
+with its relatively low cost and specifications, makes the Arduino Uno
 an attractive option for this project.
 
 \subsection{Raspberry Pi}
@@ -103,12 +81,12 @@ an attractive option for this project.
 The Raspberry Pi is a Debian Linux-based microcomputer
 designed and manufactured by a UK-based charity called the Raspberry Pi Foundation, for the
 purpose of educating and familiarising young children with programming. However, its low price
-and respectable specifications makes it a strong choice for for a control unit for the vending
+and respectable specifications makes it a strong choice as a control unit for the vending
 machine.
 
-The Pi is made with the focus on Python as its main programming language, which makes running
-scripts and controlling the board relatively simple. It also runs on a modified version of
-Debian Linux called Raspbian.
+The Pi was designed with the focus on Python as its main programming language, which makes
+running scripts and controlling the board relatively simple. It also runs on a modified
+version of Debian Linux called Raspbian.
 
 Its main specifications are [\cite{website:raspi-specs}]:
 
@@ -153,14 +131,16 @@ controller for the vending machine.
 The NFC controller that was selected is the PN532 NFC shield from Adafruit Industries
 [\cite{website:adafruit-nfc}]. It is based on
 the Phillips PN532 chip, which is a widely used NFC chip. The main reason it was selected ahead
-of other NFC controllers was that it has a large support base in the open source
+of other NFC controllers was that it has a large support base in the open-source
 community and is fully compatible with the libnfc open-source NFC library
-[\cite{website:libnfc-hardware}]. The manufacturer (Adafruit, inc.) also provides comprehensive
-documentation and guides on how to set up and configure the controller.
+[\cite{website:libnfc-hardware}]. The manufacturer, Adafruit, inc., also provides
+comprehensive documentation and guides on how to set up and configure the controller
+[\cite{website:adafruit-tutorial}].
  
-The main purpose of this component is to add the option of sending or receiving data through a NFC connection.
-This component is also capable of reading RFID cards, such as student or staff cards, as NFC
-and RFID transmit similar types of data. This adds the option of paying for the products with 
+The main purpose of this component is to add the option of sending or receiving data
+through a NFC connection.
+This component is also capable of reading RFID cards, such as student or staff cards, as
+NFC and RFID transmit similar types of data. This adds the option of paying for the products with 
 any NFC-capable smart phone running Google's Android operating system, or with a SU staff or
 student card.
 
@@ -168,8 +148,8 @@ student card.
 \label{sec:webcam}
 
 To decode QR Codes, the vending machine needs to take pictures of a code so that it can be
-decoded using the ZBar library. A PlayStation 2 EyeToy was chosen and added to the system to
-facilitate this. It was chosen for the following reasons:
+decoded by a QR Code library, such as the ZBar library. A PlayStation 2 EyeToy was
+chosen and added to the system to facilitate this. It was chosen for the following reasons:
 
 \begin{itemize}
   \item Its drivers are freely available for Linux systems [\cite{website:webcam-drivers}].
@@ -178,8 +158,8 @@ facilitate this. It was chosen for the following reasons:
 \end{itemize}
 
 There is currently a camera add-on available for the Raspberry Pi, but this is relatively
-expensive and (approximately \$30 [\cite{website:raspi-camera}] versus the Pi's \$35), at the
-time of writing, unavailable in South Africa.
+expensive (approximately \$30 [\cite{website:raspi-camera}] versus the Pi's \$35) and at
+the time of writing, unavailable in South Africa.
 
 \section{Product Dispensing}
 
@@ -189,10 +169,10 @@ To be able to effectively dispense bought products to the user, a traditional co
 used. Such systems are the most familiar and simple methods of dispensing goods. See Figure
 \ref{fig:vm-coils} for an example.
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 \includegraphics[scale=0.2]{vm_coils.eps}
-\caption{Example of vending machine coil system [\cite{website:arduino-specs}]}
+\caption{Example of vending machine coil system}
 \label{fig:vm-coils}
 \end{figure}
 
@@ -215,17 +195,18 @@ The motors are switched on by a 12V relay switch controlled by the Raspberry Pi.
 \label{sec:relay-switch}
 
 A relay is a type of electronic switch, which means that it acts like a normal switch, but
-requires a voltage across it to open or close it. With this it is possible to control when the
-DC motors turn (after a successful transaction) and when they are standing still. 
+requires a voltage across it to open or close it. With this, it is possible to control
+when the DC motors turn (after a successful transaction) and when they are standing still. 
 
 However, the relays used here are 12V. The Raspberry Pi can deliver a maximum of 5V. Therefore
 it was decided that the relay will be permanently connected to a 12V DC supply, but will be
 switched by a 2N2222 transistor, which is controlled directly from the Pi's  GPIO pins (see
-section \ref{sec:detail-switch} for a detailed discussion).
+section \ref{sec:detail-switch} on page \pageref{sec:detail-switch} for a detailed
+discussion on the switch).
 
 This allows the Pi to directly control the motors and due to the circuits construction, the Pi
 is protected from the relatively high voltages and currents involved in the working of the
-motor nd relay.
+motor and relay.
 
 \section{Vending Machine Unit}
 
@@ -237,8 +218,9 @@ drawings.
 \section{Encryption Scheme Design}
 
 To prevent the system from being hacked, an asymmetric encryption scheme was
-implemented (see Section \ref{sec:assymetric-encryption} for more detail). This
-is a secure method to exchange data between two sources and in the event that
+implemented (see Section \ref{sec:assymetric-encryption} on page
+\pageref{sec:assymetric-encryption} for more information on asymmetric encryption).
+This is a secure method to exchange data between two sources and in the event that
 one of the vending machine's keys are cracked, the system will still remain
 secure for the other vending machines.
 
@@ -247,10 +229,11 @@ payment option. These two schemes are discussed in this section.
 
 \subsection{Android NFC App}
 
-For the Android NFC app it was decided to use a 1024-bit key based on the Ron
-Rivest, Adi Shamir and Leonard Adleman (RSA) encryption algorithm. It was
-decided to base the app on RSA because its already included in the Android
-Development Kit (ADK) and therefore the simplest to implement and distribute
+For the Android NFC app, it was decided to use a 1024-bit key based on the Ron
+Rivest, Adi Shamir and Leonard Adleman (RSA) encryption algorithm. 
+
+It was decided to base the app on RSA because it is already included in the Android
+Development Kit (ADK) and is therefore the simplest to implement and distribute
 with the app. 
 
 \subsection{QR Code}
@@ -265,5 +248,5 @@ encryption key is, the less time it will take a computer to encrypt it. Thus, to
 have the Raspberry Pi encrypt data within an acceptable time frame requires a
 relatively small key. 
 
-It was also found that the ElGamal algorithm allows for key sizes of any bit
-length. Therefore the encryption used is based on the ElGamal algorithm.
+It was found that the ElGamal algorithm allows for key sizes of any bit
+length. Therefore the encryption used is based on the ElGamal encryption algorithm.

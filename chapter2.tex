@@ -2,68 +2,68 @@
 
 This chapter contains background information on the software, services and algorithms used
 in this project. They are divided up into Quick Response Codes (QR Codes), Near Field
-Communication (NFC), the web server and encryption algorithms used. Background
-information on these components are discussed in this chapter. 
+Communication (NFC), the web server and the encryption algorithms used.
 
 \section{Quick Response Codes}
 
-Quick Response Codes (QR Codes) are two dimensional bar codes that were initially
+ Quick Response Codes (QR Codes) are two dimensional bar codes that were initially
  used in Japanese car factories to allow computers to track the progress of
- an item on a production line [\cite{website:denso-qrcode}]. The technology has
- since evolved and matured and is today widely used in the media industry for storing some
- data, such as a web address or phone number. See Figure \ref{qrcode} for an example of a QR
- code.
+ an item on a production line [\cite{journal:qr-code}]. The technology has
+ since evolved and matured and is today widely used in the media industry for storing
+ data, such as a web address or a phone number. See Figure \ref{qrcode} for an example of
+ a QR code.
  
-\begin{figure}[h]
+\begin{figure}
 \centering
 \includegraphics[scale = 0.7]{qrcode_voorbeeld.png}
 \caption{Example of a QR Code}
 \label{qrcode}
 \end{figure}
  
- QR Codes can store up to 7089 alphanumeric characters [\cite{journal:qr-code}], which is
- accessible by scanning the code, with either a laser or a digital camera. To scan a QR Code
+ QR Codes can store up to 7089 alphanumeric characters [\cite{journal:qr-code}], which are
+ accessible by scanning the code with either a laser or a digital camera. To scan a QR Code
  requires a camera that can produce a digital image of appropriate quality. This image is then
  processed by a QR Code library, e.g.
- the ZXing library (see section \ref{sec:zbar}), which decodes the picture and extracts the
- data embedded inside the code. Cellphones are commonly used today because of their
- portability, increasingly powerful hardware and QR Code technology's simplicity.
+ the ZXing library (see section \ref{sec:zbar} for more detail on the ZXing library),
+ which decodes the picture and extracts the data embedded inside the code. Cellphones are
+ commonly used today because of their portability, increasingly powerful hardware and QR
+ Code technology's simplicity.
  However, an image with an embedded QR Code can be decoded by any computer with the
- appropriate hardware and libraries installed, e.g. a web cam and the ZXing library.
+ appropriate hardware and libraries installed, e.g. a webcam and the ZXing library.
 
 \subsection{Zebra Crossing Library}
 \label{sec:zbar}
 
 The Zebra Crossing Library (ZXing for short) is a well-known QR Code coding and decoding
 library. It is commonly built into smart phone applications to decode QR Codes embedded inside
-a static image or a video stream, but a desktop version of the library, called ZBar, is also
+a static image or a video stream. A desktop version of the library, called ZBar, is also
 available and works in a similar manner. 
 
 The Barcode Scanner app is made by the team that made the ZXing library. It is freely
 available on multiple cellphone platforms, such as BlackBerry OS, Apple's iOS and Google's
-Android. A desktop version, called ZBar, is also available.
-To date there have been at least 50 million downloads of ZXing's Barcode Scanner app on the
-Android platform alone, and it currently lies $98^{th}$ in the top 100 of the Google Play
-Store's most downloaded list [\cite{website:barcodescanner}]. This shows the extent to which QR
-Code technology has evolved to be available to and be part of millions of people's lives.
+Android. To date there have been at least 50 million downloads of ZXing's Barcode Scanner
+app on the Android platform alone, and it currently lies $98^{th}$ in the top 100 of the Google Play
+Store's most downloaded list [\cite{website:barcodescanner}]. This shows the extent to
+which QR Code technology and the ZXing library has evolved to be used by millions of
+people.
 
 \section{Near Field Communication}
 
 Near Field Communication (NFC) is a relatively new communication standard in the world of
 wireless technology. It allows two NFC-enabled devices to wirelessly transmit data by bringing
-them to close to one another, typically around 4 centimeters.
+them close to one another, typically around 4 centimeters.
 
 This technology is commonly found in modern cellphones. However, recently the technology has
-been ported to other platforms such as a desktop computer and Arduino. This adds a new
+been ported to other platforms, such as the desktop computer and Arduino. This adds a new
 dimension to wireless inter-device communication and makes projects such as this more
 feasible.
 
 \subsection{libnfc}
 
-Libnfc is a open-source library for Linux systems [\cite{website:libnfc}]. It allows a
-desktop computer to communicate with a NFC device based on the PN53 series of NFC chips
-[\cite{website:libnfc-hardware}]. Recent versions have made provision for the use of a PN532
-breakout board that can be used by a Raspberry Pi. 
+Libnfc is an open-source library for Linux systems [\cite{website:libnfc}]. It allows a
+desktop computer to communicate with a NFC device which is based on the Phillips PN53
+series of NFC chips [\cite{website:libnfc-hardware}]. Recent versions have made provision
+for the use of a PN532 breakout board that can be used by a Raspberry Pi. 
 
 It is currently in version 1.7 and is classified as a `mature' library. 
 
@@ -82,17 +82,16 @@ Nfcpy is an open-source program, written and maintained by Stephen Tiedemann
 
 \subsection{Android}
 
-Google's Android operating system is currently the most widely used cellphone operating system
-being used word wide with, an estimated 80\% market share [\cite{article:android-marketshare}].
+Google's Android operating system is currently the most widely used cellphone operating
+system world wide with, an estimated 80\% market share
+[\cite{article:android-marketshare}].
 Other platforms, such as the Blackberry OS and Windows Phone, have also added NFC to their
 latest phones, but they do not have the market penetration that Android currently has and it
-was found that app development on the Android platform is relatively simple and free. 
+was found that app development on the Android platform is relatively simple and free.
 
 Android is also the platform which most aggressively promotes the use of NFC as an alternative 
-payment option in modern retail outlets with applications, such as Google Wallet
-[\cite{article:android-wallet}].
-
-\subsection{NFC Communication Protocols}
+payment option in modern retail outlets, with applications such as Google Wallet
+[\cite{article:android-wallet}] being heavily promoted by Google.
 
 \subsection{Radio Field Identification and Stellenbosch
 University Student Cards}
@@ -110,6 +109,12 @@ sender [\cite{article:diff-nfc-rfid}] (e.g. the current SU's student entry contr
 
 \section{Web Server}
 
+The web server is responsible for handling all the data transfers and transactions that
+take place when a customer buys a product. 
+
+In this section, some background information will be given on
+the key features of the web server that was implemented for this project.
+
 \subsection{Django Web Framework}
 \label{sec:django}
 
@@ -125,15 +130,15 @@ some of its features:
   \item Django has an offline server debugging function available.
 \end{itemize}
 
-This framework is expandable to commercial size servers that is accessible across the globe,
-for example large websites such as Instagram and Pinterest are based on the Django framework
-[\cite{website:django-sites}].
+This framework is expandable to commercial size servers that are accessible across the
+globe. For example large websites such as Instagram and Pinterest are based on the Django
+framework [\cite{website:django-sites}].
 
-TO make it easier to program, read and debug, the Django authors designed Django to split its
-websites into multiple so-called `applications'. These applications typically contain a single
-web-page with its own script and database handing functionality. These applications may
-communicate with one another, meaning that one script from application X may execute a script
-or call a function in application Y.  
+To make it easier to program, read and debug, the Django authors designed Django to split
+its websites into multiple so-called `applications'. These applications typically contain
+a single web-page with its own script and database handling functionality. These
+applications can communicate with one another, meaning that one script from application X
+may execute a script or call a function in application Y.  
 
 Django was initially developed by web programmers Adrian Holovaty and Simon Willison, from the
 newspaper Lawrence Journal World [\cite{website:django-exist}]. It was first released in 2005
@@ -143,20 +148,23 @@ under the Berkeley Software Distribution (BSD) license and is completely free to
 \label{sec:ec2}
 
 Elastic Cloud Compute (EC2) is a cloud computing service offered by Amazon Web Services (AWS).
-It allows a user to rent a virtual computer from AWS from which to run their own applications.
+It allows a user to rent a cloud-based virtual computer from AWS from which to run their
+own web applications.
 These applications are most commonly web-based, in other words the virtual machines run a
 web server that is accessible by anyone around the world.  
+
+AWS offers new users the option to create a server for free. This server lacks the
+processing power of its paid counterparts, but functionally its the same. 
 
 \subsection{Apache}
 \label{sec:apache}
 
-Apache is a popular web server application available on most platforms. For simplicity, the
-details of Apache will not be discussed. However, a very notable feature of Apache is that it
-is designed to be compatible and fully scalable with various web frameworks, such as Python's
-Django, PHP's cgiapp and C++'s Poco.
+Apache is a popular web server application available on most programming platforms. A
+very notable feature of Apache is that it was designed to be compatible and fully scalable
+with various web frameworks, such as Python's Django, PHP's cgiapp and C++'s Poco.
 
-Apache is the currently the most popular web server application in use today, with an estimated
-53.4\% of the world's servers running on apache [\cite{website:apache-usage}].
+Apache is the currently the most widely-used web server framework in use today, with an
+estimated 53.4\% of the world's servers running on it [\cite{website:apache-usage}].
 
 It was initially released by Robert McCool in 1995 under the Apache Licence, which makes it
 free to use in any way. It is currently being maintained by the Apache Software Foundation. 
@@ -164,14 +172,15 @@ free to use in any way. It is currently being maintained by the Apache Software 
 \section{Encryption}
 
 Encryption is the act of encoding some data into seemingly unreadable garbage. This is done so
-that unwanted parties cannot decode the data, but authorised parties can. This is most commonly
-done with an encryption key and algorithm which specifies how the data was encoded and how it
-can be decoded.
+that unwanted parties cannot read or access the data, but authorised parties can. This
+is most commonly done with an encryption key and an algorithm which specifies how the data
+was encoded and how it can be decoded.
 
-Encryption is most commonly used where sensitive information is being transmitted, e.g. banking
-codes, personal e-mails, etc.
+Encryption is most commonly used where sensitive information is being transmitted between
+two remote parties, e.g. banking codes, personal e-mails, etc.
 
-There are two main encryption schemes, namely symmetric and asymmetric encryption. 
+There are two main encryption schemes, namely symmetric and asymmetric encryption. Both
+are discussed in this section.
 
 \subsection{Symmetric Encryption}
 
@@ -183,7 +192,8 @@ Enigma cipher machine used by Nazi Germany during the Second World War.
 Unfortunately, due to the increase in knowledge and understanding around this type of
 encryption and the increase in modern computing power, various code cracking methods have been
 developed since 1945, such as known and chosen plain-text attacks
-[\cite{journal:cypher-attacks}]. 
+[\cite{journal:cypher-attacks}]. Therefore, the use of symmetric encryption in data
+transfers has fallen out of favour in recent years.
 
 \subsection{Asymmetric Encryption}
 \label{sec:assymetric-encryption}
@@ -194,31 +204,33 @@ to securely encrypt and sign a data package on the sender's side and to decrypt 
 data on the receiver's side.
 
 This private and public key pair are mathematically related to one another according to the
-algorithm in use (e.g. Elgamal or RSA. See sections \ref{sec:elgamal} and \ref{sec:rsa}). The
-public key half of the pair is used to encrypt data and may be publicly distributed to anyone
-who wants one (in practise this is done differently to increase security). The
+algorithm in use (e.g. ElGamal or RSA. See sections \ref{sec:elgamal} and \ref{sec:rsa}
+for more information on these algorithms).
+The public key half of the pair is used to encrypt data and may be publicly distributed to anyone
+who wants one, however, in practise this is done differently to increase security. The
 great advantage of asymmetric encryption is that even if the public half of the
 key is available, it is still very difficult, and sometimes impossible, to get
-the private half of the key. The private key allows one to decrypt the data
-encrypted with the public half of the key.
+the private half of the key from the public key alone. 
+
+The private key allows one to decrypt the data encrypted with the public half of the key.
 
 The encryption is most easily explained with a postal analogy:
 
-Imagine two people, Alice and Bob, want to send each other secret messages through the public
-mail. In other words, Alice wants to send Bob a secret message and she expects a secret reply
-from Bob, and vice versa. 
+Imagine that two people, Alice and Bob, want to send each other secret messages through
+the public mail. In other words, Alice wants to send Bob a secret message and she expects
+a secret reply from Bob, and vice versa. 
 
 In an asymmetric scheme, Bob can lock his letter to Alice with a padlock to which only she has
-a key (she keeps this on her person at all times and does not show it to anyone, this
+a key (she keeps this on her person at all times and does not show it to anyone, which
 includes Bob). This open padlock represents the public key half of Alice's key. This
 means that anyone can send Alice a secure message with a public key, which is easy to
 get from Alice, and only Alice can unlock the message with her private key half of the
-key pair. Similarly, Alice can lock her letter with a Bob's padlock which only Bob can open.
+key pair. Similarly, Alice can lock her letter with Bob's padlock which only Bob can open.
 
 The great advantage that this has over symmetric encryption is that the decryption keys never
 have to be exchanged between parties. This neutralises the risk of a middle-man attack,
-analogous to a nosy postal worker called Eve who likes to read other peoples mail, that
-intercepts the message and steals the key.
+analogous to a nosy postal worker called Eve who likes to read other peoples mail, who
+then intercepts the message and steals the key.
 Also, if for example Bob has been careless and allowed Eve to see his key, his messages to
 Alice will be compromised. However, the messages from anyone else (including Bob) to Alice will
 remain as secure as it was before Bob lost his key.
@@ -228,9 +240,9 @@ to the postal analogy:
 
 To show Alice that it was indeed Bob who sent her the message, and not Eve for example, he can
 send an extra message along with the original message. This extra message is locked with Bob's
-key that he shares with no one (i.e. his private key). However, Bob has sent out special keys
-to everyone who wants one. These special keys can \emph{only} be used to unlock the messages locked with Bob's
-own private key. Therefore, if Alice, who received one of Bob's keys, can unlock this extra
+key that he shares with no one (i.e. his private key). However, Bob has sent out his
+public key to everyone who wants it. These keys can \emph{only} be used to unlock
+the messages locked with Bob's own private key. Therefore, if Alice, who received one of Bob's keys, can unlock this extra
 message with that key, she knows that as long as Bob hasn't given anyone his private key, it
 can only be his message. The reverse is also true if Alice wants to prove to Bob that it was
 indeed her who sent him a message. 
@@ -273,16 +285,17 @@ been widely used since 1993.
 
 PyCrypto is a Python cryptography toolkit which contains various encryption algorithms and
 key schemes, such as ElGamal, MD5 and RSA. It is currently registered under the public domain
-and is free to use by anyone. It is maintained by the PyCrypto Team [\cite{website:pycrypto}].
+and is free to be used by anyone. It is maintained by the PyCrypto Team
+[\cite{website:pycrypto}].
 
-\subsection{Base 64}
+\subsection{Base 64 Encoding}
 \label{sec:base64}
 
 Base 64 is an encoding scheme which takes binary data and encodes it to ASCII characters. This
 is most often used where the output of encrypted text is unreadable binary data and ASCII
 characters are preferred because they are easier to read and transmit. 
 
-It is also important to note that the the output of the base 64 encoding is approximately
+It is also important to note that the the output of base 64 encoding is approximately
 33\% longer than the input string.
 
 Here is an example of a base 64 encoded string:\\\\

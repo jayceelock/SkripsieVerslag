@@ -42,7 +42,7 @@
 
 \usepackage{epstopdf}
 \usepackage{url}
-\usepackage{pdfpages}
+%\usepackage{pdfpages}
 %
 % Please insert user defined commands here
 % and NOT in the document itself!
@@ -73,16 +73,16 @@
 
 \frontmatter%========================================================
 
-%\TitlePage
-%\CopyrightPage
-%\include{declaration}
-%\include{ack}
-%\include{summary}
-%\include{abstract}
-%\tableofcontents
-%\listoffigures
-%\listoftables
-%\include{nomenclature}
+\TitlePage
+\CopyrightPage
+\include{declaration}
+\include{ack}
+\include{summary}
+\include{abstract}
+\tableofcontents
+\listoffigures
+\listoftables
+\include{nomenclature}
 
 \mainmatter%=========================================================
 
@@ -101,9 +101,8 @@
 \appendix%===========================================================
 
 \include{app-a}
-%\chapter{dude}
-%\include{App-B}
-%\include{App-C}
+\include{app-b}
+\include{app-c}
 
 \backmatter%=========================================================
 \raggedright

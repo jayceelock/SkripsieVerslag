@@ -1,111 +1,131 @@
 \chapter{Introduction}
-
-This is the introduction chapter to the project. In this chapter the problem statement is
-given along with existing solutions to the problem. The goals and objectives of this project
-are then discussed. Lastly, an overview of the rest of this report is given. 
+\label{chap:1}
 
 \section{Problem Statement}
 
-The vending machines currently used at Stellenbosch University (SU) make exclusive use of
-cash transactions. These vending machine systems are the de facto standard throughout the
-world and have been for the largest part of the last two centuries, but they do have one
-drawback: they require a hard cash transaction to take place and in a world moving away from
-cash transactions and towards online payments, e-transactions and mobile payments. This may
-become a problem to potential customers.
+The vending machines currently used at Stellenbosch University (SU) exclusively
+make use of cash transactions. These vending machine systems are currently the
+de facto standard throughout the world, but they do have one drawback:
+they require a hard cash transaction to take place. In a world moving away from
+cash transactions and towards online payments, e-transactions and mobile
+payments, this may become a problem to potential customers.
 
-With that in mind, a need that has been identified is for a vending machine that accepts
+With that in mind, a need has been identified at SU for a vending machine that accepts
 cashless transactions.
 
 \section{Existing Solutions}
 
-Currently there are plenty of cashless payment options being used by the general public. These
-include debit and credit cards, Radio Field Identification (RFID) cards,
-Unstructured Supplementary Service Data (USSD) based systems and, more recently, Near Field Communication.
+Currently there are cashless payment solutions being used by the general public.
+These include debit and credit cards, Radio Field Identification (RFID) cards,
+Unstructured Supplementary Service Data (USSD) based systems and, more recently, Near
+Field Communication (NFC) payments.
+
+These aspects will be further discussed in this section.
 
 \subsection{Credit and Debit Cards}
 
-An well-known and convenient alternative to cashless solutions are the plastic cards most
-modern adults carry around. This is especially true in first world countries with mature
-banking systems. 
+A well-known and widely-used alternative to cash payments are the debit and
+credit cards most modern adults carry on their person. This is especially
+true in developed countries with mature banking and reliable financial
+institutions.
 
-The great advantage these cards holds over the alternatives are that they are
-relatively easy to get from a bank and that they have become very reliable. 
+The great advantages these cards hold over the other cashless solutions are
+that they are relatively easy to obtain from a bank and that they have become very
+reliable and simple to use.
 
 A possible disadvantage is that such systems may become costly and complicated to implement
-because of each banks different security and transfer protocols.
+because of each banks different security and transfer protocols. This is especially true
+for a simple system such as the one developed for this project.
 
 \subsection{Radio Field Identification}
 
 Radio Field Identification (RFID) is a technology which was first patented in 1983
-[\cite{patent:nfc-patent}]. Since then the technology has grown and matured into a very
+[\cite{patent:nfc-patent}]. Since then, the technology has grown and matured into a very
 reliable identification and payment platform. 
 
 Examples of where this is used for making payments is the payments made to new parking meters
 with a contactless card. 
 
-The advantage of this technology is its great convenience: a customer only needs to swipe and
-it it not required that a password be entered.
+The advantage of this technology is its great convenience: a customer only needs
+to tap the card against a receiver and it is not required that a password be
+entered.
 
-However, this leads to some security concerns because if the card gets stolen, the thief can
-use the money on the card for his/her own gain. Thankfully though, these cards most commonly
-work with pre-loaded money, so provided that there wasn't too much money loaded onto the card,
-the theft victim will not be too badly off. 
+However, this leads to some security concerns, for example if the card gets stolen
+or cloned, the thief can use the money on the card for her own benefit.
+Fortunately, these cards most commonly work with pre-paid money.
+Therefore, provided that there was not too much money loaded onto the card, the
+theft victim will not suffer a big financial loss. 
+
+Therefore, an RFID card has the same risk as regular cash.
 
 \subsection{Unstructured Supplementary Service Data}
 
 Unstructured Supplementary Service Data (USSD) is a communication standard used by cellphones
 to exchange data with a service provider's servers. If the service provider allows it, USSD may
-be used by a customer to transfer money from one account to another. 
+be used by a customer to make financial transfers. 
 
 An example of this is the M-Pesa mobile money service in Kenya, which is based on the use of
-USSD. It allows for a customer to pay for goods ranging from milk, bread, even the monthly
-rent. Its currently regarded as the most advanced mobile payment platform in the world
-[\cite{journal:m-pesa}]. 
+USSD. It allows for a customer to pay for goods ranging from milk to bread and even the
+monthly rent. It is currently regarded as the most advanced and popular mobile payment
+platform in the world [\cite{journal:m-pesa}]. 
 
-An advantage of implementing such a system is that it is proven to work and is usable by almost
-any cellphone.
+An advantage of implementing such a system is that it has been proven to be reliable and
+is usable by almost any cellphone.
 
-The disadvantage is that it requires third party vendors to provide systems and services, which
-will add unnecessary costs to the system.
+The disadvantage is that it requires third party vendors, such as the mobile service
+providers, to provide systems and services. This may add unnecessary costs
+to the system.
 
 \subsection{Near Field Communication}
 
-Near Field Communication (NFC) payments have recently come to the fore as a likely candidate to
-become the standard method of mobile payment. Especially in Europe and North America, there
-have been significant advances in making this payment method a more attractive solution, with
-Google making the largest contribution with the addition of NFC protocols to its Android
-platform.
+Near Field Communication (NFC) payments have recently come to the fore as the likely
+candidate to become the standard method of mobile payment. Especially in Europe and North
+America, there have been significant advances in making this payment method a more
+attractive solution.
+Google has been making the largest contribution with the addition of NFC protocols to its
+Android platform.
 
 Some examples of NFC based payments are the London public transport system, which makes
 provision for NFC payments [\cite{article:nfc-underground}], as well as some retail vendors
 which accept payments made via Google's Wallet application.
 
-\section{Goal of Final System}
+\section{Goal of the Final System}
+\label{sec:final-system-goal}
 
 Although hard cash still remains the largest contributor to global financial transactions,
 standing at 59\% of the 37 billion transactions that took place in 2012
-[\cite{article:money-transactions}, \cite{website:money-transactions}], however, mobile
+[\cite{article:money-transactions}. \cite{website:money-transactions}], however, mobile
 and card transactions are expected to surpass cash as the leading payment method by 2015
 [\cite{article:cashless-transactions}].
 
-The main goal of this project is to develop a vending machine that will make use of this
-increase in cashless payment by adding the option to pay for a product with a customer's
-cellphone. 
+To this end, mobile payment's, i.e. payments made with a cell phone, has been identified
+as a possible medium to facilitate cashless payments. Therefore, the final goal of this
+project would be to deliver a vending machine that will be used on the
+SU's campus and will allow anyone to buy products from the vending machine using only
+their cell phones.
 
 \section{System Objectives}
+\label{sec:objectives}
 
 The system objectives are:
 
 \begin{itemize}
-  \item Must have at least two methods of mobile payment.
-  \item The solution must be built while keeping commercialisation in mind.
-  \item 
+  \item The system must make provision for both NFC and Quick Response Code-based (QR
+  Code) payments.
+  \item The system must make use of a web server based in the cloud.
+  \item An Android application must be made that will allow transactions to be completed
+  using NFC.
+  \item A demonstration model vending machine must be designed and constructed.
+  \item All the data transfers between the user's cell phone and the server must be
+  encrypted.
+  \item Extra layers of security must be added. 
 \end{itemize}
 
 \section{Report Structure}
 
-In this report, some background information on all the technology, concepts and programs used
-in this project is given. Then the overall system design is discussed, which is followed by
-a discussion on the detailed design of the whole system. Then the system tests are discussed
-and analysed, which is then followed by a discussion on the complete system and a
-project conclusion.
+In this report, background information on all the technology, concepts and
+programs used in this project will be given. Thereafter, the overall system design is
+discussed, which will be followed by a discussion on the detailed design of the software
+and hardware aspects of the entire system. Afterwards, the system test results will be
+discussed and analysed, which will be followed by a discussion on the complete
+system and finally the conclusion on the project report.

@@ -1,5 +1,93 @@
 \chapter{Conclusion}
 
+This chapter concludes this project design report. It gives a brief discussion on the
+complete system and measures it against the project objectives set out in Section
+\ref{sec:objectives} of this report. Lastly, it discusses possible improvements that can
+be made to the system. 
+
+\section{System Performance}
+
+The project objectives set out in Section \ref{sec:objectives} of this report are repeated
+here for convenience. They are:
+
+\begin{itemize}
+  \item The system must make provision for both NFC and Quick Response Code-based (QR
+  Code) payments.
+  \item The system must make use of a web server based in the cloud.
+  \item An Android application must be made that will allow transactions to be completed
+  using NFC.
+  \item A demonstration model vending machine must be designed and constructed.
+  \item All the data transfers between the user's cell phone and the server must be
+  encrypted.
+  \item Extra layers of security must be added. 
+\end{itemize}
+
+In the final system, both QR Code and NFC technology have been implemented. It was found
+that the NFC option has a faster transaction time between product selection and
+when the product is dispensed.
+However, the NFC option is currently limited to cell phones that have NFC antennas and are
+based on the Android Operating System.
+
+It was found that the QR Code payment option typically has a slower transaction time. This
+is mainly due to some bottlenecks that the system currently has. These bottlenecks include
+the Raspberry Pi's moderate processing power, which increases the encryption time and the
+time it takes the Pi to process and decode a live video stream from the web cam. Extra
+work can go into optimising the system to make it run faster.
+
+Furthermore, a server has been made that runs in the cloud. This server interacts with a
+customer's cell phone through the Android NFC app that was made or the cell phone's
+internet browser. All data transactions between the server and the customer's cell phone
+are encrypted with an asymmetric encryption scheme with extra layers of security added.
+
+Lastly, a working demonstration vending machine was designed and made. It houses all of
+the vending machine components and allows a customer to buy one of two products using
+his/her cell phone. 
+
 \section{Future Work}
 
-\section{Conclusion}
+The vending machine system that has been designed in this project has been designed to
+work as planned. With that being said, there is potential to expand upon the work that has
+been completed thus far.
+
+This section discusses some potential improvements and additions that can be made to this
+system
+
+\subsection{Commercialisation}
+
+The vending machine currently uses faux money which has no real-world value. Therefore,
+the system in its current state is not ready to be deployed across Stellenbosch
+University's campus. 
+
+To commercialise the system will require that customers be able to load money
+from their bank accounts, credit cards or student accounts onto their vending machine user
+accounts. 
+
+This will not be a simple task as this will require integration with the financial
+institutions of South Africa. 
+
+\subsection{Polish}
+
+This project focused on the practical and functional aspects of the complete system and
+almost no attention was given to the aesthetics of the complete system. Therefore, some
+extra work can go into making the web server and Android NFC app more pleasant to use. 
+
+\subsection{Integration}
+
+One important aspect that must be focused on to increase the odds of making this project
+more commercially successful, is its integration with current vending machines, i.e. add a
+cashless option to current vending machines that are restricted to cash.
+
+This integration may become complicated, as each vending machine manufacturer uses
+different components, such as different size motors and control units. 
+
+\subsection{More Payment Options}
+
+Some work can go into expanding the number of payment options available to the user.
+
+This is a feasible option, seeing as the Raspberry Pi has 28 General Purpose Input Output
+Pins, of which only 4 are currently being used. These 24 other pins can be used to control
+other payment options.
+
+Some options that may be considered are Bluetooth, Short Message System (SMS), Instant
+Messaging (such as WhatsApp and BlackBerry Messenger) and Unstructured Supplementary
+Service Data (USSD).

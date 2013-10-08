@@ -6,13 +6,13 @@ configuration of this system.
 \section{Relay Switch Circuit}
 \label{sec:detail-switch}
 
-As explained in Section \ref{sec:relay-switch}, a relay switch (the Mantech
-NT72C 12V DC relay [\cite{manual:relay-specs}]), in conjunction with a 2N2222
-Bipolar Junction Transistor (BTJ) [\cite{manual:transistor-datasheet}], is used
+As explained in Section \ref{sec:relay-switch} in page \pageref{sec:relay-switch}, a relay
+switch (the Mantech NT72C 12V DC relay [\cite{manual:relay-specs}]), in conjunction with a 2N2222
+Bipolar Junction Transistor (BJT) [\cite{maunual:transistor-datasheet}], is used
 by the Raspberry Pi to switch the motor on and off. See Figure
 \ref{fig:relay-switch} for the circuit diagram.
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 \includegraphics[scale=0.7]{relay_switch.eps}
 \caption{12V relay transistor switch. }
@@ -20,7 +20,7 @@ by the Raspberry Pi to switch the motor on and off. See Figure
 \end{figure}
 
 The relevant  parameters for these components are [\cite{manual:relay-specs},
-\cite{manual:transistor-datasheet}]:
+\cite{maunual:transistor-datasheet}]:
 
 \[ P_{r} = 0.36W\]
 \[ V_{r} = 12V\]
@@ -84,7 +84,7 @@ which is still within the acceptable range.
 
 The Near Field Communication (NFC) chip used, is the Adafruit NFC shield for an
 Arduino Uno microcontroller [\cite{website:adafruit-nfc}]. See Section
-\ref{sec:nfc-controller} for more details on the controller.
+\ref{sec:nfc-controller} on page \pageref{sec:nfc-controller} for more details on the controller.
 
 The shield was designed and built to be used by an Arduino Uno microcontroller.
 Therefore, some modification to the chips connections had to be made before it
@@ -97,18 +97,26 @@ the chip to communicate via Serial Peripheral Interface (SPI) or Transistor
 Transistor Login (TTL). 
 
 The libnfc library is currently only configured to allow communication via an
-Universal Asynchronous Receiver Transmitter (UART). Therefore it the chip was
+Universal Asynchronous Receiver Transmitter (UART). Therefore if the chip was
 modified to communicate via its TTL interface, which is compatible with a UART. 
 
-To to this, the `SEL1' pads were soldered closed (see Figure
+To do this, the `SEL1' pads were soldered closed (see Figure
 \ref{fig:nfc-chip-solder}). With this done, the chip can serially communicate
 with the Raspberry Pi's UART interface.
 
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 250 0 270,
+ scale=0.7]{soldeer_pic}
+ \caption{The location of the SEL1 pads (circled in green)}
+ \label{fig:nfc-chip-solder}
+\end{figure}
+
 The connections between the Pi and the NFC controller are as follows: 
 
-\begin{table}[h] 
+\begin{table}
 \centering
- \caption{Connections between Raspberry Pi and NFC Controller chip}
+ \caption{Connections between the Raspberry Pi and the NFC Controller chip.}
  \begin{tabular}{|l|l|l|}
   \hline
   \textbf{NCF Controller Pin} & \textbf{Raspberry Pi Pin}\\\hline\hline
@@ -122,7 +130,7 @@ The connections between the Pi and the NFC controller are as follows:
 \section{libnfc Setup on the Raspberry Pi}
 
 Before libnfc could be built and configured, the communication between the NFC
-controller and the Pi needed to be finalised. To to this, the Pi's UART needed
+controller and the Pi needed to be finalised. To do this, the Pi's UART needed
 to be freed up. By default, the Raspberry Pi uses its UART to serially write out
 its booting information. Therefore, to allow the Raspberry Pi to communicate
 with the NFC controller via its UART0 interface, it was necessary to modify
@@ -146,7 +154,7 @@ dwc_otg.lpm_enable=0 console=tty1
 After this has been done, the libnfc package could be configured and installed
 and configured to work with the Pi's UART interface.
 
-After this has been completed, the Pi is ready to receive NFC messages from the
+Thereafter, the Pi is ready to receive NFC messages from the
 NFC shield.
 
 \section{Vending Machine Unit}
@@ -156,7 +164,7 @@ designed to house all the vending machine components, i.e. the two DC motors,
 the two coils, the Raspberry Pi central controller, the NFC shield and the
 webcam.
 
- Four 10mm vent holes were added at the sides to improve air circulation
+Four 10mm vent holes were added at the sides to improve air circulation
 and to provide external wire access, while a larger 60mm vent hole was also
 added to allow for an external 60mm desktop computer fan to be added. 
 
@@ -164,10 +172,20 @@ The unit is made from 1.6mm thick mild steel and the components were cut and
 bent by Fabrinox, Paarl and welded together by the Electric and Electronic
 Engineering Department of Stellenbosch University's workshop.
 
-See Appendix \ref{app:vm-tekeninge} for detailed design drawings of the vending
-machine unit.
+See Figure \ref{fig:vm-actual} for a picture of the
+complete vending machine unit with the two DC motor
+inserted. See Appendix \ref{app:vm-tekeninge} for detailed
+design drawings of the vending machine unit.
 
-\section{Web Cam}
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 80 150 150 200,
+ scale=0.7]{complete_vm}
+ \caption{The complete vending machine unit}
+ \label{fig:vm-actual}
+\end{figure}
+
+\section{Webcam}
 
 As discussed in Section \ref{sec:webcam}, a Sony PS2 Eye Toy  webcam was
 attached to the Raspberry Pi. This allows the vending machine to scan a live
@@ -175,8 +193,8 @@ video feed for a QR Code. Its already compatible with the Raspberry Pi and
 therefore requires minimal configuration to begin working.
 
 However, the camera needs to be plugged into a Universal Serial Bus (USB) port
-on the Pi itself and not into a USB hub. This is because to prevent the
-hardware timing issues that are introduced to the system when a USB hub are used. 
+on the Pi itself and not into a USB hub. This is done in order to prevent the
+hardware timing issues that are introduced to the system when a USB hub is used. 
 
 \section{Motor and Coil}
 
