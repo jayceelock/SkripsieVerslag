@@ -1,4 +1,5 @@
 \chapter{System Tests}
+\label{chap:6}
 
 In this chapter, the tests  conducted to measure how well the system measures to the
 original goals and objectives set out in Section \ref{chap:1}. 
@@ -32,12 +33,12 @@ embedded in the QR Code then takes the customer to a web page located on the ser
 
 Not having a user account, the user clicks on the lick to create a new user profile. After
 entering valid user information, the customer is returned to the login  page where he/she
-can log in with his/her new login credentials. 
+can log in with his new login credentials. 
 
 After logging in, the server displays to the customer that he/she does not yet have any
-credits loaded onto his/her account. The customer then goes to the load credit page where
+credits loaded onto his account. The customer then goes to the load credit page where
 they load some money. When this is done, the server displays a confirmation QR Code on
-the customer's cell phone screen, verifying the transaction.
+the customer's cellphone screen, verifying the transaction.
 
 The customer then presses the continue button on the GUI, which starts scanning the web
 cam feed for the customer's QR Code. After this is done, the Pi activates the correct
@@ -61,9 +62,9 @@ QR Code. However, instead of scanning the QR Code and paying for a new product, 
 customer tries to use an old QR Code that the server sent him/her after a successful
 transaction previously. 
 
-The customer tells the Raspberry Pi to scan his/her old QR Code. The Raspberry Pi does
+The customer tells the Raspberry Pi to scan his old QR Code. The Raspberry Pi does
 this, but the old QR Code does not contain a valid response to the Raspberry Pi's
-challenge. Therefore, the transaction is valid and the customer is informed of his/her
+challenge. Therefore, the transaction is valid and the customer is informed of his
 invalid QR Code.
 
 \begin{figure}
@@ -81,17 +82,17 @@ Communication (NFC) app. However, a new user profile must first be created. The 
 can be seen in Figure \ref{fig:test3}.
 
 After the user opens the app, he/she is presented with a login screen. The user enters
-his/her login credentials and checks the box that confirms that he/she is a new user. The
+his login credentials and checks the box that confirms that he/she is a new user. The
 app then contacts the server with a user creation request. Provided that the username is
 not already in use, the server sends the app a confirmation.
 
 The app then returns the user to the main menu where the user can pick a product to buy.
 After picking a product, the app contacts the server with a purchase request. If the
 transaction is successful, the server sends the app a confirmation code which the app 
-transmits via the cell phone's NFC antenna. 
+transmits via the cellphone's NFC antenna. 
 
-The user then swipes his/her phone across the vending machines NFC receiver. The vending
-machine then activates the motor and the user receives his/her product. 
+The user then swipes his phone across the vending machines NFC receiver. The vending
+machine then activates the motor and the user receives his product. 
 
 \begin{figure}
  \centering 

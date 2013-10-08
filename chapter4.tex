@@ -1,4 +1,5 @@
 \chapter{Software Detail Design}
+\label{chap:4}
 
 In this chapter, the software design aspects of this project are discussed in
 detail.
@@ -108,7 +109,7 @@ flow of this app.
 
 As seen from Figure \ref{fig:disp-qrcode}, the app first extracts the code containing the
 product code and vending machine's signature from the Uniform Resource Locator (URL) that the
-customer visited with his/her cell phone's web browser. The app then proceeds to decode the
+customer visited with his cellphone's web browser. The app then proceeds to decode the
 the code from the base64 encoded format it was sent in (see Section \ref{sec:base64} on
 page \pageref{sec:base64} for some background information on base 64 encoding).
 
@@ -120,7 +121,7 @@ code from the decrypted string.
 
 The app then checks to see if the signature comes from a valid source (i.e. one of the vending
 machines using this system), if the product code is valid (i.e. the product is in the database)
-and if the customer has enough credits loaded loaded onto his/her account. If either of these
+and if the customer has enough credits loaded loaded onto his account. If either of these
 checks return false, an appropriate error message is shown to the customer explaining what
 went wrong and what the customer should do next.
 
@@ -128,13 +129,13 @@ If the checks were passed, the app proceeds to subtract the product cost from th
 remaining balance. Using the security code scheme, the app then generates the correct return
 code, encrypts and signs it with the vending machine's public key and the server's private key,
 and encodes it with base 64. After this is completed, the app embeds this data into a QR Code,
-which is returned to the customer's cell phone screen. 
+which is returned to the customer's cellphone screen. 
 
 \subsubsection{load\_money}
 
-This app allows the customer to load money onto his/her account. At the moment it makes use of
+This app allows the customer to load money onto his account. At the moment it makes use of
 faux money, meaning that the money loaded has no real-world value. The customer can load a
-maximum of R1000.00 onto his/her account.
+maximum of R1000.00 onto his account.
 
 See Figure \ref{fig:load-money} for the process flow of this
 app.
@@ -171,7 +172,7 @@ check fails, the customer is given an appropriate error message and informed to 
 profile. 
 
 If the check is passed, the server then checks to see if the customer has enough money loaded
-onto his/her account. If this check fails, the customer is informed of his/her lack of funds
+onto his account. If this check fails, the customer is informed of his lack of funds
 and is instructed to load more money. If the check is passed, the server subtracts the product
 cost from the customer's balance and encrypts and encodes a confirmation code, according to the
 security code scheme specified in Section \ref{sec:security-code-scheme}, which is then sent
@@ -339,7 +340,7 @@ for Python, called qrcode [\cite{website:qrcode-generator}].
 
 \subsection{Reading a QR Code}
 
-After the customer has received his/her QR Code from the server verifying the
+After the customer has received his QR Code from the server verifying the
 transaction, the customer may press the button called `Continue with purchase'.
 When this is done the read\_qrcode script is run.
 
@@ -366,7 +367,7 @@ After the ZBar processor has scanned a QR Code, it sends the retrieved data to
 be decrypted and verified with the ElGamal algorithm and the vending machine's
 private key and the server's public key. If the signature is valid and the data
 contains a valid response and product code, the script activates the correct
-motor and the customer receives his/her product. 
+motor and the customer receives his product. 
 
 \subsection{Near Field Communication}
 
@@ -403,7 +404,7 @@ dispense the product to the customer.
 
 An Android NFC app was made for this project. It allows a customer to buy a
 product from the app's product menu and to complete the purchase by swiping
-his/her phone across the vending machine's NFC receiver.
+his phone across the vending machine's NFC receiver.
 
 The app is divided up into three activities (Android's technical term for what
 is essentially a different window of the app). 
@@ -463,7 +464,7 @@ The login details saved here are used later by the app's other activities.
 
 \subsection{Change User Settings}
 
-The Change User Settings activity allows the user to change his/her login
+The Change User Settings activity allows the user to change his login
 details that are saved in the database and the app-wide variable. See Figure
 \ref{fig:change-user-settings} for a detailed process flow diagram for this
 activity. Figure \ref{fig:change-settings-screenshot} shows a screenshot of this
@@ -485,7 +486,7 @@ activity.
  \label{fig:change-settings-screenshot}
 \end{figure}
 
-When the app enters this activity, it prompts the user to enter his/her user
+When the app enters this activity, it prompts the user to enter his user
 name and password. When the user presses the `continue button', the old database
 entry and app-wide variable is overwritten with the new values the user entered.
 
@@ -526,5 +527,5 @@ process the transaction (see Section \ref{sec:app-nfc} for more details on the
 server's NFC processes). The server then tells the activity if the transaction
 has been approved or denied. If it has been denied, the user is informed what was wrong. 
 
-If it is approved, the activity activates the cell phone's NFC antennae which
+If it is approved, the activity activates the cellphone's NFC antennae which
 transmits an encrypted approval message to the vending machine's NFC receiver. 

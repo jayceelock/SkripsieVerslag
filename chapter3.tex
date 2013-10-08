@@ -1,4 +1,5 @@
 \chapter{System Design}
+\label{chap:3}
 
 In this chapter, the overall system design is discussed. The chapter is divided up into 
 six sections with each section focusing on a different aspect of the complete
@@ -14,7 +15,7 @@ system. These six sections are:
 \end{enumerate}
 
 Each section explains which technology or service was used in the final
-component.
+component design.
 
 Where two or more available services or technologies were available,
 a brief discussion and explanation is given as to why the particular technology or
@@ -28,7 +29,7 @@ It shows the interactions between the different sub-components of the complete s
 \begin{figure}
 \centering
 \includegraphics[clip=true, trim = 100 80 0 150, scale=0.7]{pi_system_overview}
-\caption{System overview from the control unit's perspective}
+\caption{System overview from the control unit's perspective.}
 \label{fig:system-overview-pi}
 \end{figure}
 
@@ -46,27 +47,32 @@ These controllers are discussed in this section.
 
 \subsection{Arduino Uno}
 
-The Arduino Uno is popular open-source microcontroller (see Figure \ref{fig:arduino}). 
+The Arduino Uno is popular open-source microcontroller (see Figure
+\ref{fig:arduino}). It is based on an 8-bit Atmel ATmega328 ARM microprocessor.
+Its official specifications are given in Table \ref{tab:arduino-specs}.
 
 \begin{figure}
 \centering
 \includegraphics[scale=1.5]{arduino.eps}
-\caption[Picture of an Arduino Uno microcontroller]{Picture of an Arduino Uno microcontroller
-[\cite{manual:arduino-specs}]}
+\caption[Picture of an Arduino Uno microcontroller.]{Picture of an Arduino Uno
+microcontroller [\cite{manual:arduino-specs}].}
 \label{fig:arduino}
 \end{figure}
 
-It is based on an 8-bit Atmel ATmega328 ARM microprocessor. Its
-official specifications are [\cite{manual:arduino-specs}]:
-
-\begin{tabbing}
-  Operating Voltage: \= 5 V \\ 
-  Processor: \> Atmel ATmega328 (clocked at 16 MHz) \\
-  GPIO Pins: \> 14 (6 of which are PWM enabled) \\
-  Memory: \> 32 kB Flash, 2kB SRAM, 1kB EEPROM \\
-  Communication: \> $i^2c$, UART, SPI. \\
-  Price: \> R310.00 \\
-\end{tabbing}
+\begin{table}
+\centering
+\caption{Arduino Uno Specs[\cite{manual:arduino-specs}].}
+  \begin{tabular}{|l|l|}
+  \hline
+    Operating Voltage & 5 V \\\hline
+    Processor & Atmel ATmega328 (clocked at 16 MHz) \\\hline
+    GPIO Pins & 14 (6 of which are Pulse Width Modulator enabled) \\\hline
+    Memory & 32 kB Flash, 2kB SRAM, 1kB EEPROM \\\hline
+    Communication & i$^2$c, UART, SPI \\\hline
+    Price & R310.00 \\\hline
+  \end{tabular}
+  \label{tab:arduino-specs}
+\end{table}
 
 Because of its open-source design, there are a multitude of peripheral devices and expansion
 boards (known as `shields'), along with all their libraries and drivers,
@@ -88,18 +94,23 @@ The Pi was designed with the focus on Python as its main programming language, w
 running scripts and controlling the board relatively simple. It also runs on a modified
 version of Debian Linux called Raspbian.
 
-Its main specifications are [\cite{website:raspi-specs}]:
+Its main specifications are given in Table \ref{tab:rpi-specs}.
 
-\begin{tabbing}
-
-Communication: \= SPI, UART, USB, $i^2c$, Ethernet \\ 
-Memory: \> 512 MB RAM \\
-Processor: \> ARM 6 clocked at 700 MHz \\
-Video: \> HDMI video output \\
-GPIO: \> 28 pins \\
-Price: \> R400.00 \\
-
-\end{tabbing} 
+\begin{table}
+\centering
+\caption{Raspberry Pi Specifications [\cite{website:raspi-specs}].}
+  \begin{tabular}{|l|l|}
+  \hline
+  Operating Voltage & 3.3 V \\\hline
+  Processor & ARM 6 clocked at 700 MHz \\\hline
+  GPIO Pins & 28 Pins \\\hline
+  Memory & 512 MB RAM \\\hline
+  Communication & SPI, UART, USB, i$^2$c, Ethernet \\\hline
+  Price & R400.00 \\\hline
+  Video & HDMI Output \\\hline
+  \end{tabular}
+  \label{tab:rpi-specs}
+\end{table}
 
 \subsection{Design Choice}
 
