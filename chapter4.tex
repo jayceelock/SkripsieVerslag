@@ -30,12 +30,14 @@ encryption key.
 The product code transmitted to the server is embedded inside a
 random 16-character string of hex values, i.e. numbers from 1 to 9 or characters
 from A to F. The product code is a 4 character hex string, but this is saved on
-the database and can therefore not be random. 
+the database and can therefore not be random. A hex string was chosen to make it harder for a hacker to see that they have sucessfully broken through the security.
+For example, if the hackers manage to break through the security, they will see a string like this one:
 
-This is done to prevent any would-be
-hackers from realising that they have cracked the system's encryption. In other
-words, if the hackers have cracked the encryption, they will still see 16
-random hex characters and think that the encryption is still intact.
+A2FB3291CFF
+
+If the product code were alphanumeric, for example `coke_350ml', the hackers will immediately see that they have broken through. 
+
+This scheme does not make the code uncrackable, but it does make brute-force attacks harder to do. 
 
 \subsection{Challenge and Response Code}
 
@@ -89,7 +91,7 @@ are given in Figure \ref{fig:website-apps}.
  \centering 
  \includegraphics[clip=true, trim = 0 130 130 30,
  scale=0.7]{website_structure}
- \caption{The web server app structure}
+ \caption{The web server app structure.}
  \label{fig:website-apps}
 \end{figure}
 
@@ -103,7 +105,7 @@ flow of this app.
  \centering 
  \includegraphics[clip=true, trim = 0 250 0 50,
  scale=0.7]{qrcode_processflow_server_bak}
- \caption{The display\_qrcode app process flow}
+ \caption{The display\_qrcode app process flow.}
  \label{fig:disp-qrcode}
 \end{figure}
 
@@ -111,7 +113,7 @@ As seen from Figure \ref{fig:disp-qrcode}, the app first extracts the code conta
 product code and vending machine's signature from the Uniform Resource Locator (URL) that the
 customer visited with his cellphone's web browser. The app then proceeds to decode the
 the code from the base64 encoded format it was sent in (see Section \ref{sec:base64} on
-page \pageref{sec:base64} for some background information on base 64 encoding).
+page \pageref{sec:base64} for some background information on base64 encoding).
 
 After successfully decoding the data, the app proceeds to decrypt the data and signature with the ElGamal
 algorithm using the server's private key and the vending machine's public key
@@ -128,7 +130,7 @@ went wrong and what the customer should do next.
 If the checks were passed, the app proceeds to subtract the product cost from the user's
 remaining balance. Using the security code scheme, the app then generates the correct return
 code, encrypts and signs it with the vending machine's public key and the server's private key,
-and encodes it with base 64. After this is completed, the app embeds this data into a QR Code,
+and encodes it with base64. After this is completed, the app embeds this data into a QR Code,
 which is returned to the customer's cellphone screen. 
 
 \subsubsection{load\_money}
@@ -144,7 +146,7 @@ app.
  \centering 
  \includegraphics[clip=true, trim = 0 580 100 60,
  scale=0.7]{load_money}
- \caption{The load\_money app process flow}
+ \caption{The load\_money app process flow.}
  \label{fig:load-money}
 \end{figure}
 
@@ -158,7 +160,7 @@ This app forms the core of the NFC payment handling part of the server. See Figu
  \centering 
  \includegraphics[clip=true, trim = 0 200 100 80,
  scale=0.7]{nfc_processflow_bak}
- \caption{The nfc app process flow}
+ \caption{The nfc app process flow.}
  \label{fig:nfc-process}
 \end{figure}
 
@@ -270,7 +272,7 @@ transaction process is given in Figure \ref{fig:vm_prog_interaction}.
 \begin{figure}
  \centering 
  \includegraphics[clip=true, trim = 50 400 0 140, scale=0.7]{qrcode_processflow_user}
- \caption{The vending machine transaction process}
+ \caption{The vending machine transaction process.}
  \label{fig:vm_prog_interaction}
 \end{figure}
 
@@ -284,7 +286,7 @@ The program structure can be seen in Figure
  \centering 
  \includegraphics[clip=true, trim = 100 320 0 50,
  scale=0.7]{vending_machine_program_structure}
- \caption{The vending machine's program structure}
+ \caption{The vending machine's program structure.}
  \label{fig:vm_prog_strcture}
 \end{figure}
 
@@ -299,7 +301,7 @@ GUI.
 \begin{figure}
  \centering 
  \includegraphics[scale=0.4]{gui_screenshot}
- \caption{A screenshot of the user interface}
+ \caption{A screenshot of the user interface.}
  \label{fig:gui-screenshot}
 \end{figure}
 
@@ -315,7 +317,7 @@ After the customer selects which product to buy from the GUI, the
 encrypt\_elgamal script is called. This script is responsible for generating the
 random hex character string, in accordance with the security scheme described in
 Section \ref{sec:security-code-scheme}, encrypting, signing and encoding the
-string in base 64 and embedding the random string inside a Uniform
+string in base64 and embedding the random string inside a Uniform
 Resource Locator (URL) that points to the web server. This URL is then sent to
 the generate\_qrcode script described in Section \ref{sec:gen-qrcode}.
 
@@ -327,7 +329,7 @@ diagram.
  \includegraphics[clip=true, trim
  = 0 550 0 70, scale=0.7]{generate_product_code_processflow}
  \caption{The GUI process flow}
- \label{fig:gen-prod-code-processflow}
+ \label{fig:gen-prod-code-processflow.}
 \end{figure}
 
 \subsection{Generating a QR Code}
@@ -353,7 +355,7 @@ flow diagram.
  \centering 
  \includegraphics[clip=true, trim
  = 0 460 0 100, scale=0.75]{read_qrcode_processflow}
- \caption{The generate\_qrcode script process flow}
+ \caption{The generate\_qrcode script process flow.}
  \label{fig:read-qrcode-processflow}
 \end{figure}
 
@@ -418,7 +420,7 @@ diagram of the app.
  \centering 
  \includegraphics[clip = true, trim = 0 360 0 20,
  scale=0.7]{app_structure}
- \caption{The Android NFC app structure}
+ \caption{The Android NFC app structure.}
  \label{fig:nfc_app_structure}
 \end{figure}
 
@@ -433,14 +435,14 @@ screen.
  \centering 
  \includegraphics[clip = true, trim = 0 550 0 0,
  scale=0.75]{app_main_processflow}
- \caption{The Android NFC app structure}
+ \caption{The Android NFC app structure.}
  \label{fig:app-welcomescreen}
 \end{figure}
 
 \begin{figure}[h]
  \centering 
  \includegraphics[clip = true, trim = 0 320 0 60, scale=0.2]{welcome_screen}
- \caption{A screenshot of the app's welcome screen}
+ \caption{A screenshot of the app's welcome screen.}
  \label{fig:welcomescreen-screenshot}
 \end{figure}
 
@@ -474,7 +476,7 @@ activity.
  \centering 
  \includegraphics[clip = true, trim = 0 650 0 0,
  scale=0.7]{change_settings_processflow}
- \caption{The process flow of the Change Settings activity}
+ \caption{The process flow of the Change Settings activity.}
  \label{fig:change-user-settings}
 \end{figure}
 
@@ -482,7 +484,7 @@ activity.
  \centering 
  \includegraphics[clip = true, trim = 0 320 0 60,
  scale=0.2]{change_settings}
- \caption{A screenshot of the app's change settings activity}
+ \caption{A screenshot of the app's change settings activity.}
  \label{fig:change-settings-screenshot}
 \end{figure}
 
@@ -502,7 +504,7 @@ and Figure \ref{fig:main-activity-screenshot} for a screenshot of this activity.
  \centering 
  \includegraphics[clip = true, trim = 0 570 0 20,
  scale=0.7]{app_main_processflow}
- \caption{The process flow of the Main activity}
+ \caption{The process flow of the Main activity.}
  \label{fig:main-activity}
 \end{figure}
 
@@ -510,7 +512,7 @@ and Figure \ref{fig:main-activity-screenshot} for a screenshot of this activity.
  \centering 
  \includegraphics[clip = true, trim = 0 520 0 60,
  scale=0.2]{main_menu}
- \caption{A screenshot of the app's main activity activity}
+ \caption{A screenshot of the app's main activity activity.}
  \label{fig:main-activity-screenshot}
 \end{figure}
 
@@ -518,7 +520,7 @@ As seen from Figure \ref{fig:main-activity-screenshot}, the activity presents
 the user with a list of products. When the user selects a product to buy, the
 activity forms a data string by adding the product code, the user's login
 name and password together. This data string is then encrypted with the
-server's public key half and then encoded with base 64. This encoded string
+server's public key half and then encoded with base64. This encoded string
 is then embedded into a Uniform Resource Locator (URL) which points to the
 web server. 
 

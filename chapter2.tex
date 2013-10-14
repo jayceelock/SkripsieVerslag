@@ -217,7 +217,7 @@ is difficult [\cite{article:otp}].
 Another encryption scheme is asymmetric encryption, or public-key
 encryption. It involves the use of a public and private key pair that can be
 used to securely encrypt and sign a data package on the sender's side and to
-decrypt and verify the data on the receiver's side.
+decrypt and verify the data and its origin on the receiver's side.
 
 These private and public keys are mathematically related to one another
 according to the algorithm in use (e.g. ElGamal or RSA. See sections
@@ -304,19 +304,19 @@ key schemes, such as ElGamal, MD5 and RSA. It is currently registered under the
 Python License and is available in the public domain. It is maintained by the
 PyCrypto Team [\cite{website:pycrypto}].
 
-\subsection{Base 64 Encoding}
+\subsection{Base64 Encoding}
 \label{sec:base64}
 
-Base 64 encoding is a scheme which represent arbitrary data as alphanumeric
-characters. This is most often used where the output of encrypted text is
+Base64 encoding is a scheme which represent arbitrary data as alphanumeric
+characters. This is often used where the output of encrypted text is
 human-unreadable binary data and ASCII characters are preferred because they are
-easier to read by humans and easier to transmit via a HTTP request.
+easier to read by humans and simpler to transmit via HTTP.
 
-It is also important to note that the the output of base 64 encoding is approximately
+It is also important to note that the the output of base64 encoding is approximately
 33\% longer than the input string.
 
-Here is an example of a base 64 encoded string:\\\\
+Here is an example of a base64 encoded string:\\\\
 \textbf{Original text:}\\
-Hi, I'm a base 64 encoded string!\\
-\textbf{Base 64 encoded output:}\\
+Hi, I'm a base64 encoded string!\\
+\textbf{Base64 encoded output:}\\
 SGksIEknbSBhIGJhc2UgNjQgZW5jb2RlZCBzdHJpbmch

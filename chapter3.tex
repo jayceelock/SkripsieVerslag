@@ -118,30 +118,21 @@ The Raspberry Pi was chosen to be used as the central controller of this project
 controls the hardware connected to it via a Universal Serial Bus (USB) connection, or one of
 its General Purpose Input Output (GPIO) pins.
 
-The Pi was chosen instead of the Arduino Uno for the following reasons:
+The Pi was chosen ahead of the Arduino, mainly because of its video stream processing capabilities 
+and that libnfc can be installed on it. This allows the Pi to decode QR Codes and to communicate with 
+an NFC-enable cellphone. Furthermore, the Pi can interface with desktop peripheral hardware, such as a mouse and
+keyboard, which made development and prototyping much simpler.
 
-\begin{itemize}
-  
-  \item The Pi has more processing power (700MHz vs 16MHz).
-  \item The Pi's ability to easily interface with desktop computer peripheral hardware,
-  such as a keyboard, mouse and webcam.
-  \item The excellent support structure in place and the information on existing and ongoing
-  projects that are available on the internet.
-  \item The Pi can output its video feed to a computer screen, which makes it possible to
-  add a simple user interface (GUI) for user interaction. 
-
-\end{itemize}
-
-Stated simply, the Raspberry Pi is a compact, traditional desktop computer which makes it very
-easy to work with, and its low price makes it an excellent choice for use as the central
-controller for the vending machine.
+After development and optimisation has been completed for this project, work can begin on porting it to 
+a micro-controller, such as an Arduino. However, for the development phase of this project,
+ the Pi is much better suited platform.
 
 \section{NFC Controller}
 \label{sec:nfc-controller}
 
 The NFC controller that was selected is the PN532 NFC shield from Adafruit Industries
 [\cite{website:adafruit-nfc}]. It is based on
-the Phillips PN532 chip, which is a widely used NFC chip. The main reason it was selected ahead
+the Phillips PN532 chip, which is a widely used NFC chip. The main reason it was selected instead
 of other NFC controllers was that it has a large support base in the open-source
 community and is fully compatible with the libnfc open-source NFC library
 [\cite{website:libnfc-hardware}]. The manufacturer, Adafruit, inc., also provides
@@ -150,8 +141,8 @@ comprehensive documentation and guides on how to set up and configure the contro
  
 The main purpose of this component is to add the option of sending or receiving data
 through a NFC connection.
-This component is also capable of reading RFID cards, such as student or staff cards, as
-NFC and RFID transmit similar types of data. This adds the option of paying for the products with 
+This component is also capable of reading Radio Frequency Identification (RFID)
+cards, such as student or staff cards, since NFC and RFID transmit similar types of data. This adds the option of paying for the products with 
 any NFC-capable smart phone running Google's Android operating system, or with a SU staff or
 student card.
 
@@ -165,25 +156,26 @@ chosen and added to the system to facilitate this. It was chosen for the followi
 \begin{itemize}
   \item Its drivers are freely available for Linux systems [\cite{website:webcam-drivers}].
   \item Interfaces easily with the USB ports on the Pi.
-  \item There was one lying in the laboratory supply cupboard.
+  \item One was readily available.
 \end{itemize}
 
 There is currently a camera add-on available for the Raspberry Pi, but this is relatively
-expensive (approximately \$30 [\cite{website:raspi-camera}] versus the Pi's \$35) and at
-the time of writing, unavailable in South Africa.
+expensive (approximately \$30 [\cite{website:raspi-camera}] versus the Pi's cost of \$35 
+and the PS2 EyeToy's cost of \$10) and at the time of writing, unavailable in
+South Africa.
 
 \section{Product Dispensing}
 
 \subsection{Coils}
 
-To be able to effectively dispense bought products to the user, a traditional coil mechanism is
+To be able to effectively dispense bought products to the user, a coil mechanism is
 used. Such systems are the most familiar and simple methods of dispensing goods. See Figure
 \ref{fig:vm-coils} for an example.
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.2]{vm_coils.eps}
-\caption{Example of vending machine coil system}
+\caption{Example of a vending machine coil system.}
 \label{fig:vm-coils}
 \end{figure}
 
@@ -194,12 +186,12 @@ section \ref{sec:dc-motor} for a more detailed description).
 \subsection{DC Motors}
 \label{sec:dc-motor}
 
-The motors attached to the base of the coils are two 12V DC motors from Faulhaber
-[\cite{manual:dc-motors}]. Although these motors are rated for 12V, it is possible to run them
+The motors attached to the base of the coils are two 12 V DC motors from Faulhaber
+[\cite{manual:dc-motors}]. Although these motors are rated for 12 V, it is possible to run them
 from a lower voltage. This will cause the motor to turn slower, and therefore be easier to
 control. 
 
-The motors are switched on by a 12V relay switch controlled by the Raspberry Pi. See section
+The motors are switched on by a 12 V relay switch controlled by the Raspberry Pi. See section
 \ref{sec:relay-switch} for more detail about the switch.
 
 \subsection{Relay Switch}
@@ -209,22 +201,63 @@ A relay is a type of electronic switch, which means that it acts like a normal s
 requires a voltage across it to open or close it. With this, it is possible to control
 when the DC motors turn (after a successful transaction) and when they are standing still. 
 
-However, the relays used here are 12V. The Raspberry Pi can deliver a maximum of 5V. Therefore
-it was decided that the relay will be permanently connected to a 12V DC supply, but will be
-switched by a 2N2222 transistor, which is controlled directly from the Pi's  GPIO pins (see
-section \ref{sec:detail-switch} on page \pageref{sec:detail-switch} for a detailed
-discussion on the switch).
+However, the relays used here are 12 V, because they were readily available. The Raspberry 
+Pi can deliver a maximum voltage of 5 V. Therefore it was decided that the relay will be permanently
+ connected to a 12 V DC supply, but will be switched by a 2N2222 transistor, which is 
+controlled directly from the Pi's  GPIO pins (see Section \ref{sec:detail-switch} on page 
+\pageref{sec:detail-switch} for a detailed discussion on the switch).
 
-This allows the Pi to directly control the motors and due to the circuits construction, the Pi
+This allows the Pi to directly control the motors and due to the circuit's construction, the Pi
 is protected from the relatively high voltages and currents involved in the working of the
 motor and relay.
 
 \section{Vending Machine Unit}
 
 The vending machine unit houses all the components (i.e. the Raspberry Pi, the NFC Shield,
-webcam, switches, motors and the product coils). Its made of 1.6mm mild steel plate and was
-made by Fabrinox, Paarl. See Appendix \ref{app:vm-tekeninge} for detailed manufacturing
-drawings.
+webcam, switches, motors and the product coils). See Appendix \ref{app:vm-tekeninge} 
+for detailed manufacturing drawings.
+
+\section{Web Server}
+
+A web server in the computing cloud is used to process and authenticate the
+transactions that take place in the vending machine. Arguably, this could have
+been done by the vending machine itself. However, the use of a web server allows
+for the system to be expanded beyond a single vending machine and standardises
+the transaction across all of the vending machines connected to the server.
+
+The server is used to communicate with a cellphone over the internet via
+Hypertext Transfer Protocol (HTTP) requests and Universal Resource Locators
+(URLs).
+
+How the web server is used to process and authenticate each payment method is
+described in Section \ref{sec:transaction}.
+ 
+\section{Transaction Design}
+\label{sec:transaction}
+
+Two different transaction processes were designed to accommodate for NFC, RFID
+and QR Code payments. However, all three of the payment options have some common
+elements to them. 
+
+Firstly, each product in the vending machine is assigned a unique, 4-letter
+Hexadecimal number. This is done to fit in with the security code scheme
+described in Section \ref{sec:security-code-scheme} on Page
+\pageref{sec:security-code-scheme}. When a customer selects a product to buy,
+this unique code is used identify which product to dispense. To simplify the
+demonstration system, only two codes are used in this project.
+
+The second common element between the payment options is that all the
+transactions require authentication from the central server. At this stage, this
+excludes RFID card payments. The reason for this is explained in Section
+\ref{sec:su-card}. 
+
+\subsection{QR Code Transactions}
+
+\subsection{NFC Transactions}
+
+\subsection{SU Card Transactions}
+\label{sec:su-card}
+
 
 \section{Encryption Scheme Design}
 
@@ -241,9 +274,9 @@ payment option. These two schemes are discussed in this section.
 \subsection{Android NFC App}
 
 For the Android NFC app, it was decided to use a 1024-bit key based on the Ron
-Rivest, Adi Shamir and Leonard Adleman (RSA) encryption algorithm. 
+Rivest, Adi Shamir and Leonard Adleman (RSA) encryption algorithm. A 1024-bit key was chosen because it gives a good balance between security andencryption speed. 
 
-It was decided to base the app on RSA because it is already included in the Android
+It was decided to base the app's encryption on RSA, because it is already included in the Android
 Development Kit (ADK) and is therefore the simplest to implement and distribute
 with the app. 
 
@@ -252,12 +285,7 @@ with the app.
 For the QR Code payment option, a 384-bit key based on the ElGamal algorithm was
 chosen. 
 
-The reason for choosing such a relatively small key is to improve
-performance. The time it takes a computer to encrypt a message is directly
-proportional to the processor's clock speed. Therefore, the smaller the
-encryption key is, the less time it will take a computer to encrypt it. Thus, to
-have the Raspberry Pi encrypt data within an acceptable time frame requires a
-relatively small key. 
+The reason for choosing this key size was to produce smaller, less complex output which leads to a more readable QR Code. A smaller key size also reduces the time it takes to encrypt a data string.
 
-It was found that the ElGamal algorithm allows for key sizes of any bit
+It was found that the ElGamal algorithm in the PyCrypto module allows for key sizes of any bit
 length. Therefore the encryption used is based on the ElGamal encryption algorithm.
