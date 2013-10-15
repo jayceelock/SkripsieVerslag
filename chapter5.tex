@@ -4,6 +4,8 @@
 This chapter gives a detailed discussion on the hardware design and
 configuration of this system. 
 
+%Gee system overview giagram
+
 \section{Relay Switch Circuit}
 \label{sec:detail-switch}
 
@@ -16,92 +18,113 @@ by the Raspberry Pi to switch the motor on and off. See Figure
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{relay_switch.eps}
-\caption{12V relay transistor switch.}
+\caption{12 V relay transistor switch.}
 \label{fig:relay-switch}
 \end{figure}
+
+\begin{minipage}{\textwidth}
+
+The variables used here are defined as follows:
+\\\\
+P$_r$\dotfill Relay coil power dissipation\\
+V$_r$\dotfill Voltage across the relay\\
+$\beta$\dotfill BJT current amplification\\
+V$_p$\dotfill Voltage supply from a Raspberry Pi's GPIO pin\\
+I$_p$\dotfill Current supply from a Raspberry Pi's GPIO pin\\
+I$_b$\dotfill The BJT's base current\\
+R$_b$\dotfill The BJT's base resistor\\
+
+
+\end{minipage}
 
 The relevant  parameters for these components are [\cite{manual:relay-specs},
 \cite{maunual:transistor-datasheet}]:
 
-\[ P_{r} = 0.36W\]
-\[ V_{r} = 12V\]
-\[ \beta \approx 10\]
-\[ V_{p} = 3.3V\]
+\[ \mathrm{\ P_{r}} = 0.36\mathrm{\ W}\]
+\[ \mathrm{\ V_{r}} = 12\mathrm{\ V}\]
+\[ \mathrm{\ \beta} \approx 10\]
+\[ \mathrm{\ V_{p}} = 3.3\mathrm{\ V}\]
 
-From the relays power dissipation and voltage, its current draw is found by
+From the relay's power dissipation and voltage, its current draw is found by
 
 \[
-I_{r} = \frac{P_{r}}{V_{r}}
+\mathrm{\ I_{r}} = \frac{\mathrm{\ P_{r}}}{\mathrm{\ V_{r}}}
 \]
 
 which gives a current draw of
 
 \[
-I_{r} = 0.03A
+\mathrm{\ I_{r}} = 0.03\mathrm{\ A}
 \]
 
-Taking the BJT's current amplification as roughly 10, the current draw from the Pi to the
-base of the BJT is given by
+Taking the BJT's current amplification as roughly 10, as recommended by the
+BJT's datasheet [\cite{maunual:transistor-datasheet}], the current draw from the
+Pi to the base of the BJT is given by
 
 \[
-I_{b} = \frac{I_{r}}{\beta} = \frac{I_{c}}{\beta}
+\mathrm{\ I_{b}} = \frac{\mathrm{\ I_{r}}}{\beta} = \frac{\mathrm{\
+I_{c}}}{\beta}
 \]
 
 This gives a current draw of
 
 \[
-I_{b} = 0.003A = 3mA
+\mathrm{\ I_{b}} = 0.003\mathrm{\ A} = 3\mathrm{\ mA}
 \]
 
-The maximum current draw from the GPIO pins is 16mA [\cite{website:gpio-specs}], though this is
-not recommended as the Pi does not have any current limiting or over-current protection.
+The maximum current draw from the GPIO pins is 16 mA
+[\cite{website:gpio-specs}], though this is not recommended as the Pi does not
+have any current limiting or over-current protection.
 Therefore, a current draw of 3 mA is completely safe.
 
 To limit the current draw from the Pi, a base resistor must be added between the Pi's GPIO pin
-and the BJT's base. With a current draw of $3mA$ and a voltage of $3.3V$, the resistor size is
-found by Ohm's law as follows
+and the BJT's base. With a current draw of 3 mA and a voltage of 3.3 V, the
+resistor size is found by Ohm's law as follows
 
 \[
-R_{b} = \frac{V_{p}}{I_{p}}
+\mathrm{\ R_{b}} = \frac{\mathrm{\ V_{p}}}{\mathrm{\ I_{p}}}
 \]
 
 which gives
 
 \[
-R_{b} = 1.1k\Omega
+\mathrm{\ R_{b}} = 1.1\mathrm{\ k\Omega}
 \]
 
-Compensating for tolerances by adding 10\%, the resistor size is set to
+To prevent voltage spikes from the Pi's GPIO's from supplying to much current, a
+further 10\% was added to the resistor size. This gives a resistor size of
 
-\[R_{b} = 1.2k\Omega\]
+\[\mathrm{\ R_{b}} = 1.2\mathrm{\ k\Omega}\]
 
 which draws a current of 
 
-\[I_{b} = 2.75 mA \]
+\[\mathrm{\ I_{b}} = 2.75\mathrm{\ mA} \]
 
-which is still within the acceptable range.
+which is still enough to activate the relay's coil and turn the motor on. 
 
 \section{NFC Chip}
 
 The Near Field Communication (NFC) chip used, is the Adafruit NFC shield for an
 Arduino Uno microcontroller [\cite{website:adafruit-nfc}]. See Section
-\ref{sec:nfc-controller} on page \pageref{sec:nfc-controller} for more details on the controller.
+\ref{sec:nfc-controller} on page \pageref{sec:nfc-controller} for more details
+on the controller.
 
 The shield was designed and built to be used by an Arduino Uno microcontroller.
-Therefore, some modification to the chips connections had to be made before it
+Therefore, some modification to the chip's connections had to be made before it
 would be able to communicate with the Pi.
 
 By default, the chip was made to communicate with an Arduino with the Inter
-Integrated Circuit ($I^2C$) communication protocol. However, the component
+Integrated Circuit (i$^2$c) communication protocol. However, the component
 manufacturers have added connection pads to the chip that, when soldered, allows
 the chip to communicate via Serial Peripheral Interface (SPI) or Transistor
 Transistor Login (TTL). 
 
 The libnfc library is currently only configured to allow communication via an
-Universal Asynchronous Receiver Transmitter (UART). Therefore if the chip was
-modified to communicate via its TTL interface, which is compatible with a UART. 
+Universal Asynchronous Receiver Transmitter (UART). Therefore the chip was
+modified to communicate via its TTL interface, which is compatible with the Pi's
+UART interface.
 
-To do this, the `SEL1' pads were soldered closed (see Figure
+To do this, the `SEL1' pads are shorted (see Figure
 \ref{fig:nfc-chip-solder}). With this done, the chip can serially communicate
 with the Raspberry Pi's UART interface.
 
@@ -165,12 +188,12 @@ designed to house all the vending machine components, i.e. the two DC motors,
 the two coils, the Raspberry Pi central controller, the NFC shield and the
 webcam.
 
-Four 10mm vent holes were added at the sides to improve air circulation
-and to provide external wire access, while a larger 60mm vent hole was also
-added to allow for an external 60mm desktop computer fan to be added. 
+Four 10 mm vent holes were added at the sides to improve air circulation
+and to provide external wire access, while a larger 60 mm vent hole was also
+added to allow for an external 60 mm desktop computer fan to be added. 
 
-The unit is made from 1.6mm thick mild steel and the components were cut and
-bent by Fabrinox, Paarl and welded together by the Electric and Electronic
+The unit is made from 1.6 mm thick mild steel and the components were cut and
+bent by Fabrinox, Paarl and welded together by the Electrical and Electronic
 Engineering Department of Stellenbosch University's workshop.
 
 See Figure \ref{fig:vm-actual} for a picture of the
@@ -190,7 +213,7 @@ design drawings of the vending machine unit.
 
 As discussed in Section \ref{sec:webcam}, a Sony PS2 Eye Toy  webcam was
 attached to the Raspberry Pi. This allows the vending machine to scan a live
-video feed for a QR Code. Its already compatible with the Raspberry Pi and
+video feed for a QR Code. It is already compatible with the Raspberry Pi and
 therefore requires minimal configuration to begin working.
 
 However, the camera needs to be plugged into a Universal Serial Bus (USB) port
@@ -199,7 +222,7 @@ hardware timing issues that are introduced to the system when a USB hub is used.
 
 \section{Motor and Coil}
 
-MOET NOG GEDOEN WORD.
+Shizzzz
 
 
 

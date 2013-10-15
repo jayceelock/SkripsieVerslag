@@ -143,8 +143,8 @@ The main purpose of this component is to add the option of sending or receiving 
 through a NFC connection.
 This component is also capable of reading Radio Frequency Identification (RFID)
 cards, such as student or staff cards, since NFC and RFID transmit similar types of data. This adds the option of paying for the products with 
-any NFC-capable smart phone running Google's Android operating system, or with a SU staff or
-student card.
+any NFC-capable smart phone running Google's Android operating system, or with a
+Stellenbosch University (SU) staff or student card.
 
 \section{QR Code Camera}
 \label{sec:webcam}
@@ -220,10 +220,18 @@ for detailed manufacturing drawings.
 \section{Web Server}
 
 A web server in the computing cloud is used to process and authenticate the
-transactions that take place in the vending machine. Arguably, this could have
-been done by the vending machine itself. However, the use of a web server allows
-for the system to be expanded beyond a single vending machine and standardises
-the transaction across all of the vending machines connected to the server.
+transactions that take place in the vending machine. This is done by
+using a user database that is populated with the customer's login details that
+they supply when they sign up for the service. The database stores information
+such as the customer's username, password and his remaining balance. Part of the
+transaction process is to check if the customer has enough credits loaded onto
+his account. 
+
+Arguably, the transaction authentication could have been done by the vending
+machine itself.
+However, the use of a web server allows for the system to be expanded beyond a
+single vending machine and standardises the transaction across all of the
+vending machines connected to the server.
 
 The server is used to communicate with a cellphone over the internet via
 Hypertext Transfer Protocol (HTTP) requests and Universal Resource Locators
@@ -232,33 +240,6 @@ Hypertext Transfer Protocol (HTTP) requests and Universal Resource Locators
 How the web server is used to process and authenticate each payment method is
 described in Section \ref{sec:transaction}.
  
-\section{Transaction Design}
-\label{sec:transaction}
-
-Two different transaction processes were designed to accommodate for NFC, RFID
-and QR Code payments. However, all three of the payment options have some common
-elements to them. 
-
-Firstly, each product in the vending machine is assigned a unique, 4-letter
-Hexadecimal number. This is done to fit in with the security code scheme
-described in Section \ref{sec:security-code-scheme} on Page
-\pageref{sec:security-code-scheme}. When a customer selects a product to buy,
-this unique code is used identify which product to dispense. To simplify the
-demonstration system, only two codes are used in this project.
-
-The second common element between the payment options is that all the
-transactions require authentication from the central server. At this stage, this
-excludes RFID card payments. The reason for this is explained in Section
-\ref{sec:su-card}. 
-
-\subsection{QR Code Transactions}
-
-\subsection{NFC Transactions}
-
-\subsection{SU Card Transactions}
-\label{sec:su-card}
-
-
 \section{Encryption Scheme Design}
 
 To prevent the system from being hacked, an asymmetric encryption scheme was
@@ -267,6 +248,11 @@ implemented (see Section \ref{sec:assymetric-encryption} on page
 This is a secure method to exchange data between two sources and in the event that
 one of the vending machine's keys are cracked, the system will still remain
 secure for the other vending machines.
+
+The keys were generated using the PyCrypto Python module and they are hard-coded
+into the vending machine and the web server. This is done to keep the keys more
+secure and to avoid dynamically updating and redistributing the keys after each
+transaction.
 
 Two different schemes were implemented for the Android NFC app and the QR Code
 payment option. These two schemes are discussed in this section.
@@ -289,3 +275,95 @@ The reason for choosing this key size was to produce smaller, less complex outpu
 
 It was found that the ElGamal algorithm in the PyCrypto module allows for key sizes of any bit
 length. Therefore the encryption used is based on the ElGamal encryption algorithm.
+ 
+\section{Transaction Design}
+\label{sec:transaction}
+
+Two different transaction processes were designed to accommodate for NFC, RFID
+and QR Code payments. However, all three of the payment options have some common
+elements to them. 
+
+Firstly, each product in the vending machine is assigned a unique, 4-letter
+Hexadecimal number. This is done to fit in with the security code scheme
+described in Section \ref{sec:security-code-scheme} on Page
+\pageref{sec:security-code-scheme}. When a customer selects a product to buy,
+this unique code is used identify which product to dispense. To simplify the
+demonstration system, only two codes are used in this project.
+
+The second common element between the payment options is that all the
+transactions require authentication from the central server. At this stage, this
+excludes RFID card payments. The reason for this is explained in Section
+\ref{sec:su-card}. 
+
+\subsection{QR Code Transactions}
+
+The QR Code transaction process and the interactions between the different
+system components is described diagrammatically in Figure
+\ref{fig:vm_prog_interaction}.
+
+As seen from Figure \ref{fig:vm_prog_interaction}, the transaction begins with
+the customer selecting a product to buy from the vending machine Graphical User
+Interface (GUI). The vending machine then generates a QR Code which the customer
+then scans. The QR Code contains a URL that contains a link to the web
+server and the encrypted product data. This redirects the customer to the web
+server and allows for the server to process the transaction.
+
+After the transaction has been processed and approved, the web server displays a
+QR Code on the screen of the customer's cellphone. The customer then displays
+this QR Code to the vending machine's camera. After the code has been
+scanned, the vending machine activates the correct motor which dispenses the
+customer's desired product.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 50 400 0 140, scale=0.7]{qrcode_processflow_user}
+ \caption{The vending machine transaction process.}
+ \label{fig:vm_prog_interaction}
+\end{figure}
+
+\subsection{NFC Transactions}
+
+%Sit figuur in soos die QR Code een
+
+The NFC transaction process is given in Figure \ref{}.
+
+As seen from Figure \ref{}, the transaction process starts with the customer
+selecting a product from the NFC cellphone application. The app then contacts
+the server using a URL containing the encrypted transaction data. 
+
+Using this data, the server processes the transaction. If the transaction is
+authenticated, the server returns an encrypted approval code to the cellphone
+app. The customer then swipes his phone across the vending machine's NFC
+receiver and the app transmits the authentication code to the vending machine
+via the NFC protocol. 
+
+The vending machine then activates the correct motor and dispenses the
+customer's desired product.
+
+\subsection{SU Card Transactions}
+\label{sec:su-card}
+
+%Sit figuur in soos die QR Code een
+
+The SU card payment option was added to the vending machine as a proof of
+concept. At present, it can identify any RFID card that has been hard-coded
+into the vending machine and the correct motor is activated. However, no
+communication with the web server takes place. This means that there is no user
+authentication besides the hard-coded RFID card numbers and there is no user
+account to credit with the product cost.
+
+The reason for not adding the SU card numbers to the server's database is that
+the SU access control office already has a comprehensive, up-to-date database. It
+would be more feasible to integrate their database into the existing system and
+credit the customer's student or staff account during the process. 
+
+Figure \ref{} shows the transaction process for SU cards as it is used in
+system's the current format. 
+
+As seen from Figure \ref{}, the transaction process begin when the customer
+selects a product from the GUI. The customer then taps his SU card against the
+vending machine's NFC receiver. The vending machine then reads the card's number
+and checks if it is coded into the vending machine. 
+
+If the vending machine finds the card number, it activates the correct motor and
+the customer receives his product.
