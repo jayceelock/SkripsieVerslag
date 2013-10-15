@@ -34,7 +34,6 @@ I$_p$\dotfill Current supply from a Raspberry Pi's GPIO pin\\
 I$_b$\dotfill The BJT's base current\\
 R$_b$\dotfill The BJT's base resistor\\
 
-
 \end{minipage}
 
 The relevant  parameters for these components are [\cite{manual:relay-specs},
@@ -222,8 +221,71 @@ hardware timing issues that are introduced to the system when a USB hub is used.
 
 \section{Motor and Coil}
 
-Shizzzz
+The vending machine dispenses products by activating a motor that turns a coil
+loaded with a product. This turning motion causes a product to move along the
+coil in an Archimedean screw-like manner until it falls off at the end of the
+coil. 
 
+In the demonstration vending machine, two coils are used. The coils are made
+from 2.5 mm thick galvanised iron wire. The coil diameter is 50 mm and has a
+longitudinal pitch of 20 mm. 
 
+It is important for the motor to only be activated for one turn of the coil to
+ensure that only one product is dispensed per completed transaction. The motors
+that are used are 12 V DC motors made by Faulhaber [\cite{manual:dc-motors}]
+coupled with a 14:1 speed gearbox [\cite{manual:gearbox}].
 
+This is currently being done by only activating a motor for a set amount of
+time.To determine this time, it was first required that the speed of the motor
+be determined for a given supply voltage. 
 
+\begin{minipage}{\textwidth}
+The variables used in the following equations are defined as follows:\\
+
+V$_o$\dotfill Motor supply voltage\\
+I\dotfill Current supply to motor\\
+R\dotfill DC Motor terminal resistance\\
+V$_e$\dotfill Reverse Electromotive Force (EMF) voltage\\
+$\omega$\dotfill Motor speed\\
+k$_e$\dotfill Back-EMF constant\\
+\end{minipage}
+
+The following equation gives the relationship between a DC motor's supply
+voltage and its reverse Electromotive Force (EMF).
+
+\[ \mathrm{V}_o = \mathrm{IR} + \mathrm{V}_e\]
+
+The reverse EMF is proportional to the rotational speed of the motor. Therefore,
+the V$_e$ term can be taken as
+
+\[ \mathrm{V}_e = \omega\mathrm{k}_e\]
+
+which gives the following equation
+
+\begin{equation}
+ \label{eq:motor}
+ \mathrm{V}_o = \mathrm{IR} + \omega\mathrm{k}_e
+\end{equation}
+
+The IR term is taken as constant as the loading on the motor stays the same.
+From the motor's datasheets and usage tests, the I, R and k$_e$ terms were
+determined to have the following values:
+
+\[\mathrm{I} = 0.35\mathrm{\ A}\]
+\[\mathrm{R} = 0.41\mathrm{\ \Omega}\]
+\[ \mathrm{k}_e = 2 \mathrm{\ mV/rpm}\]
+
+Using these values and setting the input voltage as 5 V in equation \ref{eq:motor},
+the motor's speed was determined to be 173 RPM. Therefore, to complete a single
+revolution, the motor may only be activated for 0.35 seconds. 
+
+This is not the most effective method, however, because the errors in the system
+accumulate over time. In time, these errors may lead incorrect product
+dispensing. 
+
+To improve this, a proximity sensor may be added onto the coil. This sensor can
+be connected to and be controlled by the Raspberry Pi and would be activated
+every time the coil completes one revolution. When the sensor is triggered, the
+Pi will then know that exactly one revolution has been completed and stop the
+motor. This will stop any errors from accumulating over time and make the
+vending machine more reliable. 
