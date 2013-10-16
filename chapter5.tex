@@ -17,7 +17,7 @@ by the Raspberry Pi to switch the motor on and off. See Figure
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{relay_switch.eps}
+\includegraphics[clip = true, trim = 0 640 0 70, scale=1]{relay_switch}
 \caption{12 V relay transistor switch.}
 \label{fig:relay-switch}
 \end{figure}
@@ -129,7 +129,7 @@ with the Raspberry Pi's UART interface.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 250 0 270,
+ \includegraphics[clip=true, trim = 0 250 0 290,
  scale=0.7]{soldeer_pic}
  \caption{The location of the SEL1 pads (highlighted in green).}
  \label{fig:nfc-chip-solder}
@@ -161,7 +161,7 @@ some of its configuration files. To do this, the Adafruit tutorial was followed
 [\cite{website:adafruit-tutorial}].
 
 To do this, the file `/boot/cmdline.txt' and `/etc/inittab' had to be edited to
-contain the following lines of code:\\\\
+contain the following lines of code:
 
 \textbf{cmdline.txt}
 \begin{verbatim}
@@ -202,7 +202,7 @@ design drawings of the vending machine unit.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 80 150 150 200,
+ \includegraphics[clip=true, trim = 80 180 150 200,
  scale=0.7]{complete_vm}
  \caption{The complete vending machine unit.}
  \label{fig:vm-actual}
@@ -239,16 +239,15 @@ This is currently being done by only activating a motor for a set amount of
 time.To determine this time, it was first required that the speed of the motor
 be determined for a given supply voltage. 
 
-\begin{minipage}{\textwidth}
-The variables used in the following equations are defined as follows:\\
-
+%\begin{minipage}{\textwidth}
+The variables used in the following equations are defined as follows:\\\\
 V$_o$\dotfill Motor supply voltage\\
 I\dotfill Current supply to motor\\
 R\dotfill DC Motor terminal resistance\\
 V$_e$\dotfill Reverse Electromotive Force (EMF) voltage\\
 $\omega$\dotfill Motor speed\\
 k$_e$\dotfill Back-EMF constant\\
-\end{minipage}
+%\end{minipage}
 
 The following equation gives the relationship between a DC motor's supply
 voltage and its reverse Electromotive Force (EMF).

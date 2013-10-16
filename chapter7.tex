@@ -30,10 +30,12 @@ However, the NFC option is currently limited to cellphones that have NFC antenna
 based on the Android Operating System.
 
 It was found that the QR Code payment option typically has a slower transaction time. This
-is mainly due to some bottlenecks that the system currently has. These bottlenecks include
-the Raspberry Pi's moderate processing power, which increases the encryption time and the
-time it takes the Pi to process and decode a live video stream from the webcam. Extra
-work can go into optimising the system to make it run faster.
+is mainly due to some hardware bottlenecks of the Pi. These bottlenecks include the
+Raspberry Pi's moderate processing power, which increases the encryption time and the
+time it takes the Pi to process and decode a live video stream from the webcam. These
+bottlenecks may be improved with hardware modifications and processor overclocking. Extra
+work can also go into optimising the code to make it run more efficiently. This can be
+done by converting the code into compiled machine code.
 
 Furthermore, a server has been made that runs in the cloud. This server interacts with a
 customer's cellphone through the Android NFC application that was made or the cellphone's
@@ -59,12 +61,12 @@ The vending machine currently uses faux money which has no real-world value. The
 the system in its current state is not ready to be deployed across Stellenbosch
 University's campus. 
 
-To commercialise the system will require that customers be able to load money
-from their bank accounts, credit cards or student accounts onto their vending machine user
-accounts. 
+To commercialise the vending machine, third-party payment providers, such
+as PayPal or PayPoint, can be integrated into the system. This will allow customers to
+buy credits to use on the vending machine system by using their credit cards. 
 
-This will not be a simple task as this will require integration with the financial
-institutions of South Africa. 
+All the transactions take place electronically and will therefore be integratable with the
+current system. 
 
 \subsection{Polish}
 
@@ -78,17 +80,9 @@ One important aspect that must be focused on to increase the odds of making this
 more commercially successful, is its integration with current vending machines, i.e. add a
 cashless option to current vending machines that are restricted to cash.
 
-This integration may become complicated, as each vending machine manufacturer uses
-different components, such as different size motors and control units. 
-
 \subsection{More Payment Options}
 
 Some work can go into expanding the number of payment options available to the user.
 
-This is a feasible option, seeing as the Raspberry Pi has 28 General Purpose Input Output
-Pins, of which only 4 are currently being used. These 24 other pins can be used to control
-other payment options.
-
-Some options that may be considered are Bluetooth, Short Message System (SMS), Instant
-Messaging (such as WhatsApp and BlackBerry Messenger) and Unstructured Supplementary
-Service Data (USSD).
+Some options that may be considered are Bluetooth, Instant Messaging (such as WhatsApp and
+BlackBerry Messenger) and Unstructured Supplementary Service Data (USSD).

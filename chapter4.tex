@@ -41,7 +41,7 @@ harder for a hacker to see that they have successfully broken through the
 security. For example, if the hackers manage to break through the security,
 they will see a string like this one, A2FB32E1CFF7.
 
-If the product code were alphanumeric, for example `coke_350ml', the hackers
+If the product code were alphanumeric, for example `coke\_350ml', the hackers
 will immediately see that they have broken through.
 
 This scheme does not make the code uncrackable, but it does make brute-force
@@ -98,7 +98,7 @@ another are given in Figure \ref{fig:website-apps}.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 130 130 30,
+ \includegraphics[clip=true, trim = 0 280 0 70,
  scale=0.7]{website_structure}
  \caption{The web server application structure.}
  \label{fig:website-apps}
@@ -112,9 +112,9 @@ this application.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 250 0 50,
+ \includegraphics[clip=true, trim = 0 250 0 120,
  scale=0.7]{qrcode_processflow_server_bak}
- \caption{The display\_qrcode application process flow.}
+ \caption{The display\_qrcode application process flow.} 
  \label{fig:disp-qrcode}
 \end{figure}
 
@@ -168,7 +168,7 @@ This application forms the core of the NFC payment handling part of the server. 
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 200 100 80,
+ \includegraphics[clip=true, trim = 0 220 50 120,
  scale=0.7]{nfc_processflow_bak}
  \caption{The NFC application process flow.}
  \label{fig:nfc-process}
@@ -285,7 +285,7 @@ program structure can be seen in Figure \ref{fig:vm_prog_strcture}.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 100 320 0 50,
+ \includegraphics[clip=true, trim = 100 350 0 50,
  scale=0.7]{vending_machine_program_structure}
  \caption{The vending machine's program structure.}
  \label{fig:vm_prog_strcture}
@@ -327,10 +327,9 @@ diagram.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim
- = 0 550 0 70, scale=0.7]{generate_product_code_processflow}
- \caption{The GUI process flow}
- \label{fig:gen-prod-code-processflow.}
+ \includegraphics[clip=true, trim = 0 550 50 100, scale=0.7]{gui_processflow}
+ \caption{The GUI process flow.}
+ \label{fig:gen-prod-code-processflow}
 \end{figure}
 
 \subsection{Generating a QR Code}
@@ -354,8 +353,7 @@ flow diagram.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim
- = 0 460 0 100, scale=0.75]{read_qrcode_processflow}
+ \includegraphics[clip=true, trim = 0 390 50 70, scale=0.75]{read_qrcode_processflow}
  \caption{The generate\_qrcode script process flow.}
  \label{fig:read-qrcode-processflow}
 \end{figure}
@@ -419,7 +417,7 @@ diagram of the application.
 
 \begin{figure}
  \centering 
- \includegraphics[clip = true, trim = 0 360 0 20,
+ \includegraphics[clip = true, trim = 40 400 0 20,
  scale=0.7]{app_structure}
  \caption{The Android NFC application structure.}
  \label{fig:nfc_app_structure}
@@ -434,13 +432,13 @@ screen.
 
 \begin{figure}
  \centering 
- \includegraphics[clip = true, trim = 0 550 0 0,
- scale=0.75]{app_main_processflow}
- \caption{The Android NFC application structure.}
+ \includegraphics[clip = true, trim = 0 480 0 130,
+ scale=0.75]{welcome_screen_processflow}
+ \caption{The Android NFC application welcome screen.}
  \label{fig:app-welcomescreen}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
  \centering 
  \includegraphics[clip = true, trim = 0 320 0 60, scale=0.2]{welcome_screen}
  \caption{A screenshot of the application's welcome screen.}
@@ -475,7 +473,7 @@ activity.
 
 \begin{figure}
  \centering 
- \includegraphics[clip = true, trim = 0 650 0 0,
+ \includegraphics[clip = true, trim = 0 680 0 20,
  scale=0.7]{change_settings_processflow}
  \caption{The process flow of the Change Settings activity.}
  \label{fig:change-user-settings}
@@ -503,7 +501,7 @@ and Figure \ref{fig:main-activity-screenshot} for a screenshot of this activity.
 
 \begin{figure}
  \centering 
- \includegraphics[clip = true, trim = 0 570 0 20,
+ \includegraphics[clip = true, trim = 0 420 0 76,
  scale=0.7]{app_main_processflow}
  \caption{The process flow of the Main activity.}
  \label{fig:main-activity}
@@ -511,9 +509,9 @@ and Figure \ref{fig:main-activity-screenshot} for a screenshot of this activity.
 
 \begin{figure}
  \centering 
- \includegraphics[clip = true, trim = 0 520 0 60,
+ \includegraphics[clip = true, trim = 0 750 0 60,
  scale=0.2]{main_menu}
- \caption{A screenshot of the application's main activity activity.}
+ \caption{A screenshot of the application's main activity.}
  \label{fig:main-activity-screenshot}
 \end{figure}
 

@@ -22,22 +22,210 @@ present for all three the tests, so it does not unfairly skew the results.
 
 \subsection{Quick Response Code Test}
 
+\subsubsection{Processor Usage}
+
+Figure \ref{fig:qrcode_test_cpu} shows the total processor usage during the complete
+Quick Response (QR) Code transaction, as described in Section \ref{sec:transaction} on
+page \pageref{sec:transaction}.
+
+It can be observed that there are significant spikes near the maximum capacity when the Pi
+starts generating a QR Code and when the return QR Code is scanned. This was expected, as
+image and video processing is taxing on hardware and the Pi has no dedicated graphics
+processor. The data encryption also adds to the processing load. A possible solution is to
+overclock the processor, but it is already overclocked to 900 MHz and pushing the
+processor harder may damage the Pi and void its warranty.
+
+It can also be observed that there is a significant time lag between QR Code generation
+and the QR Code scanning stages. This is when the user is awaiting authentication from the
+server. The only way that this lag can be improved is to move the server location from the
+USA to South Africa. It is not expected that doing so will make a significant
+difference, however.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 70 260 0 70,
+ scale=0.7]{qrcode_test_cpu}
+ \caption{QR Code processor usage test results.}
+ \label{fig:qrcode_test_cpu}
+\end{figure}
+
+\subsubsection{Disk Write Activity}
+
+Figure \ref{fig:qrcode_test_disk} shows the disk writing activity during the QR Code
+transaction. It shows several spikes during the transaction. This can possibly be
+attributed towards swap file activity by the Pi's operating system and the image encoding
+and decoding processes.
+
+Optimising the code may improve this.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 530 0 70,
+ scale=0.7]{qrcode_test_disk}
+ \caption{QR Code disk write test results.}
+ \label{fig:qrcode_test_disk}
+\end{figure}
+
+\subsubsection{Memory Usage}
+
+Figure \ref{fig:qrcode_test_mem} shows the memory usage during the QR Code transaction
+process. It shows a relatively flat graph in the beginning, but goes up toward the end. 
+
+It also shows that the memory used does not return to its start value. This may give rise
+to memory leaks during prolonged use. 
+
+The memory performance is discussed in more detail in Section \ref{sec:memory_leak}.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 520 0 70,
+ scale=0.7]{qrcode_test_mem}
+ \caption{QR Code memory usage test results.}
+ \label{fig:qrcode_test_mem}
+\end{figure}
+
 \subsection{Near Field Communication Test}
 
+\subsubsection{Processor Usage}
+
+Figure \ref{fig:nfc_test_cpu} shows the processor activity during the complete Near
+Field Communication (NFC) transaction process. It shows an average load of approximately
+50\% during the NFC scanning process.
+
+It can also be observed that the transaction takes under a third of the time it takes for
+the QR Code option. 
+
+This is a significant improvement over the QR Code payment option, but code optimisation
+and improvements to the Android application may improve this further. 
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 500 0 70,
+ scale=0.7]{nfc_test_cpu}
+ \caption{NFC processor usage test results.}
+ \label{fig:nfc_test_cpu}
+\end{figure}
+
+\subsubsection{Disk Write Activity}
+
+Figure \ref{fig:nfc_test_disk} shows the disk activity during the NFC transaction process.
+It shows far less spikes during the transaction than the QR Code option. 
+
+These spikes may again be attributed toward swap file activity from the Pi's operating
+system. They are far fewer that the QR Code option, because the NFC payment processing is
+less taxing on the processor and uses less memory, as discussed in Section
+\ref{sec:nfc_mem}.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 530 0 70,
+ scale=0.7]{nfc_test_disk}
+ \caption{NFC disk write test results.}
+ \label{fig:nfc_test_disk}
+\end{figure}
+
+\subsubsection{Memory Usage}
+\label{sec:nfc_mem}
+
+Figure \ref{fig:nfc_test_mem} shows the memory usage during the NFC payment process. It
+shows a relatively flat line, which indicates that the NFC transaction process does is not
+memory-intensive. 
+
+This is again a significant improvement over the QR Code option. 
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 510 0 70,
+ scale=0.7]{nfc_test_mem}
+ \caption{NFC memory usage test results.}
+ \label{fig:nfc_test_mem}
+\end{figure}
+
 \subsection{Stellenbosch University Card Test}
+
+\subsubsection{Processor Usage}
+
+Figure \ref{fig:su_test_cpu} shows the processor usage during the Stellenbosch University
+(SU) card transaction process. 
+
+It shows only one spike at 35\% while it is scanning for a card. This is far less that the
+QR Code option and a slight improvement over the NFC option. 
+
+This increase in performance may be due to the fact that NfcPy (the module used during the
+NFC transaction process) is built on top op libnfc and incorporates additional
+communication protocols.
+
+The SU transaction process makes use of only libnfc and will therefore most likely be less
+processor intensive.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 530 0 70,
+ scale=0.7]{su_test_cpu}
+ \caption{SU Card processor usage test results.}
+ \label{fig:su_test_cpu}
+\end{figure}
+
+\subsubsection{Disk Write Activity}
+
+Figure \ref{fig:su_test_disk} shows the disk writing activity of the SU transaction
+process. 
+
+It looks similar to the NFC transaction disk activity from Figure \ref{fig:nfc_test_disk}.
+This may be because they work in a similar manner and both use libnfc to scan for NFC
+devices.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 550 80 70,
+ scale=0.7]{su_test_disk}
+ \caption{SU Card disk write test results.}
+ \label{fig:su_test_disk}
+\end{figure}
+
+\subsubsection{Memory Usage}
+
+Figure \ref{fig:su_test_mem} shows the memory usage during the SU card transaction
+process. 
+
+With the exception of the start-up spike, the graph shows a very flat line. This indicates
+that the memory usage is very stable and is also relatively low. 
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 540 80 70,
+ scale=0.7]{su_test_mem}
+ \caption{SU Card memory usage test results.}
+ \label{fig:su_test_mem}
+\end{figure}
+
+\subsection{Conclusions}
+
+The resource usage of the QR Code, NFC and SU card transaction processes were analysed. It
+was found that the QR Code option is the most memory and process intensive and causes
+significant disk activity to take place. 
+
+The NFC and SU card transactions cause similar system loads with regards to memory usage
+and disk activity, possibly due to their common code. However, the SU card transaction
+process demands approximately 15\% less processing power than the NFC option. 
+
+All three transaction processes can be improved and streamlined, while some hardware
+modifications may also decrease the system load. 
 
 \section{User Tests}
 
 The functionality of the system is tested by exposing it to different user scenarios and
 seeing what the outcome is. These tests are performed and discussed in this section.
 
-\subsection{Test 1}
+\subsection{User Test 1}
 
 In this user story, the customer decides to pay with a Quick Response Code (QR Code).
 He does not yet have a user account on the database and has no credits loaded.
 Figure \ref{fig:test1} shows the user story. 
 
-The process is as follows: The user first selects which product to buy from the Raspberry
+\subsubsection{Scenario Walkthrough}
+
+The user first selects which product to buy from the Raspberry
 Pi's User Interface (GUI). The Pi then generates a Quick Response Code (QR Code) that the
 user scans with any barcode scanning application. The Universal Resource Locator (URL)
 embedded in the QR Code then takes the customer to a web page located on the server. 
@@ -55,18 +243,33 @@ The customer then presses the continue button on the GUI, which starts scanning 
 cam feed for the customer's QR Code. After this is done, the Pi activates the correct
 motor and dispenses the product.
 
+\subsubsection{Results}
+
+In this scenario, a customer successfully loaded credits onto his account and bought a
+product with the new credits. There are many steps involved in the process, however, and
+this leads to a relatively long transaction process. 
+
+It was also found that the server is sometimes unable to correctly decrypt the code it
+receives from the customer's cellphone. It is still unclear why this happens, but it is
+possible that the barcode scanning application on the cellphone incorrectly decodes the
+vending machine's QR Code. 
+
+This issue will have to be fixed before the system is commercialised.
+
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 470 0 50,
+ \includegraphics[clip=true, trim = 0 410 0 60,
  scale=0.7]{user_story_1}
  \caption{The first user scenario.}
  \label{fig:test1}
 \end{figure}
 
-\subsection{Test 2}
+\subsection{User Test 2}
 
 In this scenario, a customer tries to use a QR Code from a previous transaction. Figure
 \ref{fig:test2} shows the user story.
+
+\subsubsection{Scenario Walkthrough}
 
 To begin, the customer selects a product to buy, after which the Raspberry Pi displays a
 QR Code. However, instead of scanning the QR Code and paying for a new product, the
@@ -78,19 +281,26 @@ this, but the old QR Code does not contain a valid response to the Raspberry Pi'
 challenge. Therefore, the transaction is valid and the customer is informed of his
 invalid QR Code.
 
+\subsubsection{Results}
+
+The results from this scenario shows that the challenge-response system works as it was
+designed to: it does not allow an old QR Code to be used again without it being paid for. 
+
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 620 0 50,
+ \includegraphics[clip=true, trim = 0 550 0 70,
  scale=0.7]{user_story_2}
  \caption{The second user scenario.}
  \label{fig:test2}
 \end{figure}
 
-\subsection{Test 3}
+\subsection{User Test 3}
 
 In this scenario, the user opts to buy a product using the Android Near Field
 Communication (NFC) application. However, a new user profile must first be created. The user story
 can be seen in Figure \ref{fig:test3}.
+
+\subsubsection{Scenario Walkthrough}
 
 After the user opens the application, he is presented with a login screen. The
 user enters his login credentials and checks the box that confirms that he is a
@@ -107,9 +317,19 @@ cellphone's NFC antenna.
 The user then swipes his phone across the vending machines NFC receiver. The
 vending machine then activates the motor and the user receives his product. 
 
+\subsubsection{Results}
+
+In this scenario, a customer has successfully used the Android NFC payment application to
+create a new user profile and buy a product from the vending machine. 
+
+The process is more streamlined than the QR Code option and consists of fewer steps. This
+makes the NFC transaction process take place in a shorter period of time. After the
+customer has opened the application once, he will not have to enter his login details
+again. This will make the process slightly quicker in the future.  
+
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 500 0 50,
+ \includegraphics[clip=true, trim = 0 450 0 70,
  scale=0.7]{user_story_3}
  \caption{The third user scenario.}
  \label{fig:test3}

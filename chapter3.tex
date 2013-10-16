@@ -316,19 +316,24 @@ customer's desired product.
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 50 400 0 140, scale=0.7]{qrcode_processflow_user}
- \caption{The vending machine transaction process.}
+ \includegraphics[clip=true, trim = 0 400 0 140, scale=0.7]{qrcode_processflow_user}
+ \caption{The vending machine QR Code transaction process.}
  \label{fig:vm_prog_interaction}
 \end{figure}
 
 \subsection{NFC Transactions}
 
-%Sit figuur in soos die QR Code een
+The NFC transaction process is given in Figure \ref{fig:vm_nfc_interaction}.
 
-The NFC transaction process is given in Figure \ref{}.
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 540 0 70, scale=0.7]{nfc_transaction_processflow}
+ \caption{The vending machine NFC transaction process.}
+ \label{fig:vm_nfc_interaction}
+\end{figure}
 
-As seen from Figure \ref{}, the transaction process starts with the customer
-selecting a product from the NFC cellphone application. The application then contacts
+As seen from Figure \ref{fig:vm_nfc_interaction}, the transaction process starts with the
+customer selecting a product from the NFC cellphone application. The application then contacts
 the server using a URL containing the encrypted transaction data. 
 
 Using this data, the server processes the transaction. If the transaction is
@@ -343,8 +348,6 @@ customer's desired product.
 \subsection{SU Card Transactions}
 \label{sec:su-card}
 
-%Sit figuur in soos die QR Code een
-
 The SU card payment option was added to the vending machine as a proof of
 concept. At present, it can identify any RFID card that has been hard-coded
 into the vending machine and the correct motor is activated. However, no
@@ -357,11 +360,19 @@ the SU access control office already has a comprehensive, up-to-date database. I
 would be more feasible to integrate their database into the existing system and
 credit the customer's student or staff account during the process. 
 
-Figure \ref{} shows the transaction process for SU cards as it is used in
-system's the current format. 
+Figure \ref{fig:vm_su_interaction} shows the transaction process for SU cards as it is
+used in system's the current format. 
 
-As seen from Figure \ref{}, the transaction process begin when the customer
-selects a product from the GUI. The customer then taps his SU card against the
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 650 0 0,
+ scale=0.7]{su_card_transaction_processflow}
+ \caption{The vending machine SU Card transaction process.}
+ \label{fig:vm_su_interaction}
+\end{figure}
+
+As seen from Figure \ref{fig:vm_su_interaction}, the transaction process begin when the
+customer selects a product from the GUI. The customer then taps his SU card against the
 vending machine's NFC receiver. The vending machine then reads the card's number
 and checks if it is coded into the vending machine. 
 
