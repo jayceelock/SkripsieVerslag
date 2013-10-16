@@ -11,10 +11,12 @@ uses and how it interacts with the rest of the system.
 These four sections are:
 
 \begin{enumerate}
+ 
   \item The security scheme used.
   \item The web server that was created.
   \item The vending machine's control program.
   \item The Android application that was created.
+  
 \end{enumerate}
 
 \section{Security Scheme}
@@ -35,11 +37,11 @@ The product code transmitted to the server is embedded inside a
 random 16-character hexadecimal string. The product code is embedded inside this
 16-character string and is a 4 characters long. The product code is saved on the
 database and can therefore not be random. 
-
-A hexadecimal string was chosen to make it
-harder for a hacker to see that they have successfully broken through the
-security. For example, if the hackers manage to break through the security,
-they will see a string like this one, A2FB32E1CFF7.
+%Hoekom is hex gekies? In woorde
+A hexadecimal string was chosen because it is a common data representation
+format and it will make it harder for a hacker to see that they have
+successfully broken through the security. For example, if the hackers manage to
+break through the security, they will see a string like this one, A2FB32E1CFF7.
 
 If the product code were alphanumeric, for example `coke\_350ml', the hackers
 will immediately see that they have broken through.
@@ -50,24 +52,22 @@ attacks harder to execute properly.
 \subsection{Challenge and Response Code}
 \label{sec:challenge-response}
 
-The second layer of security added is a challenge-response system. Such a system
-works by having party A generate a challenge (this can be a string or a number).
-Party B then takes this challenge and puts it through a previously agreed-upon
-process, e.g. makes the letters capital or adds the numbers together. This
-is the response. Party B then sends the back the response to party A, which then
-checks to see if its a valid response to party A's original challenge.
+To prevent customers from using a QR Code for a second time to receive a
+product, a second layer of security was added. This layer is a
+challenge-response scheme. Such a scheme works by having party A generate a
+challenge (this can be a string or a number). Party B then takes this challenge
+and puts it through a previously agreed-upon process, e.g. puts the string
+though a one-time hash or adds the numbers together. This is the response.
+Party B then sends the back the response to party A, which then checks to see
+if its a valid response to party A's original challenge.
 
 In the case of the vending machine, a 16 character hex string is being
-generated. It was decided to use 4 characters of this random string as the
-vending machine's challenge. After receiving this challenge, the server then
-takes out the agreed-upon 4 characters and adds it to the server's response
-code. When the vending machine scans the customer's response QR Code, the
-vending machine checks to see if the 4 character response was part of its
-original code the vending machine generated.
-
-This system is used to prevent customers from only buying one product and using
-the same code again to get another product for free. Thus, the
-challenge-response code system makes each code only valid for one transaction.
+generated. It was decided to use 4 characters, excluding the 4-character product
+code of this random string as the vending machine's challenge. After receiving
+this challenge, the server then takes out the agreed-upon 4 characters and
+embeds it inside the server's response code. When the vending machine
+scans the customer's response QR Code, the vending machine checks to see if the
+4 character response was part of its original code the vending machine generated.
 
 \section{Web Server Program Design}
 
@@ -302,7 +302,7 @@ GUI.
 
 \begin{figure}
  \centering 
- \includegraphics[scale=0.4]{gui_screenshot}
+ \includegraphics[clip = true, trim = 190 350 0 350, scale=2]{gui_screenshot}
  \caption{A screenshot of the user interface.}
  \label{fig:gui-screenshot}
 \end{figure}

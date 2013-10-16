@@ -2,9 +2,11 @@
 \label{chap:5}
 
 This chapter gives a detailed discussion on the hardware design and
-configuration of this system. 
+configuration of this system. This includes the relay switching circuit, the
+motor and coil design and the NFC chip configuration.
 
-%Gee system overview giagram
+See Appendix \ref{add:d} for a schematic layout of the hardware and their
+connections.
 
 \section{Relay Switch Circuit}
 \label{sec:detail-switch}
@@ -119,7 +121,7 @@ the chip to communicate via Serial Peripheral Interface (SPI) or Transistor
 Transistor Login (TTL). 
 
 The libnfc library is currently only configured to allow communication via an
-Universal Asynchronous Receiver Transmitter (UART). Therefore the chip was
+Universal Asynchronous Receiver Transmitter (UART). Therefore, the chip was
 modified to communicate via its TTL interface, which is compatible with the Pi's
 UART interface.
 
@@ -160,7 +162,7 @@ with the NFC controller via its UART0 interface, it was necessary to modify
 some of its configuration files. To do this, the Adafruit tutorial was followed
 [\cite{website:adafruit-tutorial}].
 
-To do this, the file `/boot/cmdline.txt' and `/etc/inittab' had to be edited to
+The file `/boot/cmdline.txt' and `/etc/inittab' had to be edited to
 contain the following lines of code:
 
 \textbf{cmdline.txt}
@@ -174,11 +176,10 @@ dwc_otg.lpm_enable=0 console=tty1
 #T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100
 \end{verbatim}
 
-After this has been done, the libnfc package could be configured and installed
-and configured to work with the Pi's UART interface.
+After this has been done, the libnfc package could be configured and installed 
+to work with the Pi's UART interface.
 
-Thereafter, the Pi is ready to receive NFC messages from the
-NFC shield.
+Thereafter, the Pi was ready to receive NFC messages from the NFC shield.
 
 \section{Vending Machine Unit}
 
@@ -189,16 +190,16 @@ webcam.
 
 Four 10 mm vent holes were added at the sides to improve air circulation
 and to provide external wire access, while a larger 60 mm vent hole was also
-added to allow for an external 60 mm desktop computer fan to be added. 
+added to allow for an external 60 mm desktop computer fan to be added at a
+later stage.
 
 The unit is made from 1.6 mm thick mild steel and the components were cut and
 bent by Fabrinox, Paarl and welded together by the Electrical and Electronic
 Engineering Department of Stellenbosch University's workshop.
 
-See Figure \ref{fig:vm-actual} for a picture of the
-complete vending machine unit with the two DC motor
-inserted. See Appendix \ref{app:vm-tekeninge} for detailed
-design drawings of the vending machine unit.
+See Figure \ref{fig:vm-actual} for a picture of the complete vending machine
+unit with the two DC motor inserted. See Appendix \ref{app:vm-tekeninge} for
+detailed design drawings of the vending machine unit.
 
 \begin{figure}
  \centering 
@@ -215,9 +216,14 @@ attached to the Raspberry Pi. This allows the vending machine to scan a live
 video feed for a QR Code. It is already compatible with the Raspberry Pi and
 therefore requires minimal configuration to begin working.
 
-However, the camera needs to be plugged into a Universal Serial Bus (USB) port
-on the Pi itself and not into a USB hub. This is done in order to prevent the
-hardware timing issues that are introduced to the system when a USB hub is used. 
+It is important to note that a Raspbian version from early 2013 was used on the
+Raspberry Pi. It was found that the latest Raspbian distributions have an
+unknown bug in its Video4Linux (v4l) video drivers which causes the EyeToy to
+work incorrectly. 
+
+Furthermore, the camera needs to be plugged into a Universal Serial Bus (USB)
+port on the Pi itself and not into an external USB hub. This is done in order to
+prevent hardware timing issues that are introduced to the system when a USB hub is used.
 
 \section{Motor and Coil}
 
@@ -231,13 +237,14 @@ from 2.5 mm thick galvanised iron wire. The coil diameter is 50 mm and has a
 longitudinal pitch of 20 mm. 
 
 It is important for the motor to only be activated for one turn of the coil to
-ensure that only one product is dispensed per completed transaction. The motors
-that are used are 12 V DC motors made by Faulhaber [\cite{manual:dc-motors}]
-coupled with a 14:1 speed gearbox [\cite{manual:gearbox}].
+ensure that only one product is dispensed per completed transaction. This is
+currently being done by only activating a motor for a set amount of time.To
+determine this time, it was first required that the speed of the motor be
+determined for a given supply voltage.
 
-This is currently being done by only activating a motor for a set amount of
-time.To determine this time, it was first required that the speed of the motor
-be determined for a given supply voltage. 
+The motors that are used are 12 V DC motors made by Faulhaber
+[\cite{manual:dc-motors}] coupled with a 14:1 speed gearbox
+[\cite{manual:gearbox}].
 
 %\begin{minipage}{\textwidth}
 The variables used in the following equations are defined as follows:\\\\
@@ -274,17 +281,17 @@ determined to have the following values:
 \[\mathrm{R} = 0.41\mathrm{\ \Omega}\]
 \[ \mathrm{k}_e = 2 \mathrm{\ mV/rpm}\]
 
-Using these values and setting the input voltage as 5 V in equation \ref{eq:motor},
-the motor's speed was determined to be 173 RPM. Therefore, to complete a single
-revolution, the motor may only be activated for 0.35 seconds. 
+Using these values and setting the input voltage as 3.3 V in equation
+\ref{eq:motor}, the motor's speed was determined to be 113 RPM. Therefore, to
+complete a single revolution, the motor may only be activated for 0.53 seconds. 
 
 This is not the most effective method, however, because the errors in the system
 accumulate over time. In time, these errors may lead incorrect product
 dispensing. 
 
-To improve this, a proximity sensor may be added onto the coil. This sensor can
-be connected to and be controlled by the Raspberry Pi and would be activated
-every time the coil completes one revolution. When the sensor is triggered, the
-Pi will then know that exactly one revolution has been completed and stop the
-motor. This will stop any errors from accumulating over time and make the
-vending machine more reliable. 
+To improve this, a proximity sensor may be added onto the coil and onto the
+vending machine wall. This sensor can be connected to and be controlled by the
+Raspberry Pi and would be activated every time the coil completes one
+revolution. When the sensor is triggered, the Pi will then know that exactly
+one revolution has been completed and stop the motor. This will stop any errors
+from accumulating over time and make the vending machine more reliable. 
