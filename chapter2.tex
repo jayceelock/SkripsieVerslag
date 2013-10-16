@@ -31,7 +31,8 @@ Communication (NFC), the web server and the encryption algorithms used.
  commonly used today because of their portability, increasingly powerful hardware and QR
  Code technology's simplicity.
  However, an image with an embedded QR Code can be decoded by any computer with the
- appropriate hardware and libraries installed, e.g. a webcam and the ZXing library.
+ necessary hardware and libraries installed, e.g. a webcam and the ZXing
+ library.
 
 \subsection{Zebra Crossing Library}
 \label{sec:zbar}
@@ -42,13 +43,16 @@ applications to decode QR Codes embedded inside a static image or a video
 stream. A desktop version of the library, called ZBar, is also available and
 works in a similar manner.
 
-The Barcode Scanner application is made by the team that made the ZXing library. It is freely
-available on multiple cellphone platforms, such as BlackBerry OS, apples's iOS
-and Google's Android. To date there have been at least 50 million downloads of ZXing's Barcode Scanner
-application on the Android platform alone, and it currently lies 98$^{\rm th}$ in the
-top 100 of the Google Play Store's most downloaded list
-[\cite{website:barcodescanner}]. This shows the extent to which QR Code
-technology and the ZXing library has evolved to be used by millions of people.
+The Barcode Scanner application is made by the team that made the ZXing
+library. It is freely available on multiple cellphone platforms, such as
+BlackBerry OS, Apples's iOS and Google's Android. 
+
+To date there have been at least 50 million downloads of
+ZXing's Barcode Scanner application on the Android platform alone, and it
+currently lies 98$^{\rm th}$ in the top 100 of the Google Play Store's most
+downloaded list [\cite{website:barcodescanner}]. This shows the extent to which
+QR Code technology and the ZXing library has evolved to be used by millions of
+people.
 
 \section{Near Field Communication}
 
@@ -58,7 +62,9 @@ them close to one another, typically around 4 centimeters.
 
 Most mainstream cellphone manufacturers, with the major exception of Apple, have
 added NFC capabilities to their flagship models, and more recently to some of
-their budget models[\cite{website:nfc-models}]. However, the technology has been
+their budget models [\cite{website:nfc-models}]. 
+
+The technology has also been
 ported to other platforms, such as the desktop computer and Arduino. This adds a
 new dimension to wireless inter-device communication and makes projects such as
 this more feasible.
@@ -104,7 +110,7 @@ University Student Cards}
 
 NFC and Radio Frequency Identification (RFID) work in a similar manner: when two
 devices  (e.g. cellphone, RFID tag, MiFare card, etc.), equipped with an antenna
-tuned to a certain frequency, for example 13.56MHz, come into close
+tuned to a certain frequency, for example 13.56 MHz, come into close
 proximity, they transmit some form of data to one another.
 
 However, there are some important difference between the two technologies. For example, a NFC
@@ -156,14 +162,14 @@ under the Berkeley Software Distribution (BSD) license and is completely free to
 \label{sec:ec2}
 
 Elastic Cloud Compute (EC2) is a cloud computing service offered by Amazon Web
-Services (AWS)[\cite{website:aws}]. It allows a user to rent a cloud-based
+Services (AWS) [\cite{website:aws}]. It allows a user to rent a cloud-based
 virtual computer from AWS from which to run their own applications.
 These applications are commonly web-based, in other words the virtual machines run a
 web server that is accessible by anyone around the world.  
 
 AWS offers new users the option to create a virtual machine for free. These free
 virtual machine instances are limited to the least powerful machine tier available, but
-functionally the free and paid tiers are the same.
+functionally the free and paid tiers work the same.
 
 \subsection{Apache}
 \label{sec:apache}
@@ -171,8 +177,8 @@ functionally the free and paid tiers are the same.
 Apache is a popular web server application available on most operating system
 platforms [\cite{website:apache-platforms}].
 A very notable feature of Apache is that it was designed to be easily
-configurable in order to be compatible and fully scalable with various web
-frameworks, such as Python's Django, PHP's cgiapp and C++'s Poco.
+configurable. This makes it easier to run various web frameworks off of it, such
+as Python's Django, PHP's cgiapp and C++'s Poco.
 
 Apache is the most widely-used web server framework in use today, with an
 estimated 53.4\% of the world's servers running on it [\cite{website:apache-usage}].
@@ -183,16 +189,17 @@ Foundation [\cite{website:apache}].
 
 \section{Encryption}
 
-Encryption is the act of encoding some data into seemingly unreadable garbage. This is done so
-that unwanted parties cannot read or access the data, but authorised parties can. This
-is most commonly done with an encryption key and an algorithm which specifies how the data
-was encoded and how it can be decoded.
+Encryption is the act of encoding some data into a form that is intended to be
+unintelligible to anyone other than the intended recipient.
+This is done to ensure that only authorised parties can access sensitive data.
+This is most commonly done with an encryption key and an algorithm which
+specifies how the data was encoded and how it can be decoded.
 
 Encryption is commonly used where sensitive information is being transmitted between
 two remote parties, e.g. banking codes, personal e-mails, etc.
 
-There are two main encryption schemes, namely symmetric and asymmetric encryption. Both
-are discussed in this section.
+Two main encryption schemes were considered for this project. They are symmetric
+and asymmetric encryption and they are discussed in this section.
 
 \subsection{Symmetric Encryption}
 
@@ -203,13 +210,14 @@ of symmetric encryption is the Enigma cipher machine used by Nazi Germany
 during the Second World War [\cite{article:enigma}].
 
 Unfortunately, due to the increase in knowledge and understanding around this type of
-encryption and the increase in modern computing power, various code cracking methods have been
-developed since 1945 that can break the most commonly used symmetric encryption
-methods, such as known and chosen plain-text attacks[\cite{journal:cypher-attacks}].
-Methods, such as the One-Time Pad (OTP) encryption, are still being
-used today and is considered to be unbreakable [\cite{article:otp}]. However,
-the difficulty of securely exchanging the keys between the communicating parties
-is difficult [\cite{article:otp}]. 
+encryption and the increase in modern computing power, various code cracking
+methods, such as known and chosen plain-text attacks 
+[\cite{journal:cypher-attacks}]. have been developed since 1945 that can break
+the most commonly used symmetric encryption methods. Methods, such as the
+One-Time Pad (OTP) encryption, are still being used today and is considered to
+be unbreakable [\cite{article:otp}]. However, the difficulty of securely
+exchanging the keys between the communicating parties is difficult
+[\cite{article:otp}].
 
 \subsection{Asymmetric Encryption}
 \label{sec:assymetric-encryption}
@@ -217,7 +225,8 @@ is difficult [\cite{article:otp}].
 Another encryption scheme is asymmetric encryption, or public-key
 encryption. It involves the use of a public and private key pair that can be
 used to securely encrypt and sign a data package on the sender's side and to
-decrypt and verify the data and its origin on the receiver's side.
+decrypt and verify the data and its origin on the receiver's side
+[\cite{article:pub-encryption}].
 
 These private and public keys are mathematically related to one another
 according to the algorithm in use (e.g. ElGamal or RSA. See sections
@@ -308,12 +317,10 @@ PyCrypto Team [\cite{website:pycrypto}].
 \label{sec:base64}
 
 Base64 encoding is a scheme which represent arbitrary data as alphanumeric
-characters. This is often used where the output of encrypted text is
-human-unreadable binary data and ASCII characters are preferred because they are
-easier to read by humans and simpler to transmit via HTTP.
-
-It is also important to note that the the output of base64 encoding is approximately
-33\% longer than the input string.
+characters. This encoding scheme is often applied where the output of encrypted
+text is a collection of random characters. ASCII characters are normally
+preferred because they are easier to read by humans and simpler to transmit via
+HTTP. 
 
 Here is an example of a base64 encoded string:\\\\
 \textbf{Original text:}\\

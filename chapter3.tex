@@ -2,8 +2,8 @@
 \label{chap:3}
 
 In this chapter, the overall system design is discussed. The chapter is divided up into 
-six sections with each section focusing on a different aspect of the complete
-system. These six sections are:
+eight sections with each section focusing on a different aspect of the complete
+system. These eight sections are:
 
 \begin{enumerate}
   \item The vending machine central controller.
@@ -11,7 +11,9 @@ system. These six sections are:
   \item The Quick Response Code camera.
   \item The product dispensing mechanism.
   \item The vending machine unit.
+  \item The web server.
   \item The encryption scheme used.
+  \item The transaction process for each payment option. 
 \end{enumerate}
 
 Each section explains which technology or service was used in the final
@@ -39,29 +41,21 @@ chapter.
 \section{Central Control Unit}
 
 To be able to handle the image processing that QR Code decoding and NFC handling requires, a
-relatively powerful central controller is required. Although there are many controllers capable
-of this, only two main alternatives were considered in this project. They are the
-Raspberry Pi microcomputer and the Arduino Uno microcontroller.
+relatively powerful central controller is required. The two controllers  that
+were considered for this project is the Raspberry Pi microcomputer and the
+Arduino Uno microcontroller.
 
 These controllers are discussed in this section.
 
 \subsection{Arduino Uno}
 
-The Arduino Uno is popular open-source microcontroller (see Figure
-\ref{fig:arduino}). It is based on an 8-bit Atmel ATmega328 ARM microprocessor.
-Its official specifications are given in Table \ref{tab:arduino-specs}.
-
-\begin{figure}
-\centering
-\includegraphics[scale=1.5]{arduino.eps}
-\caption[Picture of an Arduino Uno microcontroller.]{Picture of an Arduino Uno
-microcontroller [\cite{manual:arduino-specs}].}
-\label{fig:arduino}
-\end{figure}
+The Arduino Uno is popular open-source microcontroller. It is based on an 8-bit
+Atmel ATmega328 ARM microprocessor. Its official specifications are given in
+Table \ref{tab:arduino-specs}.
 
 \begin{table}
 \centering
-\caption{Arduino Uno Specs[\cite{manual:arduino-specs}].}
+\caption[Arduino Uno Specs.]{Arduino Uno Specs [\cite{manual:arduino-specs}].}
   \begin{tabular}{|l|l|}
   \hline
     Operating Voltage & 5 V \\\hline
@@ -98,7 +92,8 @@ Its main specifications are given in Table \ref{tab:rpi-specs}.
 
 \begin{table}
 \centering
-\caption{Raspberry Pi Specifications [\cite{website:raspi-specs}].}
+\caption[Raspberry Pi Specifications.]{Raspberry Pi Specifications
+[\cite{website:raspi-specs}].}
   \begin{tabular}{|l|l|}
   \hline
   Operating Voltage & 3.3 V \\\hline
@@ -125,7 +120,7 @@ keyboard, which made development and prototyping much simpler.
 
 After development and optimisation has been completed for this project, work can begin on porting it to 
 a micro-controller, such as an Arduino. However, for the development phase of this project,
- the Pi is much better suited platform.
+ the Pi is a much better suited platform.
 
 \section{NFC Controller}
 \label{sec:nfc-controller}
@@ -169,15 +164,7 @@ South Africa.
 \subsection{Coils}
 
 To be able to effectively dispense bought products to the user, a coil mechanism is
-used. Such systems are the most familiar and simple methods of dispensing goods. See Figure
-\ref{fig:vm-coils} for an example.
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.2]{vm_coils.eps}
-\caption{Example of a vending machine coil system.}
-\label{fig:vm-coils}
-\end{figure}
+used. These mechanisms are familiar and simple methods of dispensing goods.
 
 These coils are designed and made in such a manner that one rotation of the coil will drop one
 product. The turning motion is made by attaching a DC motor to the base of the coil (see
@@ -202,9 +189,10 @@ requires a voltage across it to open or close it. With this, it is possible to c
 when the DC motors turn (after a successful transaction) and when they are standing still. 
 
 However, the relays used here are 12 V, because they were readily available. The Raspberry 
-Pi can deliver a maximum voltage of 5 V. Therefore it was decided that the relay will be permanently
- connected to a 12 V DC supply, but will be switched by a 2N2222 transistor, which is 
-controlled directly from the Pi's  GPIO pins (see Section \ref{sec:detail-switch} on page 
+Pi can only deliver a maximum voltage of 5 V. Therefore it was decided that the
+relay will be permanently connected to a 12 V DC supply. The relays will then be
+switched by a 2N2222 transistor, which is controlled directly from the Pi's 
+GPIO pins (see Section \ref{sec:detail-switch} on page
 \pageref{sec:detail-switch} for a detailed discussion on the switch).
 
 This allows the Pi to directly control the motors and due to the circuit's construction, the Pi
@@ -222,20 +210,19 @@ for detailed manufacturing drawings.
 A web server in the computing cloud is used to process and authenticate the
 transactions that take place in the vending machine. This is done by
 using a user database that is populated with the customer's login details that
-they supply when they sign up for the service. The database stores information
-such as the customer's username, password and his remaining balance. Part of the
-transaction process is to check if the customer has enough credits loaded onto
-his account. 
+they supply when they sign up for the vending machine service. The database
+stores the customer's information, such as the customer's username, password and
+his remaining balance. Part of the transaction process is to check if the
+customer has enough credits loaded onto his account. 
 
 Arguably, the transaction authentication could have been done by the vending
-machine itself.
-However, the use of a web server allows for the system to be expanded beyond a
-single vending machine and standardises the transaction across all of the
-vending machines connected to the server.
+machine itself. However, the use of a web server allows for the system to be
+expanded beyond a single vending machine and standardises the transaction
+across all of the vending machines connected to the server.
 
-The server is used to communicate with a cellphone over the internet via
-Hypertext Transfer Protocol (HTTP) requests and Universal Resource Locators
-(URLs).
+The server communicates with the customer through the customer's cellphone,
+which sends data to the server over the internet via Hypertext Transfer Protocol
+(HTTP) requests and Universal Resource Locators (URLs).
 
 How the web server is used to process and authenticate each payment method is
 described in Section \ref{sec:transaction}.
@@ -243,16 +230,15 @@ described in Section \ref{sec:transaction}.
 \section{Encryption Scheme Design}
 
 To prevent the system from being hacked, an asymmetric encryption scheme was
-implemented (see Section \ref{sec:assymetric-encryption} on page
-\pageref{sec:assymetric-encryption} for more information on asymmetric encryption).
-This is a secure method to exchange data between two sources and in the event that
-one of the vending machine's keys are cracked, the system will still remain
-secure for the other vending machines.
+implemented. The main reasons for this choice is that the keys are easily
+distributed, the encryption scheme is relatively secure and there is powerful
+software available to encrypt data.
 
 The keys were generated using the PyCrypto Python module and they are hard-coded
-into the vending machine and the web server. This is done to keep the keys more
-secure and to avoid dynamically updating and redistributing the keys after each
-transaction.
+into the vending machine and the web server. The Android application has
+its own key. This key is distributed with the application. The keys are hardcode
+to keep the keys more secure and to avoid dynamically updating and
+redistributing the keys after each transaction.
 
 Two different schemes were implemented for the Android NFC application and the
 QR Code payment option. These two schemes are discussed in this section.
@@ -260,31 +246,38 @@ QR Code payment option. These two schemes are discussed in this section.
 \subsection{Android NFC Application}
 
 For the Android NFC application, it was decided to use a 1024-bit key based on
-the Ron Rivest, Adi Shamir and Leonard Adleman (RSA) encryption algorithm. A 1024-bit key was chosen because it gives a good balance between security andencryption speed. 
+the Ron Rivest, Adi Shamir and Leonard Adleman (RSA) encryption algorithm. A
+1024-bit key was chosen because it gives a good balance between security
+and encryption speed.
 
 It was decided to base the application's encryption on RSA, because it is
-already included in the Android Development Kit (ADK) and is therefore the simplest to implement and distribute
-with the application. 
+already included in the Android Development Kit (ADK) and is therefore the
+simplest to implement and distribute with the application. 
 
 \subsection{QR Code}
 
 For the QR Code payment option, a 384-bit key based on the ElGamal algorithm was
 chosen. 
 
-The reason for choosing this key size was to produce smaller, less complex output which leads to a more readable QR Code. A smaller key size also reduces the time it takes to encrypt a data string.
+The reason for choosing this key size was to produce smaller, less complex
+output which leads to a more readable QR Code. A simpler, more readable QR Code
+takes less time to scan. A smaller key size also reduces the time it takes to
+encrypt a data string.
 
-It was found that the ElGamal algorithm in the PyCrypto module allows for key sizes of any bit
-length. Therefore the encryption used is based on the ElGamal encryption algorithm.
+It was found that the RSA module in PyCrypto has a minimum key-length of 1024
+bits, whereas the ElGamal module allows for key sizes of any bit length, as
+long as it is longer than the string being encrypted. Therefore the encryption
+used for the QR Code encryption is based on the ElGamal encryption algorithm.
  
 \section{Transaction Design}
 \label{sec:transaction}
 
-Two different transaction processes were designed to accommodate for NFC, RFID
+Three different transaction processes were designed to accommodate for NFC, RFID
 and QR Code payments. However, all three of the payment options have some common
 elements to them. 
 
 Firstly, each product in the vending machine is assigned a unique, 4-letter
-Hexadecimal number. This is done to fit in with the security code scheme
+hexadecimal number. This is done to fit in with the security code scheme
 described in Section \ref{sec:security-code-scheme} on Page
 \pageref{sec:security-code-scheme}. When a customer selects a product to buy,
 this unique code is used identify which product to dispense. To simplify the
@@ -301,25 +294,30 @@ The QR Code transaction process and the interactions between the different
 system components is described diagrammatically in Figure
 \ref{fig:vm_prog_interaction}.
 
-As seen from Figure \ref{fig:vm_prog_interaction}, the transaction begins with
-the customer selecting a product to buy from the vending machine Graphical User
-Interface (GUI). The vending machine then generates a QR Code which the customer
-then scans. The QR Code contains a URL that contains a link to the web
-server and the encrypted product data. This redirects the customer to the web
-server and allows for the server to process the transaction.
-
-After the transaction has been processed and approved, the web server displays a
-QR Code on the screen of the customer's cellphone. The customer then displays
-this QR Code to the vending machine's camera. After the code has been
-scanned, the vending machine activates the correct motor which dispenses the
-customer's desired product.
-
 \begin{figure}
  \centering 
  \includegraphics[clip=true, trim = 0 400 0 140, scale=0.7]{qrcode_processflow_user}
  \caption{The vending machine QR Code transaction process.}
  \label{fig:vm_prog_interaction}
 \end{figure}
+
+As seen from Figure \ref{fig:vm_prog_interaction}, the transaction begins with
+the customer selecting a product to buy from the vending machine Graphical User
+Interface (GUI). The vending machine then generates a QR Code which the customer
+then scans. The QR Code contains a URL that contains a link to the web
+server and the encrypted product data, the vending machine's signature and the
+challenge-response code (the challenge-response scheme is described in Section
+\ref{sec:challenge-response} on page \pageref{sec:challenge-response}. This
+redirects the customer to the web server and allows the server to process the
+transaction.
+
+After the transaction has been processed and approved, the web server displays a
+QR Code, embedded with an encrypted approval message, the server's signature
+and the response to the vending machine's challenge, on the screen of the
+customer's cellphone. The customer then displays this QR Code to the vending
+machine's camera. After the code has been scanned and processed, the vending
+machine activates the correct motor which dispenses the customer's desired
+product.
 
 \subsection{NFC Transactions}
 
@@ -333,14 +331,15 @@ The NFC transaction process is given in Figure \ref{fig:vm_nfc_interaction}.
 \end{figure}
 
 As seen from Figure \ref{fig:vm_nfc_interaction}, the transaction process starts with the
-customer selecting a product from the NFC cellphone application. The application then contacts
-the server using a URL containing the encrypted transaction data. 
+customer selecting a product from the Android NFC application. The application
+then contacts the server using a URL containing the encrypted transaction data,
+as well as the customer's username and password, both encrypted.
 
 Using this data, the server processes the transaction. If the transaction is
-authenticated, the server returns an encrypted approval code to the cellphone
-application. The customer then swipes his phone across the vending machine's NFC
-receiver and the application transmits the authentication code to the vending machine
-via the NFC protocol. 
+authenticated, the server returns an encrypted approval code to the application.
+The customer then taps his phone on the vending machine's NFC receiver
+and the application transmits the authentication code to the vending machine
+via the NFC protocol.
 
 The vending machine then activates the correct motor and dispenses the
 customer's desired product.
@@ -350,15 +349,15 @@ customer's desired product.
 
 The SU card payment option was added to the vending machine as a proof of
 concept. At present, it can identify any RFID card that has been hard-coded
-into the vending machine and the correct motor is activated. However, no
-communication with the web server takes place. This means that there is no user
+into the vending machine. Therefore, no communication with the web server takes
+place during the SU Card transaction process. This means that there is no user
 authentication besides the hard-coded RFID card numbers and there is no user
 account to credit with the product cost.
 
 The reason for not adding the SU card numbers to the server's database is that
 the SU access control office already has a comprehensive, up-to-date database. It
-would be more feasible to integrate their database into the existing system and
-credit the customer's student or staff account during the process. 
+would therefore be more feasible to integrate their database into the existing
+system and credit the customer's student or staff account during the process. 
 
 Figure \ref{fig:vm_su_interaction} shows the transaction process for SU cards as it is
 used in system's the current format. 

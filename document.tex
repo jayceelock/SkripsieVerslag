@@ -10,8 +10,10 @@
 \usepackage{babel}%.............................. Language setup
 
 %==== Math setup ====================================================
-% \usepackage{amsmath}%............................ Advanced
- % math (before fonts) \usepackage{amssymb}%............................ AMS Symbol fonts
+\usepackage{amsmath}%............................ Advanced
+% math (before fonts) 
+\usepackage{amssymb}%............................ AMS
+% Symbol fonts
 
 %==== Font setup (default is Computer Modern) =======================
  \usepackage[T1]{fontenc}%........................ Type 1 fonts
@@ -73,16 +75,16 @@
 
 \frontmatter%========================================================
 
-%\TitlePage
-%\CopyrightPage
-%\include{declaration}
-%\include{ack}
-%\include{summary}
-%\include{abstract}
-%\tableofcontents
-%\listoffigures
-%\listoftables
-%\include{nomenclature}
+\TitlePage
+\CopyrightPage
+\include{declaration}
+\include{ack}
+\include{summary}
+\include{abstract}
+\tableofcontents
+\listoffigures
+\listoftables
+\include{nomenclature}
 
 \mainmatter%=========================================================
 
@@ -100,13 +102,13 @@
 
 \appendix%===========================================================
 
-%\include{app-a}
-%\include{app-b}
-%\include{app-c}
+\include{app-a}
+\include{app-b}
+\include{app-c}
 
 \backmatter%=========================================================
 \raggedright
 \footnotesize
-%\bibliography{bibliography}
+\bibliography{bibliography}
 
 \end{document}
