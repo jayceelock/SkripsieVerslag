@@ -1,33 +1,14 @@
 \chapter{Conclusion}
 \label{chap:7}
 
-This chapter concludes this project design report. It gives a brief discussion on the
-complete system and measures it against the project objectives set out in Section
-\ref{sec:objectives} of this report. Lastly, it discusses possible improvements that can
-be made to the system. 
-
 \section{System Performance}
 
-The project objectives set out in Section \ref{sec:objectives} of this report are repeated
-here for convenience. They are:
-
-\begin{itemize}
-  \item The system must make provision for both NFC and Quick Response Code-based (QR
-  Code) payments.
-  \item The system must make use of a web server based in the cloud.
-  \item An Android application must be made that will allow transactions to be completed
-  using NFC.
-  \item A demonstration model vending machine must be designed and constructed.
-  \item All the data transfers between the user's cellphone and the server must be
-  encrypted.
-  \item Extra layers of security must be added. 
-\end{itemize}
-
-In the final system, both QR Code and NFC technology have been implemented. It was found
-that the NFC option has a faster transaction time between product selection and
-when the product is dispensed.
+In the final system, both QR Code and NFC technology, as well as Stellenbosch University
+(SU) cards, have been implemented. It was found that the NFC and SU cards options have the
+fastest transaction time between product selection and when the product is dispensed.
 However, the NFC option is currently limited to cellphones that have NFC antennas and are
-based on the Android Operating System.
+based on the Android Operating System and the SU card option currently has no limited
+user verification facility and cannot keep track of a customer's current balance.
 
 It was found that the QR Code payment option typically has a slower transaction time. This
 is mainly due to some hardware bottlenecks of the Pi. These bottlenecks include the
@@ -35,38 +16,42 @@ Raspberry Pi's moderate processing power, which increases the encryption time an
 time it takes the Pi to process and decode a live video stream from the webcam. These
 bottlenecks may be improved with hardware modifications and processor overclocking. Extra
 work can also go into optimising the code to make it run more efficiently. This can be
-done by converting the code into compiled machine code.
+done by converting the code into compiled machine code, such as C or C++.
 
-Furthermore, a server has been made that runs in the cloud. This server interacts with a
-customer's cellphone through the Android NFC application that was made or the cellphone's
-internet browser. All data transactions between the server and the customer's cellphone
-are encrypted with an asymmetric encryption scheme with extra layers of security added.
+Furthermore, a server has been made that runs in the computing cloud. This server
+interacts with a customer's cellphone through the Android NFC application that was made
+or the cellphone's internet browser. All data transactions between the server and the
+customer's cellphone are encrypted with an asymmetric encryption scheme with extra layers
+of security added.
 
-Lastly, a working demonstration vending machine was designed and made. It houses all of
-the vending machine components and allows a customer to buy one of two products using
+Lastly, a working demonstration VM was designed and made. It houses all of
+the VM components and allows a customer to buy one of two products using
 his cellphone. 
 
 \section{Future Work}
 
-The vending machine system that has been designed in this project has been designed to
+The VM system that has been designed in this project has been designed to
 work as planned. With that being said, there is potential to expand upon the work that has
 been completed thus far.
 
-This section discusses some potential improvements and additions that can be made to this
-system
+This section discusses some improvements and additions that can be made to this
+system.
 
 \subsection{Commercialisation}
 
-The vending machine currently uses faux money which has no real-world value. Therefore,
+The VM currently uses faux money which has no real-world value. Therefore,
 the system in its current state is not ready to be deployed across Stellenbosch
 University's campus. 
 
-To commercialise the vending machine, third-party payment providers, such
+To commercialise the VM, third-party payment providers, such
 as PayPal or PayPoint, can be integrated into the system. This will allow customers to
-buy credits to use on the vending machine system by using their credit cards. 
+buy credits to use on the VM system by using their credit cards. 
 
 All the transactions take place electronically and will therefore be integratable with the
 current system. 
+
+Furthermore, the memory leakage issue discussed in Sec. \ref{sec:memory_leak} will need
+to be addressed and fixed.
 
 \subsection{Polish}
 
@@ -77,12 +62,11 @@ extra work can go into making the web server and Android NFC application more pl
 \subsection{Integration}
 
 One important aspect that must be focused on to increase the odds of making this project
-more commercially successful, is its integration with current vending machines, i.e. add a
-cashless option to current vending machines that are restricted to cash.
+more commercially successful, is its integration with current VMs, i.e.
+adding a cashless option to current VMs that are restricted to cash.
 
 \subsection{More Payment Options}
 
 Some work can go into expanding the number of payment options available to the user.
-
-Some options that may be considered are Bluetooth, Instant Messaging (such as WhatsApp and
-BlackBerry Messenger) and Unstructured Supplementary Service Data (USSD).
+Some options that may be considered are Bluetooth, Instant Messaging (such as WhatsApp,
+BlackBerry Messenger and MXit) and Unstructured Supplementary Service Data (USSD).

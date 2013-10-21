@@ -1,0 +1,35 @@
+\chapter{Asymmetric Encryption}
+\label{app:ass-encryption}
+
+Asymmetric encryption is most easily explained with a postal analogy:
+
+Imagine that two people, Alice and Bob, want to send each other secret messages through
+the public mail. In other words, Alice wants to send Bob a secret message and she expects
+a secret reply from Bob, and vice versa. 
+
+In an asymmetric scheme, Bob can lock his letter to Alice with a padlock to which only she has
+a key (she keeps this on her person at all times and does not show it to anyone, which
+includes Bob). This open padlock represents the public key half of Alice's key. This
+means that anyone can send Alice a secure message with a public key, which is easy to
+get from Alice, and only Alice can unlock the message with her private key half of the
+key pair. Similarly, Alice can lock her letter with Bob's padlock which only Bob can open.
+
+The great advantage that this has over symmetric encryption is that the decryption keys never
+have to be exchanged between parties. This neutralises the risk of a middle-man attack,
+analogous to a nosy postal worker called Eve who likes to read other people's
+mail, who then intercepts the message and steals the key. Also, if for example Bob has
+been careless and allowed Eve to see his key, his messages to Alice will be
+compromised. However, the messages from anyone else (including Bob) to Alice
+will remain as secure as it was before Bob lost his key.
+
+The data source can also be signed and verified by using this key scheme. Referring once again
+to the postal analogy: To show Alice that it was indeed Bob who sent her the
+message, and not Eve for example, he can send an extra message along with the
+original message. This extra message is locked with Bob's key that he shares
+with no one (i.e. his private key). However, Bob has sent out his public key to
+everyone who wants it. These keys can \emph{only} be used to unlock the
+messages locked with Bob's own private key. Therefore, if Alice, who received
+one of Bob's keys, can unlock this extra message with that key, she knows that
+as long as Bob has not given anyone his private key, it can only be his
+message. The reverse is also true if Alice wants to prove to Bob that it was
+indeed she who sent him a message.

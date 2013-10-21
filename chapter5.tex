@@ -5,38 +5,29 @@ This chapter gives a detailed discussion on the hardware design and
 configuration of this system. This includes the relay switching circuit, the
 motor and coil design and the NFC chip configuration.
 
-See Appendix \ref{add:d} for a schematic layout of the hardware and their
+See Appendix \ref{app:d} for a schematic layout of the hardware and their
 connections.
 
 \section{Relay Switch Circuit}
 \label{sec:detail-switch}
 
-As explained in Section \ref{sec:relay-switch} in page \pageref{sec:relay-switch}, a relay
-switch (the Mantech NT72C 12V DC relay [\cite{manual:relay-specs}]), in conjunction with a 2N2222
+As explained in Sec. \ref{sec:relay-switch} on p.\pageref{sec:relay-switch}, a relay
+switch [\cite{manual:relay-specs}], in conjunction with a 2N2222
 Bipolar Junction Transistor (BJT) [\cite{maunual:transistor-datasheet}], is used
-by the Raspberry Pi to switch the motor on and off. See Figure
+by the Raspberry Pi to control the motor. See Fig.
 \ref{fig:relay-switch} for the circuit diagram.
 
 \begin{figure}
 \centering
-\includegraphics[clip = true, trim = 0 640 0 70, scale=1]{relay_switch}
+\includegraphics[clip = true, trim = 70 640 0 70, scale=1.2]{relay_switch}
 \caption{12 V relay transistor switch.}
 \label{fig:relay-switch}
 \end{figure}
 
-\begin{minipage}{\textwidth}
-
-The variables used here are defined as follows:
-\\\\
-P$_r$\dotfill Relay coil power dissipation\\
-V$_r$\dotfill Voltage across the relay\\
-$\beta$\dotfill BJT current amplification\\
-V$_p$\dotfill Voltage supply from a Raspberry Pi's GPIO pin\\
-I$_p$\dotfill Current supply from a Raspberry Pi's GPIO pin\\
-I$_b$\dotfill The BJT's base current\\
-R$_b$\dotfill The BJT's base resistor\\
-
-\end{minipage}
+For the following equations, P$_r$ and V$_r$ is the power dissipation in the relay coil
+and voltage across the relay coil, $\beta$ is the BJT current amplification, V$_p$ and
+I$_p$ is the voltage and current supply from a Raspberry Pi's GPIO pin and I$_b$ and
+R$_b$ is the BJT's base current and resistor.
 
 The relevant  parameters for these components are [\cite{manual:relay-specs},
 \cite{maunual:transistor-datasheet}]:
@@ -63,24 +54,24 @@ BJT's datasheet [\cite{maunual:transistor-datasheet}], the current draw from the
 Pi to the base of the BJT is given by
 
 \[
-\mathrm{\ I_{b}} = \frac{\mathrm{\ I_{r}}}{\beta} = \frac{\mathrm{\
-I_{c}}}{\beta}
+\mathrm{\ I_{b}} = \frac{\mathrm{\ I_{r}}}{\beta}
 \]
 
 This gives a current draw of
 
 \[
-\mathrm{\ I_{b}} = 0.003\mathrm{\ A} = 3\mathrm{\ mA}
+\mathrm{\ I_{b}} = 3\mathrm{\ mA}
 \]
 
-The maximum current draw from the GPIO pins is 16 mA
+The maximum allowable current draw from a GPIO pin is 16 mA
 [\cite{website:gpio-specs}], though this is not recommended as the Pi does not
-have any current limiting or over-current protection.
-Therefore, a current draw of 3 mA is completely safe.
+have any current limiting or over-current protection hardware. A current draw of 5mA per
+pin is recommended by the Pi's manufacturers [\cite{website:gpio-specs}]. Therefore, a
+current draw of 3 mA is completely safe.
 
 To limit the current draw from the Pi, a base resistor must be added between the Pi's GPIO pin
 and the BJT's base. With a current draw of 3 mA and a voltage of 3.3 V, the
-resistor size is found by Ohm's law as follows
+resistor size is found by using Ohm's law:
 
 \[
 \mathrm{\ R_{b}} = \frac{\mathrm{\ V_{p}}}{\mathrm{\ I_{p}}}
@@ -106,85 +97,28 @@ which is still enough to activate the relay's coil and turn the motor on.
 \section{NFC Chip}
 
 The Near Field Communication (NFC) chip used, is the Adafruit NFC shield for an
-Arduino Uno microcontroller [\cite{website:adafruit-nfc}]. See Section
-\ref{sec:nfc-controller} on page \pageref{sec:nfc-controller} for more details
+Arduino Uno microcontroller [\cite{website:adafruit-nfc}]. See Sec.
+\ref{sec:nfc-controller} on p.\pageref{sec:nfc-controller} for more details
 on the controller.
 
 The shield was designed and built to be used by an Arduino Uno microcontroller.
 Therefore, some modification to the chip's connections had to be made before it
-would be able to communicate with the Pi.
-
-By default, the chip was made to communicate with an Arduino with the Inter
-Integrated Circuit (i$^2$c) communication protocol. However, the component
-manufacturers have added connection pads to the chip that, when soldered, allows
+was able to communicate with the Pi. By default, the chip was made to communicate with an
+Arduino using the Inter Integrated Circuit (i$^2$c) communication protocol. However, the
+component manufacturers have added connection pads to the chip that, when shorted, allows
 the chip to communicate via Serial Peripheral Interface (SPI) or Transistor
-Transistor Login (TTL). 
+Transistor Login (TTL). The libnfc library is currently only configured to allow
+communication via an Universal Asynchronous Receiver Transmitter (UART). Therefore, the
+chip was modified to communicate via its TTL interface, which is compatible with the Pi's
+UART interface. 
 
-The libnfc library is currently only configured to allow communication via an
-Universal Asynchronous Receiver Transmitter (UART). Therefore, the chip was
-modified to communicate via its TTL interface, which is compatible with the Pi's
-UART interface.
-
-To do this, the `SEL1' pads are shorted (see Figure
-\ref{fig:nfc-chip-solder}). With this done, the chip can serially communicate
-with the Raspberry Pi's UART interface.
-
-\begin{figure}
- \centering 
- \includegraphics[clip=true, trim = 0 250 0 290,
- scale=0.7]{soldeer_pic}
- \caption{The location of the SEL1 pads (highlighted in green).}
- \label{fig:nfc-chip-solder}
-\end{figure}
-
-The connections between the Pi and the NFC controller are as follows: 
-
-\begin{table}
-\centering
- \caption{Connections between the Raspberry Pi and the NFC Controller chip.}
- \begin{tabular}{|l|l|l|}
-  \hline
-  \textbf{NCF Controller Pin} & \textbf{Raspberry Pi Pin}\\\hline\hline
-  5V pin & 5V (pin 4) \\\hline
-  Ground pin & Ground pin (pin 6) \\\hline
-  SS & UART0 TXD (pin 8) \\\hline
-  MOSI & UART0 RXD (pin 10) \\\hline
- \end{tabular}
-\end{table}
-
-\section{libnfc Setup on the Raspberry Pi}
-
-Before libnfc could be built and configured, the communication between the NFC
-controller and the Pi needed to be finalised. To do this, the Pi's UART needed
-to be freed up. By default, the Raspberry Pi uses its UART to serially write out
-its booting information. Therefore, to allow the Raspberry Pi to communicate
-with the NFC controller via its UART0 interface, it was necessary to modify
-some of its configuration files. To do this, the Adafruit tutorial was followed
-[\cite{website:adafruit-tutorial}].
-
-The file `/boot/cmdline.txt' and `/etc/inittab' had to be edited to
-contain the following lines of code:
-
-\textbf{cmdline.txt}
-\begin{verbatim}
-dwc_otg.lpm_enable=0 console=tty1
-\end{verbatim}
-
-\textbf{inittab}
-\begin{verbatim}
-#Spawn a getty on Raspberry Pi serial line
-#T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100
-\end{verbatim}
-
-After this has been done, the libnfc package could be configured and installed 
-to work with the Pi's UART interface.
-
-Thereafter, the Pi was ready to receive NFC messages from the NFC shield.
+See Appendix \ref{app:nfc-chip-config} for detailed explanation on this
+configuration process and also how the libnfc library was built and compiled. 
 
 \section{Vending Machine Unit}
 
-A small vending machine unit was constructed for demonstration purposes. It is
-designed to house all the vending machine components, i.e. the two DC motors,
+A small VM unit was constructed for demonstration purposes. It is
+designed to house all the VM components, i.e. the two DC motors,
 the two coils, the Raspberry Pi central controller, the NFC shield and the
 webcam.
 
@@ -197,83 +131,65 @@ The unit is made from 1.6 mm thick mild steel and the components were cut and
 bent by Fabrinox, Paarl and welded together by the Electrical and Electronic
 Engineering Department of Stellenbosch University's workshop.
 
-See Figure \ref{fig:vm-actual} for a picture of the complete vending machine
-unit with the two DC motor inserted. See Appendix \ref{app:vm-tekeninge} for
-detailed design drawings of the vending machine unit.
-
-\begin{figure}
- \centering 
- \includegraphics[clip=true, trim = 80 180 150 200,
- scale=0.7]{complete_vm}
- \caption{The complete vending machine unit.}
- \label{fig:vm-actual}
-\end{figure}
+See Fig. \ref{fig:vm-actual} in Appendix \ref{app:vm-tekeninge} for a picture of the
+complete VM unit with the two DC motor inserted. See Appendix \ref{app:vm-tekeninge} for
+detailed design drawings of the VM unit.
 
 \section{Webcam}
 
-As discussed in Section \ref{sec:webcam}, a Sony PS2 Eye Toy  webcam was
-attached to the Raspberry Pi. This allows the vending machine to scan a live
+As discussed in Sec. \ref{sec:webcam}, a Sony PS2 Eye Toy  webcam was
+attached to the Raspberry Pi. This allows the VM to scan a live
 video feed for a QR Code. It is already compatible with the Raspberry Pi and
 therefore requires minimal configuration to begin working.
 
 It is important to note that a Raspbian version from early 2013 was used on the
 Raspberry Pi. It was found that the latest Raspbian distributions have an
-unknown bug in its Video4Linux (v4l) video drivers which causes the EyeToy to
-work incorrectly. 
-
-Furthermore, the camera needs to be plugged into a Universal Serial Bus (USB)
-port on the Pi itself and not into an external USB hub. This is done in order to
-prevent hardware timing issues that are introduced to the system when a USB hub is used.
+unknown bug in its Video4Linux video drivers which causes the EyeToy to
+work incorrectly. Furthermore, the camera needs to be plugged into a Universal Serial Bus
+(USB) port on the Pi itself and not into an external USB hub. This is done to prevent
+hardware timing issues that are introduced when a USB hub is used.
 
 \section{Motor and Coil}
 
-The vending machine dispenses products by activating a motor that turns a coil
+The VM dispenses products by activating a motor that turns a coil
 loaded with a product. This turning motion causes a product to move along the
 coil in an Archimedean screw-like manner until it falls off at the end of the
 coil. 
 
-In the demonstration vending machine, two coils are used. The coils are made
+In the demonstration VM, two coils are used. The coils are made
 from 2.5 mm thick galvanised iron wire. The coil diameter is 50 mm and has a
 longitudinal pitch of 20 mm. 
 
-It is important for the motor to only be activated for one turn of the coil to
+It is important to only activate the motor for one turn of the coil to
 ensure that only one product is dispensed per completed transaction. This is
-currently being done by only activating a motor for a set amount of time.To
-determine this time, it was first required that the speed of the motor be
-determined for a given supply voltage.
-
-The motors that are used are 12 V DC motors made by Faulhaber
-[\cite{manual:dc-motors}] coupled with a 14:1 speed gearbox
+currently being done by only activating a motor for a set amount of time. To
+determine this time, it was required that the speed of the motor be
+determined for a given supply voltage. The motors that are used are 12 V DC motors made
+by Faulhaber [\cite{manual:dc-motors}] coupled with a 14:1 speed gearbox
 [\cite{manual:gearbox}].
 
-%\begin{minipage}{\textwidth}
-The variables used in the following equations are defined as follows:\\\\
-V$_o$\dotfill Motor supply voltage\\
-I\dotfill Current supply to motor\\
-R\dotfill DC Motor terminal resistance\\
-V$_e$\dotfill Reverse Electromotive Force (EMF) voltage\\
-$\omega$\dotfill Motor speed\\
-k$_e$\dotfill Back-EMF constant\\
-%\end{minipage}
+For the following calculations, V$_o$, I and R are the motor supply voltage, current and
+terminal resistance, V$_e$ is the back-Electromotive Force (EMF) voltage, $\omega$ is
+the motor speed and k$_e$ is the Back-EMF constant.
 
 The following equation gives the relationship between a DC motor's supply
-voltage and its reverse Electromotive Force (EMF).
+voltage and its back-Electromotive Force (EMF) [\cite{article:motor-calc}].
 
 \[ \mathrm{V}_o = \mathrm{IR} + \mathrm{V}_e\]
 
-The reverse EMF is proportional to the rotational speed of the motor. Therefore,
+The back-EMF is proportional to the rotational speed of the motor. Therefore,
 the V$_e$ term can be taken as
 
-\[ \mathrm{V}_e = \omega\mathrm{k}_e\]
+\[ \mathrm{V}_e = \mathrm{k}_e\omega\]
 
 which gives the following equation
 
 \begin{equation}
  \label{eq:motor}
- \mathrm{V}_o = \mathrm{IR} + \omega\mathrm{k}_e
+ \mathrm{V}_o = \mathrm{IR} + \mathrm{k}_e\omega
 \end{equation}
 
-The IR term is taken as constant as the loading on the motor stays the same.
+The IR term is taken as constant, since the torque load on the motor stays the constant.
 From the motor's datasheets and usage tests, the I, R and k$_e$ terms were
 determined to have the following values:
 
@@ -281,7 +197,7 @@ determined to have the following values:
 \[\mathrm{R} = 0.41\mathrm{\ \Omega}\]
 \[ \mathrm{k}_e = 2 \mathrm{\ mV/rpm}\]
 
-Using these values and setting the input voltage as 3.3 V in equation
+Using these values, and setting the input voltage as 3.3 V in equation
 \ref{eq:motor}, the motor's speed was determined to be 113 RPM. Therefore, to
 complete a single revolution, the motor may only be activated for 0.53 seconds. 
 
@@ -290,8 +206,8 @@ accumulate over time. In time, these errors may lead incorrect product
 dispensing. 
 
 To improve this, a proximity sensor may be added onto the coil and onto the
-vending machine wall. This sensor can be connected to and be controlled by the
+VM wall. This sensor can be connected to and be controlled by the
 Raspberry Pi and would be activated every time the coil completes one
 revolution. When the sensor is triggered, the Pi will then know that exactly
 one revolution has been completed and stop the motor. This will stop any errors
-from accumulating over time and make the vending machine more reliable. 
+from accumulating over time and make the VM more reliable. 

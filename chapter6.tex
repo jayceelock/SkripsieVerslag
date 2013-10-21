@@ -2,13 +2,11 @@
 \label{chap:6}
 
 In this chapter, the tests  conducted to measure how well the system measures to the
-original goals and objectives set out in Section \ref{chap:1}. 
+original goals and objectives set out in Sec. \ref{sec:objectives} on p.\pageref{sec:objectives}.
 
 The tests conducted are the system resource usage for the different payment
 options and user stories where scenarios are created and the response of the
-system is given.
-
-The test results are also discussed. 
+system is given. The test results are also discussed. 
 
 \section{System Resource Usage}
 
@@ -21,15 +19,16 @@ resources. However, this could not be avoided. The resource usage is
 present for all three the tests, so it does not unfairly skew the results.
 
 \subsection{Quick Response Code Test}
+\label{sec:qr-tests}
 
 \subsubsection{Processor Usage}
 
-Figure \ref{fig:qrcode_test_cpu} shows the total processor usage during the complete
-Quick Response (QR) Code transaction, as described in Section \ref{sec:transaction} on
-page \pageref{sec:transaction}.
+Fig. \ref{fig:qrcode_test_cpu} shows the total processor usage during the complete
+Quick Response (QR) Code transaction, as described in Sec. \ref{sec:transaction} on
+p.\pageref{sec:transaction}.
 
-It can be observed that there are significant spikes near the maximum capacity when the Pi
-starts generating a QR Code and when the return QR Code is scanned. This was expected, as
+It can be observed from Fig. \ref{fig:qrcode_test_cpu} that there are significant spikes
+near maximum capacity when the Pi starts generating a QR Code and when the return QR Code is scanned. This was expected, as
 image and video processing is taxing on hardware and the Pi has no dedicated graphics
 processor. The data encryption also adds to the processing load. A possible solution is to
 overclock the processor, but it is already overclocked to 900 MHz and pushing the
@@ -51,12 +50,10 @@ difference, however.
 
 \subsubsection{Disk Write Activity}
 
-Figure \ref{fig:qrcode_test_disk} shows the disk writing activity during the QR Code
+Fig. \ref{fig:qrcode_test_disk} shows the disk writing activity during the QR Code
 transaction. It shows several spikes during the transaction. This can possibly be
 attributed towards swap file activity by the Pi's operating system and the image encoding
-and decoding processes.
-
-Optimising the code may improve this.
+and decoding processes. Optimising the code may improve this.
 
 \begin{figure}
  \centering 
@@ -68,13 +65,12 @@ Optimising the code may improve this.
 
 \subsubsection{Memory Usage}
 
-Figure \ref{fig:qrcode_test_mem} shows the memory usage during the QR Code transaction
+Fig. \ref{fig:qrcode_test_mem} shows the memory usage during the QR Code transaction
 process. It shows a relatively flat graph in the beginning, but goes up toward the end. 
+It also shows that the memory used does not return to its start value. This may indicate
+that memory leaks may occur over prolonged use.
 
-It also shows that the memory used does not return to its start value. This may give rise
-to memory leaks during prolonged use. 
-
-The memory performance is discussed in more detail in Section \ref{sec:memory_leak}.
+The memory performance is discussed in more detail in Sec. \ref{sec:memory_leak}.
 
 \begin{figure}
  \centering 
@@ -88,15 +84,12 @@ The memory performance is discussed in more detail in Section \ref{sec:memory_le
 
 \subsubsection{Processor Usage}
 
-Figure \ref{fig:nfc_test_cpu} shows the processor activity during the complete Near
+Fig. \ref{fig:nfc_test_cpu} shows the processor activity during the complete Near
 Field Communication (NFC) transaction process. It shows an average load of approximately
-50\% during the NFC scanning process.
-
-It can also be observed that the transaction takes under a third of the time it takes for
-the QR Code option. 
-
-This is a significant improvement over the QR Code payment option, but code optimisation
-and improvements to the Android application may improve this further. 
+50\% during the NFC scanning process. It can also be observed that the transaction takes
+under a third of the time it takes for the QR Code option. This is a significant
+improvement over the QR Code payment option, but code optimisation and improvements to
+the Android application may improve this further.
 
 \begin{figure}
  \centering 
@@ -108,13 +101,10 @@ and improvements to the Android application may improve this further.
 
 \subsubsection{Disk Write Activity}
 
-Figure \ref{fig:nfc_test_disk} shows the disk activity during the NFC transaction process.
-It shows far less spikes during the transaction than the QR Code option. 
-
-These spikes may again be attributed toward swap file activity from the Pi's operating
-system. They are far fewer that the QR Code option, because the NFC payment processing is
-less taxing on the processor and uses less memory, as discussed in Section
-\ref{sec:nfc_mem}.
+Fig. \ref{fig:nfc_test_disk} shows the disk activity during the NFC transaction process.
+It shows far less spikes during the transaction than the QR Code option.  These spikes may
+again be attributed toward swap file activity from the Pi's operating system. They are far fewer that the QR Code option, because the NFC payment processing is
+less taxing on the processor and uses less memory.
 
 \begin{figure}
  \centering 
@@ -127,11 +117,9 @@ less taxing on the processor and uses less memory, as discussed in Section
 \subsubsection{Memory Usage}
 \label{sec:nfc_mem}
 
-Figure \ref{fig:nfc_test_mem} shows the memory usage during the NFC payment process. It
+Fig. \ref{fig:nfc_test_mem} shows the memory usage during the NFC payment process. It
 shows a relatively flat line, which indicates that the NFC transaction process does is not
-memory-intensive. 
-
-This is again a significant improvement over the QR Code option. 
+memory intensive. This is again a significant improvement over the QR Code option. 
 
 \begin{figure}
  \centering 
@@ -145,18 +133,13 @@ This is again a significant improvement over the QR Code option.
 
 \subsubsection{Processor Usage}
 
-Figure \ref{fig:su_test_cpu} shows the processor usage during the Stellenbosch University
-(SU) card transaction process. 
-
-It shows only one spike at 35\% while it is scanning for a card. This is far less that the
-QR Code option and a slight improvement over the NFC option. 
-
-This increase in performance may be due to the fact that NfcPy (the module used during the
-NFC transaction process) is built on top op libnfc and incorporates additional
-communication protocols.
-
-The SU transaction process makes use of only libnfc and will therefore most likely be less
-processor intensive.
+Fig. \ref{fig:su_test_cpu} shows the processor usage during the Stellenbosch University
+(SU) card transaction process. It shows only a spike at 35\% while it is scanning for a
+card. This is far less that the QR Code option and a small improvement over the NFC
+option. This increase in performance may be due to the fact that NfcPy (the module used
+during the NFC transaction process) is built on top op libnfc and incorporates additional
+communication protocols. The SU transaction process makes use of only libnfc and will
+therefore most likely be less processor intensive.
 
 \begin{figure}
  \centering 
@@ -168,12 +151,10 @@ processor intensive.
 
 \subsubsection{Disk Write Activity}
 
-Figure \ref{fig:su_test_disk} shows the disk writing activity of the SU transaction
-process. 
-
-It looks similar to the NFC transaction disk activity from Figure \ref{fig:nfc_test_disk}.
-This may be because they work in a similar manner and both use libnfc to scan for NFC
-devices.
+Fig. \ref{fig:su_test_disk} shows the disk writing activity of the SU transaction
+process.  It looks similar to the NFC transaction disk activity from Fig.
+\ref{fig:nfc_test_disk}. This may be because they work in a similar manner and both use
+libnfc to scan for NFC devices.
 
 \begin{figure}
  \centering 
@@ -185,15 +166,15 @@ devices.
 
 \subsubsection{Memory Usage}
 
-Figure \ref{fig:su_test_mem} shows the memory usage during the SU card transaction
+Fig. \ref{fig:su_test_mem} shows the memory usage during the SU card transaction
 process. 
 
 With the exception of the start-up spike, the graph shows a very flat line. This indicates
-that the memory usage is very stable and is also relatively low. 
+that the memory usage relatively low and is very stable. 
 
 \begin{figure}
  \centering 
- \includegraphics[clip=true, trim = 0 540 80 70,
+ \includegraphics[clip=true, trim = 0 550 80 70,
  scale=0.7]{su_test_mem}
  \caption{SU Card memory usage test results.}
  \label{fig:su_test_mem}
@@ -206,11 +187,48 @@ was found that the QR Code option is the most memory and process intensive and c
 significant disk activity to take place. 
 
 The NFC and SU card transactions cause similar system loads with regards to memory usage
-and disk activity, possibly due to their common code. However, the SU card transaction
-process demands approximately 15\% less processing power than the NFC option. 
+and disk activity, possibly due to their common code base. However, the SU card
+transaction process demands approximately 15\% less processing power than the NFC option. 
 
-All three transaction processes can be improved and streamlined, while some hardware
-modifications may also decrease the system load. 
+All three transaction processes can be improved and streamlined. This can be done by
+porting the Python code over to compiled code format, such as C or C++. Furthermore,  some
+hardware modifications, such as processor overclocking, may also decrease the system load.
+
+\section{Usage Over Extended Period}
+\label{sec:memory_leak}
+
+This test was performed to measure the memory usage of the VM program over an extended
+period of time. In this case, the VM program was left running for approximately 4.5 hours.
+During this time, 8 QR Code transactions took place. 
+
+The reason for only using QR Code transactions is because it was found that the QR
+Code transaction process is the most resource intensive (see Sec. \ref{sec:qr-tests}).
+Fig. \ref{fig:qrcode_test_mem} also showed that the process does not release the memory it
+used during the transaction back to the system. This is called `memory leaking'.
+
+A graph of the memory usage over time can be observed in Fig. \ref{fig:long-test}.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 50 590 0 70,
+ scale=0.9]{extended_test}
+ \caption{Memory usage over extended period of time.}
+ \label{fig:long-test}
+\end{figure}
+
+Fig. \ref{fig:long-test} shows that the memory usage doubles from 100 MB to 200 MB in less
+than 5 hours and 8 QR Code transactions. The sudden decrease in the end is because the VM
+program was shut down. 
+
+It is suspected that the reason for this memory leakage is that the image processing step
+does not properly clear after it has finished scanning a QR Code. Every subsequent QR Code
+scanning process adds to this build-up of uncleared memory. This will continue until the
+VM eventually runs out of memory and freezes. This may have unforeseen consequences for
+the VM. 
+
+The memory leakage here is a serious issue and must be fixed before the system can ever be
+commercialised. To fix it, the code must be thoroughly inspected and tested for bugs.
+This may require a possible rewrite of the image processing code. 
 
 \section{User Tests}
 
@@ -221,7 +239,7 @@ seeing what the outcome is. These tests are performed and discussed in this sect
 
 In this user story, the customer decides to pay with a Quick Response Code (QR Code).
 He does not yet have a user account on the database and has no credits loaded.
-Figure \ref{fig:test1} shows the user story. 
+Fig. \ref{fig:test1} shows the user story. 
 
 \subsubsection{Scenario Walkthrough}
 
@@ -252,7 +270,7 @@ this leads to a relatively long transaction process.
 It was also found that the server is sometimes unable to correctly decrypt the code it
 receives from the customer's cellphone. It is still unclear why this happens, but it is
 possible that the barcode scanning application on the cellphone incorrectly decodes the
-vending machine's QR Code. 
+VM's QR Code. 
 
 This issue will have to be fixed before the system is commercialised.
 
@@ -266,7 +284,7 @@ This issue will have to be fixed before the system is commercialised.
 
 \subsection{User Test 2}
 
-In this scenario, a customer tries to use a QR Code from a previous transaction. Figure
+In this scenario, a customer tries to use a QR Code from a previous transaction. Fig.
 \ref{fig:test2} shows the user story.
 
 \subsubsection{Scenario Walkthrough}
@@ -298,7 +316,7 @@ designed to: it does not allow an old QR Code to be used again without it being 
 
 In this scenario, the user opts to buy a product using the Android Near Field
 Communication (NFC) application. However, a new user profile must first be created. The user story
-can be seen in Figure \ref{fig:test3}.
+can be seen in Fig. \ref{fig:test3}.
 
 \subsubsection{Scenario Walkthrough}
 
@@ -314,13 +332,13 @@ with a purchase request. If the transaction is successful, the server sends the
 application a confirmation code which the application transmits via the
 cellphone's NFC antenna.
 
-The user then swipes his phone across the vending machines NFC receiver. The
-vending machine then activates the motor and the user receives his product. 
+The user then swipes his phone across the VMs NFC receiver. The
+VM then activates the motor and the user receives his product. 
 
 \subsubsection{Results}
 
 In this scenario, a customer has successfully used the Android NFC payment application to
-create a new user profile and buy a product from the vending machine. 
+create a new user profile and buy a product from the VM. 
 
 The process is more streamlined than the QR Code option and consists of fewer steps. This
 makes the NFC transaction process take place in a shorter period of time. After the

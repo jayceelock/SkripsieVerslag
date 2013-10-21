@@ -1,0 +1,58 @@
+\chapter{Server Configuration}
+\label{app:server-config}
+
+\section{Elastic Compute Cloud}
+
+The AWS EC2 server provides the platform on which the Apache
+server runs. The EC2 server instance was configured to run
+Ubuntu 12.10, `Quantal Quetzal'. This was done because most
+of the server development was done on Ubuntu 12.10, and the
+server code will therefore require minimal adaptation to be able to run on the EC2
+server.
+
+After the server instance was created, the following
+packages and programs were installed for the server to be able to run properly:
+
+\begin{itemize}
+  \item Apache2: Installs the Apache server framework.
+  \item libapache2-mod-wsgi: An Apache module that allows Apache to work with
+  Python Web Server Gateway Interface (WSGI) scripts.
+  \item python-pip: Allows Ubuntu to install Django from the Python Package Index (PyPI)
+  [\cite{website:pypi}].
+  \item Django: Installs the all the Django packages that will be used by the server. 
+\end{itemize}
+
+Because the server's database uses SQLite3, which is part of the standard Ubuntu
+12.10 distribution, no external database programs were needed to be installed.
+
+After this was completed, the server is fully capable of serving Django web
+pages.
+
+\section{Apache Configuration}
+
+The Apache server framework provides the foundation on which the Django server runs. It had to
+be configured to be able to run the Python scripts that Django contains. To do this, the steps
+described in Nick Polet's blog post was followed [\cite{article:apache-setup}]. It describes
+in detail how to configure Apache to serve a Django website.
+
+For Apache to be able to serve Django sites, it had to be configured to run the Web Server
+Gateway Interface (wsgi.py) script located within the Django server folder. This was done by
+adding the following code to the Apache's httpd.conf configuration file:
+
+\begin{verbatim}
+WSGIScriptAlias / /home/ubuntu/srv/server_site/server_site/wsgi.py
+WSGIPythonPath /home/ubuntu/srv/server_site
+
+<Directory /home/ubuntu/srv/server_site/server_site>
+<Files wsgi.py>
+Order deny,allow
+Allow from all
+</Files>
+</Directory>
+\end{verbatim}
+
+The following line was also needed to be added to Apache's apache2.conf file:
+
+\begin{verbatim}
+Include httpd.conf
+\end{verbatim}
