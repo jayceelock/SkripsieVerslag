@@ -6,7 +6,8 @@ configuration of this system. This includes the relay switching circuit, the
 motor and coil design and the NFC chip configuration.
 
 See Appendix \ref{app:d} for a schematic layout of the hardware and their
-connections.
+connections. All the datasheets and drawings referred to in this chapter are
+cited and are available in the project file. 
 
 \section{Relay Switch Circuit}
 \label{sec:detail-switch}
@@ -24,10 +25,10 @@ by the Raspberry Pi to control the motor. See Fig.
 \label{fig:relay-switch}
 \end{figure}
 
-For the following equations, P$_r$ and V$_r$ is the power dissipation in the relay coil
-and voltage across the relay coil, $\beta$ is the BJT current amplification, V$_p$ and
-I$_p$ is the voltage and current supply from a Raspberry Pi's GPIO pin and I$_b$ and
-R$_b$ is the BJT's base current and resistor.
+For the following equations, P$_r$ and V$_r$ is the power dissipation and
+voltage across the relay coil, $\beta$ is the BJT current amplification, V$_p$
+and I$_p$ is the voltage and current supply from the Raspberry Pi's GPIO pin and
+I$_b$ and R$_b$ is the BJT's base current and resistor.
 
 The relevant  parameters for these components are [\cite{manual:relay-specs},
 \cite{maunual:transistor-datasheet}]:
@@ -103,8 +104,8 @@ on the controller.
 
 The shield was designed and built to be used by an Arduino Uno microcontroller.
 Therefore, some modification to the chip's connections had to be made before it
-was able to communicate with the Pi. By default, the chip was made to communicate with an
-Arduino using the Inter Integrated Circuit (i$^2$c) communication protocol. However, the
+was able to communicate with the Pi. By default, the chip is made to communicate
+with an Arduino using the Inter Integrated Circuit (i$^2$c) communication protocol. However, the
 component manufacturers have added connection pads to the chip that, when shorted, allows
 the chip to communicate via Serial Peripheral Interface (SPI) or Transistor
 Transistor Login (TTL). The libnfc library is currently only configured to allow

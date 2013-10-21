@@ -2,28 +2,29 @@
 \label{chap:4}
 
 In this chapter, the software design aspects of this project are discussed in
-detail. This chapter is divided up into four sections, with each section explaining what
-the program being discussed is responsible for, what third party programs it
+detail. This chapter is divided up into three sections, with each section
+explaining what the program being discussed is responsible for, what third party programs it
 uses and how it interacts with the rest of the system. 
 
-These four sections are the web server, the VM's control program and the Android
-application that was created.
+These three sections are the web server, the VM's control program and the
+Android application that was created.
 
 \section{Web Server Program Design}
 
-The web server that was made for this project is based on the Django web framework for Python
-The Django server was then configured to run on top of
+The web server that was made for this project is based on the Django web
+framework for Python. The Django server was configured to run on top of
 an Apache web server located on an Amazon Web Service (AWS) Elastic Compute
 Cloud (EC2) cloud computer instance.
 
 This section stipulates the design of the complete server and how the different
 components interact with one another. See Appendix \ref{app:server-config} for details on
-setting up and configuring Django on Apache and EC2.
+setting up and configuring Django on Apache and EC2. The source code is
+available from github.com/jayceelock/server\_site and in the project file. 
 
 \subsection{Django Server}
 
 The Django server is responsible for all of the scripting and database work
-that the server performs. The server is divided up into a total of six
+that the server performs. The server is divided up into a total of five
 applications. Each of these is responsible for either displaying a single web
 page or to handle data requests from the Near Field Communication (NFC) Android
 application (see Sec. \ref{sec:nfc-android-app} on p.\pageref{sec:nfc-android-app}
@@ -121,6 +122,7 @@ code, according to the security code scheme specified in Sec.
 \ref{sec:security-code-scheme}. This code is then sent to the NFC application.
 
 \subsubsection{nfc\_add\_user}
+\label{sec:nfc-add-user}
 
 This application allows a customer using the NFC application to create a user profile for
 himself. The server extracts the customer's login details from the URL request that the
@@ -152,7 +154,8 @@ The whole program is based on Python and designed to be used by a Raspberry Pi
 microcomputer. To simplify the program, it is split into separate subprograms. These
 subprograms, called scripts, are discussed in this section. The complete
 program structure and its inter-script interfaces can be seen in Fig.
-\ref{fig:vm_prog_strcture}.
+\ref{fig:vm_prog_strcture}. The source code is available on
+github.com/jayceelock/vending\_prog and in the project file. 
 
 \begin{figure}
  \centering 
@@ -260,9 +263,12 @@ product from the application's product menu and to complete the purchase by tapp
 his phone against the VM's NFC receiver.
 
 The application is divided up into three activities (Android's technical term for what
-is essentially a different window of the application).  These activities, their design and
+is essentially a different window of the application). These activities, their design and
 significance are discussed in this section. See Fig. \ref{fig:nfc_app_structure} for a
 diagram of the application's inter-activity interactions.
+
+The source code is available from github.com/jayceelock/nfcpay6 and in the
+project file.
 
 \begin{figure}
  \centering 
@@ -308,6 +314,57 @@ the application more efficient by not having to read the database as often. This
 is only active while the application is running in the foreground or background. The
 login details saved here are used later by the application's other activities.
 
+If the user checks the `New user' checkbox, the application the data is
+still saved to the database and the app-wide variable, but the
+applications also encrypts and embeds the user's login information into a URL.
+The application then sends this URL to the server, which then decrypts and saves
+the data to the user database. See Sec. \ref{sec:nfc-add-user} for more detail on
+the server activity.
+
+After this has been done, the Main Activity is launched. 
+
+\subsection{Main Activity}
+
+The main activity is the activity which is responsible for encrypting and
+sending the purchase requests to the web server, receiving and decrypting
+the purchase approval codes and sending the NFC messages to the VM's
+NFC receiver. See Fig. \ref{fig:main-activity} for a process flow diagram
+and Fig. \ref{fig:main-activity-screenshot} for a screenshot of this activity.
+
+This activity is based on example code for NFC usage from Google
+[\cite{website:google-nfc}] and the encryption and base64 encoding section is
+based on an encryption tutorial by tibi [\cite{article:android-encryption}].
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip = true, trim = 0 430 50 70,
+ scale=0.7]{app_main_processflow}
+ \caption{The process flow of the Main activity.}
+ \label{fig:main-activity}
+\end{figure}
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip = true, trim = 0 850 0 60,
+ scale=0.2]{main_screenshot}
+ \caption{A screenshot of the application's main activity.}
+ \label{fig:main-activity-screenshot}
+\end{figure}
+
+As seen from Fig. \ref{fig:main-activity-screenshot}, the activity presents
+the user with a list of products. When the user selects a product to buy, the
+activity forms a data string by adding the product code, the user's login
+name and password together. This data string is then encrypted with the
+server's public key and then encoded to base64. This encoded string
+is then embedded inside a URL which points to the web server. 
+
+The activity then requests this URL in the application's background, which prompts the
+server to process the transaction (see Sec. \ref{sec:app-nfc} for more details on the
+server's NFC processes). The server then tells the activity if the transaction
+has been approved or denied. If it has been denied, the user is informed what was wrong. 
+If it is approved, the activity activates the cellphone's NFC antenna which transmits an
+encrypted approval message to the VM's NFC receiver.
+
 \subsection{Change User Settings}
 
 The Change User Settings activity allows the user to change his login
@@ -336,41 +393,3 @@ When the application enters this activity, it prompts the user to enter his user
 name and password. When the user presses the `continue button', the old database
 entry and application-wide variable is overwritten with the new values the user entered.
 The details stored on the server's database is not affected, however.
-
-\subsection{Main Activity}
-
-The main activity is the activity which is responsible for encrypting and
-sending the purchase requests to the web server, receiving and decrypting
-the purchase approval codes and sending the NFC messages to the VM's
-NFC receiver. See Fig. \ref{fig:main-activity} for a process flow diagram
-and Fig. \ref{fig:main-activity-screenshot} for a screenshot of this activity.
-
-\begin{figure}
- \centering 
- \includegraphics[clip = true, trim = 0 430 50 70,
- scale=0.7]{app_main_processflow}
- \caption{The process flow of the Main activity.}
- \label{fig:main-activity}
-\end{figure}
-
-\begin{figure}
- \centering 
- \includegraphics[clip = true, trim = 0 850 0 60,
- scale=0.2]{main_screenshot}
- \caption{A screenshot of the application's main activity.}
- \label{fig:main-activity-screenshot}
-\end{figure}
-
-As seen from Fig. \ref{fig:main-activity-screenshot}, the activity presents
-the user with a list of products. When the user selects a product to buy, the
-activity forms a data string by adding the product code, the user's login
-name and password together. This data string is then encrypted with the
-server's public key and then to base64. This encoded string
-is then embedded inside a URL which points to the web server. 
-
-The activity then requests this URL in the application's background, which prompts the
-server to process the transaction (see Sec. \ref{sec:app-nfc} for more details on the
-server's NFC processes). The server then tells the activity if the transaction
-has been approved or denied. If it has been denied, the user is informed what was wrong. 
-If it is approved, the activity activates the cellphone's NFC antenna which transmits an
-encrypted approval message to the VM's NFC receiver.
