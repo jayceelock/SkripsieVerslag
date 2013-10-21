@@ -1,21 +1,22 @@
 \chapter{System Tests}
 \label{chap:6}
 
-In this chapter, the tests  conducted to measure how well the system measures to the
-original goals and objectives set out in Sec. \ref{sec:objectives} on p.\pageref{sec:objectives}.
+In this chapter, the tests  conducted to determine how well the system measures
+up to the original goals and objectives set out in Sec. \ref{sec:objectives} on
+p.\pageref{sec:objectives}.
 
 The tests conducted are the system resource usage for the different payment
 options and user stories where scenarios are created and the response of the
-system is given. The test results are also discussed. 
+system is given. The test results are also displayed and discussed. 
 
 \section{System Resource Usage}
 
-A test was conducted to check and compare the system load caused by each of the
+Tests were conducted to check and compare the system load caused by each of the
 different payment methods. The processor load, memory and disk usage were tested
-by using the DStat package.
+by using the DStat package [\cite{website:dstat}].
 
-The DStat software ran alongside the software being tested, which also used some
-resources. However, this could not be avoided. The resource usage is
+The DStat software ran alongside the software being tested, which also used
+some resources. However, this could not be avoided. The resource usage is
 present for all three the tests, so it does not unfairly skew the results.
 
 \subsection{Quick Response Code Test}
@@ -24,8 +25,8 @@ present for all three the tests, so it does not unfairly skew the results.
 \subsubsection{Processor Usage}
 
 Fig. \ref{fig:qrcode_test_cpu} shows the total processor usage during the complete
-Quick Response (QR) Code transaction, as described in Sec. \ref{sec:transaction} on
-p.\pageref{sec:transaction}.
+Quick Response Code (QR Code) transaction, as described in Sec.
+\ref{sec:transaction} on p.\pageref{sec:transaction}.
 
 It can be observed from Fig. \ref{fig:qrcode_test_cpu} that there are significant spikes
 near maximum capacity when the Pi starts generating a QR Code and when the return QR Code is scanned. This was expected, as
@@ -70,7 +71,8 @@ process. It shows a relatively flat graph in the beginning, but goes up toward t
 It also shows that the memory used does not return to its start value. This may indicate
 that memory leaks may occur over prolonged use.
 
-The memory performance is discussed in more detail in Sec. \ref{sec:memory_leak}.
+The memory performance is tested and discussed in more detail in Sec.
+\ref{sec:memory_leak}.
 
 \begin{figure}
  \centering 
@@ -103,8 +105,9 @@ the Android application may improve this further.
 
 Fig. \ref{fig:nfc_test_disk} shows the disk activity during the NFC transaction process.
 It shows far less spikes during the transaction than the QR Code option.  These spikes may
-again be attributed toward swap file activity from the Pi's operating system. They are far fewer that the QR Code option, because the NFC payment processing is
-less taxing on the processor and uses less memory.
+again be attributed toward swap file activity from the Pi's operating system.
+The spikes may be fewer because of the decreased processing load and that it
+takes less time to complete one transaction.
 
 \begin{figure}
  \centering 
@@ -118,7 +121,7 @@ less taxing on the processor and uses less memory.
 \label{sec:nfc_mem}
 
 Fig. \ref{fig:nfc_test_mem} shows the memory usage during the NFC payment process. It
-shows a relatively flat line, which indicates that the NFC transaction process does is not
+shows a relatively flat line, which indicates that the NFC transaction process is not
 memory intensive. This is again a significant improvement over the QR Code option. 
 
 \begin{figure}
@@ -134,12 +137,14 @@ memory intensive. This is again a significant improvement over the QR Code optio
 \subsubsection{Processor Usage}
 
 Fig. \ref{fig:su_test_cpu} shows the processor usage during the Stellenbosch University
-(SU) card transaction process. It shows only a spike at 35\% while it is scanning for a
-card. This is far less that the QR Code option and a small improvement over the NFC
-option. This increase in performance may be due to the fact that NfcPy (the module used
-during the NFC transaction process) is built on top op libnfc and incorporates additional
-communication protocols. The SU transaction process makes use of only libnfc and will
-therefore most likely be less processor intensive.
+(SU) card transaction process. It shows only a single spike at 35\% while it is
+scanning for a card. This is far less that the QR Code option and a small
+improvement over the NFC option. This increase in performance over the NFC
+option may be due to the fact that NfcPy (the module used during the NFC
+transaction process) is built on top op libnfc and incorporates additional
+communication protocols, making it a bulkier process than the SU card option,
+which only uses the libnfc module process. The SU transaction process makes use
+of only libnfc and will therefore most likely be less processor intensive.
 
 \begin{figure}
  \centering 
@@ -232,30 +237,38 @@ This may require a possible rewrite of the image processing code.
 
 \section{User Tests}
 
-The functionality of the system is tested by exposing it to different user scenarios and
-seeing what the outcome is. These tests are performed and discussed in this section.
+The functionality of the system was tested by exposing it to different user
+scenarios and seeing what the outcome was. The testing process, scenarios and
+results are discussed in this section.
 
 \subsection{User Test 1}
 
-In this user story, the customer decides to pay with a Quick Response Code (QR Code).
+In this user story, the customer decides to pay with a QR Code.
 He does not yet have a user account on the database and has no credits loaded.
-Fig. \ref{fig:test1} shows the user story. 
+Fig. \ref{fig:test1} shows the user story diagram. 
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 410 0 60,
+ scale=0.7]{user_story_1}
+ \caption{The first user scenario.}
+ \label{fig:test1}
+\end{figure}
 
 \subsubsection{Scenario Walkthrough}
 
 The user first selects which product to buy from the Raspberry
-Pi's User Interface (GUI). The Pi then generates a Quick Response Code (QR Code) that the
+Pi's User Interface (GUI). The Pi then generates a QR Code that the
 user scans with any barcode scanning application. The Universal Resource Locator (URL)
 embedded in the QR Code then takes the customer to a web page located on the server. 
 
-Not having a user account, the user clicks on the lick to create a new user profile. After
-entering valid user information, the customer is returned to the login  page where he
-can log in with his new login credentials. 
-
-After logging in, the server displays to the customer that he does not yet have any
-credits loaded onto his account. The customer then goes to the load credit page where
-they load some money. When this is done, the server displays a confirmation QR Code on
-the customer's cellphone screen, verifying the transaction.
+Not having a user account, the user clicks on the link to create a new user
+profile. After entering valid user information, the customer is returned to the login  page where he
+can log in with his new login credentials. After logging in, the server
+displays to the customer that he does not have any credits loaded onto his
+account. The customer then goes to the load credit page where he loads some
+money. When this is done, the server displays a confirmation QR Code on the
+customer's cellphone screen, verifying the transaction.
 
 The customer then presses the continue button on the GUI, which starts scanning the web
 cam feed for the customer's QR Code. After this is done, the Pi activates the correct
@@ -268,41 +281,15 @@ product with the new credits. There are many steps involved in the process, howe
 this leads to a relatively long transaction process. 
 
 It was also found that the server is sometimes unable to correctly decrypt the code it
-receives from the customer's cellphone. It is still unclear why this happens, but it is
+receives from the customer's cellphone. It is unclear why this happens. It is
 possible that the barcode scanning application on the cellphone incorrectly decodes the
-VM's QR Code. 
-
-This issue will have to be fixed before the system is commercialised.
-
-\begin{figure}
- \centering 
- \includegraphics[clip=true, trim = 0 410 0 60,
- scale=0.7]{user_story_1}
- \caption{The first user scenario.}
- \label{fig:test1}
-\end{figure}
+VM's QR Code. This issue will have to be fixed before the system can be
+commercialised.
 
 \subsection{User Test 2}
 
-In this scenario, a customer tries to use a QR Code from a previous transaction. Fig.
-\ref{fig:test2} shows the user story.
-
-\subsubsection{Scenario Walkthrough}
-
-To begin, the customer selects a product to buy, after which the Raspberry Pi displays a
-QR Code. However, instead of scanning the QR Code and paying for a new product, the
-customer tries to use an old QR Code that the server sent him after a successful
-transaction previously. 
-
-The customer tells the Raspberry Pi to scan his old QR Code. The Raspberry Pi does
-this, but the old QR Code does not contain a valid response to the Raspberry Pi's
-challenge. Therefore, the transaction is valid and the customer is informed of his
-invalid QR Code.
-
-\subsubsection{Results}
-
-The results from this scenario shows that the challenge-response system works as it was
-designed to: it does not allow an old QR Code to be used again without it being paid for. 
+In this scenario, a customer tries to use a QR Code from a previous transaction
+without paying. Fig. \ref{fig:test2} shows the user story.
 
 \begin{figure}
  \centering 
@@ -312,21 +299,45 @@ designed to: it does not allow an old QR Code to be used again without it being 
  \label{fig:test2}
 \end{figure}
 
+\subsubsection{Scenario Walkthrough}
+
+To begin, the customer selects a product to buy, after which the Raspberry Pi displays a
+QR Code. However, instead of scanning the QR Code and paying for a new product, the
+customer tries to use an old QR Code that the server sent him after a successful
+transaction previously. The customer tells the Raspberry Pi to scan his old QR
+Code. The Raspberry Pi does this, but the old QR Code does not contain a valid
+response to the Raspberry Pi's challenge. Therefore, the transaction is not
+accepted and the customer is informed of his invalid QR Code.
+
+\subsubsection{Results}
+
+The results from this scenario shows that the challenge-response system works as it was
+designed to: it does not allow an old QR Code to be used again without it being paid for. 
+
 \subsection{User Test 3}
 
-In this scenario, the user opts to buy a product using the Android Near Field
-Communication (NFC) application. However, a new user profile must first be created. The user story
-can be seen in Fig. \ref{fig:test3}.
+In this scenario, the user opts to buy a product using the Android NFC
+application. However, the application must first be downloaded, installed and a
+new user profile must be created. The user story can be seen in Fig.
+\ref{fig:test3}.
+
+\begin{figure}
+ \centering 
+ \includegraphics[clip=true, trim = 0 450 0 70,
+ scale=0.7]{user_story_3}
+ \caption{The third user scenario.}
+ \label{fig:test3}
+\end{figure}
 
 \subsubsection{Scenario Walkthrough}
 
 After the user opens the application, he is presented with a login screen. The
 user enters his login credentials and checks the box that confirms that he is a
 new user. The application then contacts the server with a user creation
-request. Provided that the username is not already in use, the server sends the
-application a confirmation.
+request. Provided the username is not already used, the server creates and
+saves the new user profile.
 
-The application then returns the user to the main menu where the user can pick
+The application then takes the user to the main menu where the user can pick
 a product to buy. After picking a product, the application contacts the server
 with a purchase request. If the transaction is successful, the server sends the
 application a confirmation code which the application transmits via the
@@ -344,11 +355,3 @@ The process is more streamlined than the QR Code option and consists of fewer st
 makes the NFC transaction process take place in a shorter period of time. After the
 customer has opened the application once, he will not have to enter his login details
 again. This will make the process slightly quicker in the future.  
-
-\begin{figure}
- \centering 
- \includegraphics[clip=true, trim = 0 450 0 70,
- scale=0.7]{user_story_3}
- \caption{The third user scenario.}
- \label{fig:test3}
-\end{figure}

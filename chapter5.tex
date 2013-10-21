@@ -190,7 +190,7 @@ which gives the following equation
  \mathrm{V}_o = \mathrm{IR} + \mathrm{k}_e\omega
 \end{equation}
 
-The IR term is taken as constant, since the torque load on the motor stays the constant.
+The IR term is taken as constant, since the torque load on the motor stays constant.
 From the motor's datasheets and usage tests, the I, R and k$_e$ terms were
 determined to have the following values:
 
@@ -210,5 +210,5 @@ To improve this, a proximity sensor may be added onto the coil and onto the
 VM wall. This sensor can be connected to and be controlled by the
 Raspberry Pi and would be activated every time the coil completes one
 revolution. When the sensor is triggered, the Pi will then know that exactly
-one revolution has been completed and stop the motor. This will stop any errors
-from accumulating over time and make the VM more reliable. 
+one revolution has been completed and stop the motor. This will prevent any
+errors from accumulating over time and make the VM more reliable. 

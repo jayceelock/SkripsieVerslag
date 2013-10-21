@@ -255,6 +255,18 @@ using the RSA algorithm and the VM's private key. The vending
 machine then checks the NFC message's response code. If the response code is valid, the
 script then activates the correct motor to dispense the product to the customer.
 
+\subsection{Radio Field Identification}
+
+This module allows for a purchase to take place using a Radio Field
+Identification (RFID) card, such as a SU card. It is based on an example script
+from the libnfc module. The transaction process and its shortcomings are
+discussed in Sec. \ref{sec:su-card}
+
+It works by using the libnfc module to scan for a RFID
+card. When a card is detected, it extracts the card's Unique Identification (UID)
+number. If the UID number is present in the VM's code, the script activates the
+correct motor and the customer receives his product. 
+
 \section{Android Application}
 \label{sec:nfc-android-app}
 
