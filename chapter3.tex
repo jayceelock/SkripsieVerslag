@@ -164,12 +164,12 @@ A relay is an electronic switch, which requires a voltage across it to open or c
 With this, it is possible to control when the DC motors turn (after a successful
 transaction) and when they are standing still.
 
-The relays used here are 12 V, because they were readily available, but he Raspberry 
-Pi can only deliver a maximum voltage of 5 V. Therefore, it was required that the
+The relays used here are 12 V, because they were readily available, but the
+Raspberry Pi can only deliver a maximum voltage of 5 V. Therefore, it was required that the
 relay will be permanently connected to a 12 V DC supply. The relays are then switched by a
 2N2222 transistor, which is controlled directly from the Pi's GPIO pins (see Sec.
 \ref{sec:detail-switch} on p.\pageref{sec:detail-switch} for a detailed discussion on the
-switch). This allows the Pi to directly control the motors and due to the circuit's
+switch). This allows the Pi to directly control the motors. Due to the circuit's
 construction, the Pi is protected from the relatively high voltages and currents involved
 in the working of the motor and relay.
 
@@ -205,11 +205,11 @@ implemented. The main reasons for this choice is that the keys are easily
 distributed, the encryption scheme is relatively secure and there is powerful
 software available to encrypt the data exchanges.
 
-The keys were generated using the PyCrypto module and were are hard-coded
-into the VM and the web server during development. If required, old
+The keys were generated using the PyCrypto module and were hard-coded
+into the VM and the web server during development. If required, the old
 keys can be replaced remotely over the internet or by a technician working on the
-VM. The Android application has its own key. This key is distributed with the
-application. 
+VM. The Android application has its own key, which is key is distributed with
+the application. 
 
 The keys are hardcoded to keep the keys more secure and to avoid having to dynamically
 update and redistribute the keys after each transaction.
@@ -227,7 +227,7 @@ implement and distribute with the application.
 
 \subsection{QR Code}
 
-For the QR Code payment option, a 384-bit key based on the ElGamal algorithm was
+For the QR Code payment option, a 384-bit key based on the ElGamal algorithm is
 used. The reason for choosing this key size was to produce smaller, less complex
 output which leads to a more readable QR Code. A simpler, more readable QR Code
 takes less time to scan. A smaller key size also reduces the time it takes to
@@ -235,15 +235,15 @@ encrypt a data string.
 
 It was also found that the RSA module in PyCrypto has a minimum key-length of 1024
 bits, which is too long. The ElGamal module allows for key sizes of any bit
-length, as long as it is longer than the string being encrypted. Therefore, ElGamal was
-selected. 
+length, as long as it is longer than the string being encrypted. Therefore,
+the ElGamal algorithm with a key size of 384-bits was selected. 
 
 \section{Security Scheme}
 \label{sec:security-code-scheme}
 
-In addition to the asymmetric encryption used on all data transfer to and from
-the server to its clients, two more layers of security were added. The effectiveness of
-these additional layers of security still rely upon the encryption scheme staying intact.
+In addition to the asymmetric encryption used on the data transfer between the
+server and its clients, two more layers of security were added. The
+effectiveness of these additional layers of security still rely upon the encryption scheme staying intact.
 However, these extra security layers help to obscure the plain text message being
 encrypted, thereby making it harder for would-be hackers to realise they have cracked the
 encryption. It also prevents the same code from being used more than once without being
@@ -252,14 +252,15 @@ paid for. These security schemes are discussed in this section.
 \subsection{Random Character String}
 
 The code transmitted to the server is a random 16-character hexadecimal string. The
-product code 4 hex characters long and is embedded inside this 16-character string.
+product code is 4 hex characters long and is embedded inside this 16-character
+string.
 The product code is saved on the database and can therefore not be random. 
 
 A hexadecimal string was chosen because it is a common data representation
 format and it will make it harder for a hacker to see that they have
 successfully broken through the security. For example, if the hackers manage to
-break through the security, they will see a string like this one, A2FB32E1CFF7. If the
-product code were alphanumeric, for example `coke\_350ml', the hackers will immediately
+break through the security, they will see a string like this one: A2FB32E1CFF7.
+If the product code were alphanumeric, for example `coke\_350ml', the hackers will immediately
 see that they have broken through. This scheme does not make the code uncrackable, but it
 does make brute-force attacks harder to execute properly.
 
@@ -318,8 +319,8 @@ system components is described diagrammatically in Fig.
 Fig. \ref{fig:vm_prog_interaction} shows that the transaction begins with
 the customer selecting a product to buy from the VM Graphical User
 Interface (GUI). The VM then generates a QR Code which the customer scans. The QR Code
-contains a URL that contains a link to the web server and the encrypted product data, the
-VM's signature and the challenge-response code (the challenge-response scheme is
+contains a URL that contains a link to the web server, the encrypted product
+data, the VM's signature and the challenge-response code (the challenge-response scheme is
 described in Sec. \ref{sec:challenge-response} on p.\pageref{sec:challenge-response}).
 This redirects the customer to the web server and allows the server to process the
 transaction.
@@ -327,8 +328,8 @@ transaction.
 After the transaction has been processed and approved, the web server displays a
 QR Code, embedded with an encrypted approval message, the server's signature
 and the response to the VM's challenge, on the screen of the customer's cellphone. The
-customer then displays this QR Code to the vending machine's camera. After the code has
-been scanned and processed, the vending machine activates the correct motor which
+customer then displays this QR Code to the VM's camera. After the code has
+been scanned and processed, the VM activates the correct motor which
 dispenses the customer's desired product.
 
 \subsection{NFC Transactions}
@@ -359,7 +360,7 @@ customer's desired product.
 
 The SU card payment option was added to the VM as a proof of concept. At present, it can
 identify an RFID card that has been hard-coded into the VM. Therefore, no communication
-with the server takes place during the SU Card transaction process. Therefore, there is
+with the server takes place during the SU Card transaction process and there is
 no user authentication besides the hard-coded RFID card numbers and there is no user
 account to credit with the product cost.
 
@@ -381,6 +382,6 @@ used in system's the current format.
 
 Fig. \ref{fig:vm_su_interaction} shows that the transaction process begin when the
 customer selects a product from the GUI. The customer then taps his SU card against the
-VM's NFC receiver. The VM then reads the card's number
-and checks if it is coded into the VM. If the VM finds the card number, it activates the correct motor and
-the customer receives his product.
+VM's NFC receiver. The VM then reads the card's Unique Identification Number
+(UID) and checks if it is coded into the VM. If the VM finds the card number, it
+activates the correct motor and the customer receives his product.
