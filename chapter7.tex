@@ -3,13 +3,15 @@
 
 \section{System Performance}
 
-In the final system, both QR Code and NFC technology, as well as Stellenbosch University
-(SU) cards, have been implemented. It was found that the NFC and SU cards options have the
-fastest transaction time between product selection and when the product is dispensed.
-However, the NFC option is currently limited to cellphones that have NFC antennas and are
-based on the Android Operating System and the SU card option currently has a
-limited user verification functionality and cannot keep track of a customer's
-current balance.
+In the final system, both Quick Response Code (QR Code) and Near Field (NFC)
+technology, as well as Stellenbosch University (SU) cards, have been
+implemented as payment methods. It was found that the NFC and SU cards options
+have the shortest transaction time between product selection and when the
+product is dispensed.
+However, the NFC option is currently limited to cellphones that have NFC
+antennas and are based on the Android Operating System and the SU card option
+currently has limited user verification functionality and cannot keep track
+of a customer's current balance.
 
 It was found that the QR Code payment option typically has a slower transaction time. This
 is mainly due to some hardware bottlenecks of the Pi. These bottlenecks include the
@@ -20,10 +22,10 @@ work can also go into optimising the code to make it run more efficiently. This 
 done by converting the code into compiled machine code, such as C or C++.
 
 Furthermore, a server has been made that runs in the computing cloud. This server
-interacts with a customer's cellphone through the Android NFC application that was made
-or the cellphone's internet browser. All data transactions between the server and the
-customer's cellphone are encrypted with an asymmetric encryption scheme with extra layers
-of security added.
+interacts with a customer's cellphone through the Android NFC application or a
+cellphone's internet browser. All data transactions between the server and the
+customer's cellphone are encrypted with an asymmetric encryption scheme with
+extra layers of security added.
 
 Lastly, a working demonstration VM was designed and made. It houses all of
 the VM components and allows a customer to buy one of two products using
@@ -32,15 +34,14 @@ his cellphone.
 \section{Future Work}
 
 The VM system that has been designed in this project has been designed to
-work as planned. With that being said, there is potential to expand upon the work that has
-been completed thus far. This section discusses some improvements and additions
+specification. With that being said, there is potential to expand upon the work
+that has been completed thus far. This section discusses some improvements and additions
 that can be made to this system.
 
 \subsection{Commercialisation}
 
 The VM currently uses faux money which has no real-world value. Therefore,
-the system in its current state is not ready to be deployed across Stellenbosch
-University's campus. 
+the system in its current state is not ready to be deployed across SU's campus. 
 
 To commercialise the VM, third-party payment providers, such
 as PayPal or PayPoint, can be integrated into the system. This will allow customers to
@@ -53,15 +54,18 @@ to be addressed and fixed.
 
 \subsection{Polish}
 
-This project focused on the practical and functional aspects of the complete system and
-little attention was given to the aesthetics of the complete system.
-Therefore, some extra work can go into making the web server and Android NFC application more pleasant to use. 
+This project focused on the practical and functional aspects of the complete
+system and little attention was given to the aesthetics of the complete system.
+Therefore, some extra work can go into making the web server and Android NFC
+application more user-friendly and improving their interfaces.
 
-\subsection{Integration}
+\subsection{Integration With Current Systems}
 
 One important aspect that must be focused on to increase the odds of making this project
 more commercially successful, is its integration with current VMs, i.e.
 adding a cashless option to current VMs that are restricted to cash.
+
+
 
 \subsection{More Payment Options}
 

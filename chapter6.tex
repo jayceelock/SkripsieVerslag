@@ -2,8 +2,8 @@
 \label{chap:6}
 
 In this chapter, the tests  conducted to determine how well the system measures
-up to the original goals and objectives set out in Sec. \ref{sec:objectives} on
-p.\pageref{sec:objectives}.
+up to the original goals and objectives, set out in Sec. \ref{sec:objectives} on
+p.\pageref{sec:objectives}, are discussed.
 
 The tests conducted are the system resource usage for the different payment
 options and user stories where scenarios are created and the response of the
@@ -17,7 +17,8 @@ by using the DStat package [\cite{website:dstat}].
 
 The DStat software ran alongside the software being tested, which also used
 some resources. However, this could not be avoided. The resource usage is
-present for all three the tests, so it does not unfairly skew the results.
+present for all three the tests and therefore does not unfairly skew the
+results.
 
 \subsection{Quick Response Code Test}
 \label{sec:qr-tests}
@@ -28,12 +29,13 @@ Fig. \ref{fig:qrcode_test_cpu} shows the total processor usage during the comple
 Quick Response Code (QR Code) transaction, as described in Sec.
 \ref{sec:transaction} on p.\pageref{sec:transaction}.
 
-It can be observed from Fig. \ref{fig:qrcode_test_cpu} that there are significant spikes
-near maximum capacity when the Pi starts generating a QR Code and when the return QR Code is scanned. This was expected, as
-image and video processing is taxing on hardware and the Pi has no dedicated graphics
-processor. The data encryption also adds to the processing load. A possible solution is to
-overclock the processor, but it is already overclocked to 900 MHz and pushing the
-processor harder may damage the Pi and void its warranty.
+It can be observed from Fig. \ref{fig:qrcode_test_cpu} that there are
+significant spikes near maximum capacity when the Pi starts generating a QR
+Code and when the return QR Code is scanned. This was expected, as image and
+video processing is taxing on the Pi's hardware and the Pi has no dedicated
+graphics processor. The data encryption also adds to the processing load. A possible
+solution is to overclock the processor, but it is already overclocked to 900
+MHz and pushing the processor harder may damage the Pi and void its warranty.
 
 It can also be observed that there is a significant time lag between QR Code generation
 and the QR Code scanning stages. This is when the user is awaiting authentication from the
@@ -142,9 +144,9 @@ scanning for a card. This is far less that the QR Code option and a small
 improvement over the NFC option. This increase in performance over the NFC
 option may be due to the fact that NfcPy (the module used during the NFC
 transaction process) is built on top op libnfc and incorporates additional
-communication protocols, making it a bulkier process than the SU card option,
-which only uses the libnfc module process. The SU transaction process makes use
-of only libnfc and will therefore most likely be less processor intensive.
+communication protocols, making it a bulkier process than the SU card option.
+The SU transaction process makes use of only libnfc and will therefore most
+likely be less processor intensive.
 
 \begin{figure}
  \centering 
@@ -172,10 +174,8 @@ libnfc to scan for NFC devices.
 \subsubsection{Memory Usage}
 
 Fig. \ref{fig:su_test_mem} shows the memory usage during the SU card transaction
-process. 
-
-With the exception of the start-up spike, the graph shows a very flat line. This indicates
-that the memory usage relatively low and is very stable. 
+process. With the exception of the start-up spike, the graph shows a very flat
+line. This indicates that the memory usage relatively low and is very stable. 
 
 \begin{figure}
  \centering 
@@ -187,31 +187,35 @@ that the memory usage relatively low and is very stable.
 
 \subsection{Conclusions}
 
-The resource usage of the QR Code, NFC and SU card transaction processes were analysed. It
-was found that the QR Code option is the most memory and process intensive and causes
-significant disk activity to take place. 
+The resource usage of the QR Code, NFC and SU card transaction processes were
+analysed. It was found that the QR Code option is the most memory and processor
+intensive and causes significant disk activity to take place. 
 
-The NFC and SU card transactions cause similar system loads with regards to memory usage
-and disk activity, possibly due to their common code base. However, the SU card
-transaction process demands approximately 15\% less processing power than the NFC option. 
+The NFC and SU card transactions cause similar system loads with regards to
+memory usage and disk activity, possibly due to their common code base.
+However, the SU card transaction process demands approximately 15\% less
+processing power than the NFC option.
 
-All three transaction processes can be improved and streamlined. This can be done by
-porting the Python code over to compiled code format, such as C or C++. Furthermore,  some
-hardware modifications, such as processor overclocking, may also decrease the system load.
+All three transaction processes can be improved and streamlined. This can be
+done by porting the Python code over to a compiled code format, such as C or
+C++. Furthermore, some hardware modifications, such as processor overclocking,
+may also decrease the system load.
 
-\section{Usage Over Extended Period}
+\section{System Usage Over Extended Period}
 \label{sec:memory_leak}
 
-This test was performed to measure the memory usage of the VM program over an extended
-period of time. In this case, the VM program was left running for approximately 4.5 hours.
-During this time, 8 QR Code transactions took place. 
+This test was performed to measure the memory usage of the VM program over an
+extended period of time. In this case, the VM program was left running for
+approximately 4.5 hours. During this time, 8 QR Code transactions took place. 
 
-The reason for only using QR Code transactions is because it was found that the QR
-Code transaction process is the most resource intensive (see Sec. \ref{sec:qr-tests}).
-Fig. \ref{fig:qrcode_test_mem} also showed that the process does not release the memory it
-used during the transaction back to the system. This is called `memory leaking'.
+The reason for only using QR Code transactions is because it was found that the
+QR Code transaction process is the most resource intensive (see Sec.
+\ref{sec:qr-tests}). Fig. \ref{fig:qrcode_test_mem} also showed that the process
+does not release the memory it used during the transaction back to the system.
+This is called `memory leaking'.
 
-A graph of the memory usage over time can be observed in Fig. \ref{fig:long-test}.
+A graph of the memory usage over time can be observed in Fig.
+\ref{fig:long-test}.
 
 \begin{figure}
  \centering 
@@ -221,15 +225,16 @@ A graph of the memory usage over time can be observed in Fig. \ref{fig:long-test
  \label{fig:long-test}
 \end{figure}
 
-Fig. \ref{fig:long-test} shows that the memory usage doubles from 100 MB to 200 MB in less
-than 5 hours and 8 QR Code transactions. The sudden decrease in the end is because the VM
-program was shut down. 
+Fig. \ref{fig:long-test} shows that the memory usage doubles from 100 MB to 200
+MB in less than 5 hours and 8 QR Code transactions. The sudden decrease in the
+end is because the VM program was shut down. 
 
-It is suspected that the reason for this memory leakage is that the image processing step
-does not properly clear after it has finished scanning a QR Code. Every subsequent QR Code
-scanning process adds to this build-up of uncleared memory. This will continue until the
-VM eventually runs out of memory and freezes. This may have unforeseen consequences for
-the VM. 
+It is suspected that the reason for this memory leakage is that the image
+processing step does not properly clear the itself from memory after it has
+finished scanning a QR Code. Every subsequent QR Code scanning process adds to
+this build-up of uncleared memory. This will continue until the VM eventually
+runs out of memory and freezes. This may have unforeseen consequences for the
+VM.
 
 The memory leakage here is a serious issue and must be fixed before the system can ever be
 commercialised. To fix it, the code must be thoroughly inspected and tested for bugs.
@@ -259,16 +264,18 @@ Fig. \ref{fig:test1} shows the user story diagram.
 
 The user first selects which product to buy from the Raspberry
 Pi's User Interface (GUI). The Pi then generates a QR Code that the
-user scans with any barcode scanning application. The Universal Resource Locator (URL)
-embedded in the QR Code then takes the customer to a web page located on the server. 
+user scans with any barcode scanning application. The Universal Resource
+Locator (URL) embedded in the QR Code then takes the customer to a web page
+located on the server.
 
 Not having a user account, the user clicks on the link to create a new user
-profile. After entering valid user information, the customer is returned to the login  page where he
-can log in with his new login credentials. After logging in, the server
-displays to the customer that he does not have any credits loaded onto his
-account. The customer then goes to the load credit page where he loads some
-money. When this is done, the server displays a confirmation QR Code on the
-customer's cellphone screen, verifying the transaction.
+profile. After entering valid user information, the customer is returned to the
+login  page where he can log in with his new login credentials. After logging
+in, the server displays to the customer that he does not have any credits
+loaded onto his account. The customer then goes to the load credit page where
+he loads some money. When this is done, the user can press the ling that
+prompts the server to display the confirmation QR Code on the customer's
+cellphone screen, verifying the transaction.
 
 The customer then presses the continue button on the GUI, which starts scanning the web
 cam feed for the customer's QR Code. After this is done, the Pi activates the correct
@@ -331,11 +338,11 @@ new user profile must be created. The user story can be seen in Fig.
 
 \subsubsection{Scenario Walkthrough}
 
-After the user opens the application, he is presented with a login screen. The
-user enters his login credentials and checks the box that confirms that he is a
-new user. The application then contacts the server with a user creation
-request. Provided the username is not already used, the server creates and
-saves the new user profile.
+After the user installs and opens the application, he is presented with a login
+screen. The user enters his login credentials and checks the box that confirms
+that he is a new user. The application then contacts the server with a user
+creation request. Provided the username is not already used, the server creates
+and saves the new user profile.
 
 The application then takes the user to the main menu where the user can pick
 a product to buy. After picking a product, the application contacts the server
